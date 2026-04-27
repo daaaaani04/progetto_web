@@ -1,0 +1,12 @@
+prima creo il server collegato a db con una bozza di endpoint
+creo supabase.js
+npm i supabase..., express, ... (guarda package.json)
+creo le routes per pulre index.js (modulizzare)
+
+creo nella cartella client react con: npm create vite@latest client -- --template react
+creo /src/pages -> che contiene le pagine (componenti in react)
+npm install react-router-dom, per i routing di react
+
+aggiungo pagine Annunci, Home, .. in /pages e componenti (Navbar) in components 
+importo nel file App.jsx
+aggiungo css ad ogni modulo (Navbar.module.css) e lo importo nell'html della componente
