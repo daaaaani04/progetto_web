@@ -10,3 +10,32 @@ npm install react-router-dom, per i routing di react
 aggiungo pagine Annunci, Home, .. in /pages e componenti (Navbar) in components 
 importo nel file App.jsx
 aggiungo css ad ogni modulo (Navbar.module.css) e lo importo nell'html della componente
+
+aggiungo login e gestione sessioni integrato con supabase in App.jsx 
+    - in caso sia presente una sessione mostro annunci personalizzati, altrimenti generici
+    - aggiunto logout alla navbar solo se è presente una sessione attiva else login
+
+aggiungo la registrazione (tramite trigger sql) signUp() con metadata  →  auth.users  →  trigger  →  profiles
+
+modificata la navbar usando lo stile di ueno (https://codesandbox.io/p/sandbox/internshala-website-1-forked-lbcs56?file=%2Fsrc%2FComponents%2FNavBar.js%3A8%2C26)
+ho aggiunto responsivness alla navbar: 
+    - diventa hamburger se ho lo schermo piccolo in modo che non si rompa da mobile
+    - se ho l'hamburger aperto devo fare in mod che allargata sufficentemente la finestra
+        questo si chiuda atomaticamente per tornare versione DESKTOP (dimensione fissata 768)
+
+
+
+DB 
+annunci — pubblicati dagli acquirenti
+Sono le richieste — l'acquirente dice "ho bisogno di qualcosa":
+"Cerco un idraulico a Milano, budget 200€, urgente"
+"Cerco un elettricista a Roma per installazione impianto"
+
+offerte — pubblicate dai venditori
+Sono le risposte a un annuncio — il venditore dice "posso farlo io":
+"Posso venire domani, chiedo 180€" → in risposta all'annuncio dell'idraulico
+"Disponibile questa settimana, preventivo 450€" → in risposta all'annuncio dell'elettricista
+
+
+
+

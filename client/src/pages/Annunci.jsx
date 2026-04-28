@@ -1,11 +1,16 @@
-export default function Annunci() {
-
-    // qui faccio la fetch degli annunci, magari con un useEffect, e li salvo in uno state
-
-
-    return (
+// ✅ dopo — ricevi sessione come prop
+export default function Annunci({ sessione }) {
+    if (sessione) {
+      return (
         <div>
-            <h1>Annunci</h1>
+          <h1>Annunci Personalizzati</h1>
         </div>
+      )
+    }
+  
+    return (
+      <div>
+        <h1>Annunci Generici</h1>
+      </div>
     )
-}
+  }
