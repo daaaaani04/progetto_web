@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Annunci from './pages/Annunci'
+import Footer from './components/Footer'
 
 export default function App() {
   const [sessione, setSessione] = useState(null)
@@ -38,6 +39,7 @@ export default function App() {
         } />
         <Route path="/annunci" element={<Annunci sessione={sessione} />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }

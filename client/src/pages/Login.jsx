@@ -1,6 +1,7 @@
-// client/src/pages/Login.jsx
+// src/pages/Login.jsx
 import { useState } from 'react'
 import supabase from '../lib/supabase'
+import styles from './Login.module.css'
 
 export default function Login() {
   const [isRegistrazione, setIsRegistrazione] = useState(false)
@@ -29,7 +30,6 @@ export default function Login() {
       })
       if (error) return setErrore(error.message)
       setMessaggio('Registrazione completata! Controlla la tua email.')
-
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) return setErrore(error.message)
@@ -43,70 +43,91 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1>{isRegistrazione ? 'Registrati' : 'Accedi'}</h1>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-
-        {isRegistrazione && (
-          <>
-            <input
-              placeholder="Nome"
-              value={nome}
-              onChange={e => setNome(e.target.value)}
-              required
-            />
-            <input
-              placeholder="Cognome"
-              value={cognome}
-              onChange={e => setCognome(e.target.value)}
-              required
-            />
-            <input
-              placeholder="Telefono (opzionale)"
-              value={telefono}
-              onChange={e => setTelefono(e.target.value)}
-            />
-            <input
-              placeholder="Comune (opzionale)"
-              value={comune}
-              onChange={e => setComune(e.target.value)}
-            />
-            <select value={ruolo} onChange={e => setRuolo(e.target.value)}>
-              <option value="acquirente">Acquirente</option>
-              <option value="venditore">Venditore</option>
-            </select>
-          </>
-        )}
-
-        {errore && <p style={{ color: 'red' }}>{errore}</p>}
-        {messaggio && <p style={{ color: 'green' }}>{messaggio}</p>}
-
-        <button type="submit">
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <h1 className={styles.titolo}>
           {isRegistrazione ? 'Registrati' : 'Accedi'}
-        </button>
-      </form>
+        </h1>
+        <p className={styles.sottotitolo}>
+          {isRegistrazione
+            ? 'Crea il tuo account su connetti.'
+            : 'Bentornato su connetti.'}
+        </p>
 
-      <p>
-        {isRegistrazione ? 'Hai già un account? ' : 'Non hai un account? '}
-        <button onClick={handleToggle}>
-          {isRegistrazione ? 'Accedi' : 'Registrati'}
-        </button>
-      </p>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            className={styles.input}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+
+          {isRegistrazione && (
+            <>
+              <div className={styles.row}>
+                <input
+                  className={styles.input}
+                  placeholder="Nome"
+                  value={nome}
+                  onChange={e => setNome(e.target.value)}
+                  required
+                />
+                <input
+                  className={styles.input}
+                  placeholder="Cognome"
+                  value={cognome}
+                  onChange={e => setCognome(e.target.value)}
+                  required
+                />
+              </div>
+              <input
+                className={styles.input}
+                placeholder="Telefono (opzionale)"
+                value={telefono}
+                onChange={e => setTelefono(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                placeholder="Comune (opzionale)"
+                value={comune}
+                onChange={e => setComune(e.target.value)}
+              />
+              <select
+                className={styles.select}
+                value={ruolo}
+                onChange={e => setRuolo(e.target.value)}
+              >
+                <option value="acquirente">Acquirente</option>
+                <option value="venditore">Venditore</option>
+              </select>
+            </>
+          )}
+
+          {errore && <p className={styles.errore}>{errore}</p>}
+          {messaggio && <p className={styles.messaggio}>{messaggio}</p>}
+
+          <button className={styles.btnPrimary} type="submit">
+            {isRegistrazione ? 'Registrati' : 'Accedi'}
+          </button>
+        </form>
+
+        <p className={styles.toggle}>
+          {isRegistrazione ? 'Hai già un account? ' : 'Non hai un account? '}
+          <button className={styles.btnLink} onClick={handleToggle}>
+            {isRegistrazione ? 'Accedi' : 'Registrati'}
+          </button>
+        </p>
+      </div>
     </div>
   )
 }
