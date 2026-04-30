@@ -5,22 +5,24 @@ import styles from './Annunci.module.css'
 import FormOfferta from '../components/FormOfferta'
 
 export default function Annunci({ sessione }) {
-  const [searchParams] = useSearchParams()
-  const [annunci, setAnnunci] = useState([])
-  const [settori, setSettori] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [searchParams] = useSearchParams()        // legge ?settore=idraulica dalla URL
+  const [annunci, setAnnunci] = useState([])      // lista annunci caricati dal DB
+  const [settori, setSettori] = useState([])      // lista settori per il select
+  const [loading, setLoading] = useState(true)    // mostra "Caricamento..." mentre aspetta
   const [filtri, setFiltri] = useState({
     comune: '',
-    settore_id: searchParams.get('settore') || ''
+    settore_id: searchParams.get('settore') || '' // se URL ha ?settore=X, parte già filtrato
   })
-  const [annuncioSelezionato, setAnnuncioSelezionato] = useState(null)
-  const [successoOfferta, setSuccessoOfferta] = useState(false)
+  const [annuncioSelezionato, setAnnuncioSelezionato] = useState(null) // annuncio su cui aprire il modal
+  const [successoOfferta, setSuccessoOfferta] = useState(false)        // gestione offerta inviata con successo
 
   useEffect(() => {
     async function init() {
+      // carica tutti i settori dal db per popolare la scrollbar
       const { data: settoriData } = await supabase.from('settori').select('*')
       setSettori(settoriData || [])
 
+      // se c'è una sessione tira giù il comune relativo all'utente proprietario della sessione per usarlo come filtro
       if (sessione) {
         const { data: profilo } = await supabase
           .from('profiles')
@@ -28,20 +30,28 @@ export default function Annunci({ sessione }) {
           .eq('id', sessione.user.id)
           .single()
 
+        //tiro giu anche i settori del venditore (lavoratore) per filtrarlo automaticamente
         const { data: settoriVenditore } = await supabase
           .from('venditore_settori')
           .select('settore_id')
           .eq('venditore_id', sessione.user.id)
 
+        // uso searchParam importato da router-react per tirare fuori il settore dall'url
         const settoreDaUrl = searchParams.get('settore')
+        // prendo il primo settore: scelta progettuale -> un venditore puo avere più settore
+          // in questo momento in registrazione prendo solo un settore
+            // db implementato come (venditore_id e settore_id) come chiave primaria -> possono esserci stesso venditore con due settori diversi
         const primoSettore = settoreDaUrl || settoriVenditore?.[0]?.settore_id || ''
 
+        // oggetto che verrà usato come filtro nella ricerca degli annunci
         const filtriIniziali = {
           comune: profilo?.comune || '',
           settore_id: primoSettore
         }
 
+        // setto i filtri
         setFiltri(filtriIniziali)
+        // carico gli annunci passando i filtri come parametro
         await caricaAnnunci(filtriIniziali)
       } else {
         const filtriIniziali = {
@@ -49,6 +59,7 @@ export default function Annunci({ sessione }) {
           settore_id: searchParams.get('settore') || ''
         }
         setFiltri(filtriIniziali)
+        // a meno che non sono un venditore non ho filtri
         await caricaAnnunci(filtriIniziali)
       }
     }
@@ -56,29 +67,36 @@ export default function Annunci({ sessione }) {
     init()
   }, [sessione, searchParams])
 
+  // le funzioni dichiarate con function vengono hoistate, sollevate in cima 
   async function caricaAnnunci(f = filtri) {
-    setLoading(true)
+    setLoading(true)    // può essere utile settare una variabile di caricamento che termina al termine dell'operazione 
 
+    //semplicemente costruisco la query
     let query = supabase
       .from('annunci')
       .select('*, settori(*)')
       .eq('stato', 'attivo')
       .order('created_at', { ascending: false })
 
-    if (f.comune) query = query.ilike('comune', `%${f.comune}%`)
+     // se è presente un comune passato come filtro aggiungo filtro alla query
+    if (f.comune) query = query.ilike('comune', `%${f.comune}%`)   // -> cerca il comune filtrato all'interno dei comuni delle query (prima quello che vuoi dopo quello che vuoi)
+    // uguale a quello di prima ma questo fa ricerca esatta
     if (f.settore_id) query = query.eq('settore_id', f.settore_id)
 
+    // eseguo chiamata al db
     const { data } = await query
-    setAnnunci(data || [])
+
+    setAnnunci(data || [])      // modifico valore di annunci, simile a annunci=data ma dinamico (react se ne accorge)
     setLoading(false)
   }
 
   function handleFiltro(e) {
     const { name, value } = e.target
-    setFiltri(prev => ({ ...prev, [name]: value }))
+    setFiltri(prev => ({ ...prev, [name]: value }))   //sovrascrive il filtro che conteneva prev con: il valore
   }
 
   function handleCerca(e) {
+    // blocca il comportamento del refresh
     e.preventDefault()
     caricaAnnunci()
   }
@@ -89,7 +107,8 @@ export default function Annunci({ sessione }) {
     caricaAnnunci(vuoti)
   }
 
-  const settoreSelezionato = settori.find(s => s.id === filtri.settore_id)
+  // lo uso per gestire lo switch del nome quando seleziono un settore
+  const settoreSelezionato = settori.find(s => s.id === filtri.settore_id)  // cerca il settore relativo al filtro selezionato in quel momento
 
   return (
     <main className={styles.page}>
@@ -98,33 +117,33 @@ export default function Annunci({ sessione }) {
       <div className={styles.header}>
         <p className={styles.label}>Annunci disponibili</p>
         <h1 className={styles.titolo}>
-          {settoreSelezionato ? settoreSelezionato.label : 'Trova lavori'}
+          {settoreSelezionato ? settoreSelezionato.label : 'Trova lavori'}    {/* componente dinamico che cambia al variare del settore selezionato */} 
           <span className={styles.accent}>.</span>
         </h1>
         <p className={styles.sub}>
           {settoreSelezionato
             ? `Annunci nel settore ${settoreSelezionato.label}`
-            : sessione
-              ? 'Annunci filtrati in base alla tua zona e ai tuoi settori.'
-              : 'Sfoglia tutti gli annunci disponibili.'
+            : sessione                                                          /* else c'è una sessione */
+              ? 'Annunci filtrati in base alla tua zona e ai tuoi settori.'     /* si sessione */
+              : 'Sfoglia tutti gli annunci disponibili.'      /* no sessione -> generico e nessn campo selezionato */
           }
         </p>
       </div>
 
       {/* Filtri */}
-      <form className={styles.filtri} onSubmit={handleCerca}>
+      <form className={styles.filtri} onSubmit={handleCerca}>     {/* quando premo cerca nel form -> carico dati con filtri aggiornati*/} 
         <input
           className={styles.input}
           name="comune"
           placeholder="Comune"
-          value={filtri.comune}
-          onChange={handleFiltro}
+          value={filtri.comune}   /* inserisco il valore comune nel form (aggiornato da react) */
+          onChange={handleFiltro}     /* i filtri vengono aggiornati istantaneamente ma la chiamata al db avviene solo onSubmit*/
         />
         <select
           className={styles.select}
           name="settore_id"
           value={filtri.settore_id}
-          onChange={handleFiltro}
+          onChange={handleFiltro}     
         >
           <option value="">Tutti i settori</option>
           {settori.map(s => (
@@ -137,7 +156,14 @@ export default function Annunci({ sessione }) {
 
       {/* Risultati */}
       {loading ? (
-        <p className={styles.loading}>Caricamento...</p>
+        <div className={styles.loadingContainer}>       {/* se in caricamento */}
+          <div className={styles.loadingDots}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p className={styles.loadingText}>Ricerca annunci in corso</p>
+        </div>
       ) : annunci.length === 0 ? (
         <div className={styles.empty}>
           <p>Nessun annuncio trovato con questi filtri.</p>
@@ -157,7 +183,7 @@ export default function Annunci({ sessione }) {
                     <h2 className={styles.cardTitolo}>{a.titolo}</h2>
                   </div>
                   <div className={styles.cardTopRight}>
-                    {a.urgente && (
+                    {a.urgente && (                 /* se è vera la condizione a sx -> è vera anche quella a dx */
                       <span className={styles.urgente}>Urgente</span>
                     )}
                     {a.scade_il && (
@@ -184,7 +210,7 @@ export default function Annunci({ sessione }) {
                     {sessione && (
                       <button
                         className={styles.btnOfferta}
-                        onClick={() => setAnnuncioSelezionato(a)}
+                        onClick={() => setAnnuncioSelezionato(a)}       /* al click su invia offerta attivo setAnnuncioSelezionato che apre il Form */
                       >
                         Invia offerta
                       </button>
