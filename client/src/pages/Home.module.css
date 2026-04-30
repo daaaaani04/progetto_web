@@ -1,0 +1,301 @@
+/* src/pages/Home.module.css */
+.accent {
+    color: #c68910;
+  }
+  
+  /* Hero */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 2.5rem 4rem;
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+
+/* aggiungo transizione e griglia che si muove*/
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(#e0e0e0 1px, transparent 1px),
+      linear-gradient(90deg, #e0e0e0 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+    animation: gridMove 8s linear infinite;
+    z-index: 0;
+  }
+  
+  @keyframes gridMove {
+    from { background-position: 0 0; }
+    to { background-position: 60px 60px; }
+  }
+  
+  .heroLabel,
+  .heroTitle,
+  .heroSub,
+  .heroBtns {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .heroLabel {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 1.5rem;
+  }
+  
+  .heroTitle {
+    font-size: 3.5rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: #111;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+  }
+  
+  .heroSub {
+    font-size: 1rem;
+    color: #666;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  
+  .heroBtns {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  /* Buttons */
+  .btnPrimary {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #c68910;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    display: inline-block;
+  }
+  
+  .btnPrimary:hover {
+    opacity: 0.85;
+  }
+  
+  .btnSecondary {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111;
+    background: transparent;
+    border: 0.5px solid #ccc;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+    display: inline-block;
+  }
+  
+  .btnSecondary:hover {
+    background: #f5f5f5;
+  }
+  
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+  
+  .stat {
+    padding: 2rem 2.5rem;
+    border-right: 0.5px solid #e0e0e0;
+  }
+  
+  .stat:last-child {
+    border-right: none;
+  }
+  
+  .statNum {
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: #111;
+    margin-bottom: 0.3rem;
+  }
+  
+  .statLabel {
+    font-size: 0.75rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  
+  /* Come funziona */
+  .how {
+    padding: 4rem 2.5rem;
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+  
+  .sectionLabel {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 3rem;
+  }
+  
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  
+  .stepNum {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: #c68910;
+    margin-bottom: 0.8rem;
+  }
+  
+  .step h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 0.5rem;
+  }
+  
+  .step p {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* Settori */
+.settori {
+    padding: 4rem 2.5rem;
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+  
+  .settoriGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+  
+  .settoreCard {
+    border: 0.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-color: #f5f5f5;
+    min-height: 130px;
+  }
+  
+  .settoreCard:hover {
+    border-color: #c68910;
+    transform: translateY(-2px);
+  }
+  
+  .settoreOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    transition: background 0.15s;
+  }
+  
+  .settoreCard:hover .settoreOverlay {
+    background: rgba(0, 0, 0, 0.55);
+  }
+  
+  .settoreIcon {
+    position: relative;
+    z-index: 1;
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .settoreName {
+    position: relative;
+    z-index: 1;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  
+  /* CTA */
+  .cta {
+    padding: 4rem 2.5rem;
+    background: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .cta h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: #111;
+    max-width: 400px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .heroTitle {
+      font-size: 2.2rem;
+    }
+  
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  
+    .stat {
+      border-right: none;
+      border-bottom: 0.5px solid #e0e0e0;
+    }
+  
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  
+    .settoriGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  

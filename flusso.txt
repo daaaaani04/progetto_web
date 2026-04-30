@@ -23,7 +23,36 @@ ho aggiunto responsivness alla navbar:
     - se ho l'hamburger aperto devo fare in mod che allargata sufficentemente la finestra
         questo si chiuda atomaticamente per tornare versione DESKTOP (dimensione fissata 768)
 
+aggiungo dettagli chiamata al db direttamente da client tramite anon key
+        Puoi usare il client diretto per:
 
+        Caricare settori, annunci pubblici
+        Login e registrazione
+        Lettura del profilo utente
+
+        Devi passare per Express per:
+
+        Creare un annuncio (validazione + sicurezza)
+        Inviare un'offerta
+        Operazioni che modificano dati sensibili
+
+ho modificato la navbar: 
+    - se sono un venditore vedo i preventivi (che ho inviato) e gli annunci di potenziali clienti
+    - se sono un acquirente vedo solo gli annunci che ho pubblicato io
+posso fare questo passando il profillo all'app.jsx ->
+    faccio una chiamata al db dal client per ottenere l'utente che ha lo stesso id della sessione corrente
+    (la sessione non salva tutti i dati)
+
+
+agggiungo pagine mancanti: 
+    SEZIONE ACQUIRENTE: annunci, visualizza gli annunci in corrispondenza della zona e settore inseriti al momento dell'accesso
+        (con possibilita di modificarlo per esigenze particolari)
+                        preventivi inviati: con possibilita di aprire chat (solo dopo aver mandato preventivo)
+                        invia offerta: implementato come modal (si apre direttamente sulla pagina annunci) form da compilare
+
+
+ho dovuto modificare la policy perchè una volta che l'offerta veniva accettata restituiva errore poiche non avevo i permessi di modifica
+    dello stato dell'offerta del db
 
 DB 
 annunci — pubblicati dagli acquirenti

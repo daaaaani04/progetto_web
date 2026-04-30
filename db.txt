@@ -1,0 +1,57 @@
+auth.users  (gestito da Supabase)
+    │
+    ▼
+profiles
+  - id              uuid  PK  → auth.users.id
+  - ruolo           enum  ('acquirente', 'venditore')
+  - nome            text
+  - cognome         text
+  - email           text
+  - telefono        text
+  - comune          text
+  - created_at      timestamptz
+
+settori
+  - id              text  PK  ('edilizia', 'giardino', ...)
+  - label           text
+  - icona           text
+
+venditore_settori
+  - venditore_id    uuid  FK → profiles.id
+  - settore_id      text  FK → settori.id
+  PK (venditore_id, settore_id)
+
+annunci
+  - id              uuid  PK
+  - acquirente_id   uuid  FK → profiles.id
+  - titolo          text
+  - descrizione     text
+  - settore_id      text  FK → settori.id
+  - comune          text
+  - budget          text  (es. "500–1000€", opzionale)
+  - urgente         bool
+  - stato           enum  ('attivo', 'chiuso', 'scaduto')
+  - created_at      timestamptz
+  - scade_il        date  (opzionale)
+
+offerte
+  - id              uuid  PK
+  - annuncio_id     uuid  FK → annunci.id
+  - venditore_id    uuid  FK → profiles.id
+  - messaggio       text
+  - prezzo          numeric  (nullable, opzionale)
+  - stato           enum  ('inviata', 'vista', 'accettata', 'rifiutata')
+  - created_at      timestamptz
+
+
+
+
+
+PASSWORD_DB
+Danilo.cimmino.04
+
+
+uetnti:
+danicimmino04@gmail.com -> Dani04.
+datterino04@gmail.com -> Dani04.
+molarisilvia@gmail.com -> ciaociao

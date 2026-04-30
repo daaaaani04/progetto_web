@@ -14,6 +14,7 @@ export default function Login() {
   const [ruolo, setRuolo] = useState('acquirente')
   const [errore, setErrore] = useState(null)
   const [messaggio, setMessaggio] = useState(null)
+  const [partitaIva, setPartitaIva] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -25,7 +26,7 @@ export default function Login() {
         email,
         password,
         options: {
-          data: { ruolo, nome, cognome, telefono, comune }
+          data: { ruolo, nome, cognome, telefono, comune, partita_iva: partitaIva }
         }
       })
       if (error) return setErrore(error.message)
@@ -110,6 +111,16 @@ export default function Login() {
                 <option value="acquirente">Acquirente</option>
                 <option value="venditore">Venditore</option>
               </select>
+
+              {ruolo === 'venditore' && (
+                <input
+                  className={styles.input}
+                  placeholder="Partita IVA *"
+                  value={partitaIva}
+                  onChange={e => setPartitaIva(e.target.value)}
+                  required
+                />
+              )}
             </>
           )}
 
