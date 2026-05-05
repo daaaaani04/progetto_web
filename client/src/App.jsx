@@ -45,6 +45,13 @@ export default function App() {
 
   if (loading) return <p>Caricamento...</p>
 
+  /*
+    BrowserRouter: impacchetta tutto per navigazione
+    Routes: mostra componente ch corrsponde alla pagina attuale
+    Route: associa drectori a componente
+    -> aggiungo Navbar e Footer
+  */
+
   return (
     <BrowserRouter>
       <Navbar sessione={sessione} profilo={profilo} />

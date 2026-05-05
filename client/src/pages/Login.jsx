@@ -1,5 +1,5 @@
 // src/pages/Login.jsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import supabase from '../lib/supabase'
 import styles from './Login.module.css'
 
@@ -15,6 +15,15 @@ export default function Login() {
   const [errore, setErrore] = useState(null)
   const [messaggio, setMessaggio] = useState(null)
   const [partitaIva, setPartitaIva] = useState('')
+  const [settoreSelezionato, setSettoreSelezionato] = useState('')
+
+  const [settori, setSettori] = useState([])
+
+  useEffect(() => {
+    supabase.from('settori').select('*').then(({ data }) => {
+      setSettori(data || [])
+    })
+  }, [])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -26,7 +35,7 @@ export default function Login() {
         email,
         password,
         options: {
-          data: { ruolo, nome, cognome, telefono, comune, partita_iva: partitaIva }
+          data: { ruolo, nome, cognome, telefono, comune, settoreSelezionato }
         }
       })
       if (error) return setErrore(error.message)
@@ -113,13 +122,17 @@ export default function Login() {
               </select>
 
               {ruolo === 'venditore' && (
-                <input
-                  className={styles.input}
-                  placeholder="Partita IVA *"
-                  value={partitaIva}
-                  onChange={e => setPartitaIva(e.target.value)}
-                  required
-                />
+                <select
+                  className={styles.select}
+                  name="settore_id"
+                  value={settoreSelezionato}    
+                  onChange= {e => setSettoreSelezionato(e.target.value)}
+                  >
+                  <option value="">Tutti i settori</option>
+                  {settori.map(s => (
+                    <option key={s.id} value={s.id}>{s.label}</option>
+                  ))}
+                </select>
               )}
             </>
           )}

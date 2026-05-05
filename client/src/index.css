@@ -1,12 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Michroma&display=swap');
+
 :root {
   --accent: #c68910;
-  --text: #666;
-  --text-h: #111;
-  --bg: #fff;
-  --border: #e0e0e0;
-  --bg-subtle: #fafafa;
+  --text: #6b6b6b;
+  --text-h: #1a1a1a;
+  --bg: #fafaf8;
+  --border: #e8e6e0;
+  --bg-subtle: #f5f3ef;
 
-  font: 16px/1.6 system-ui, 'Segoe UI', Roboto, sans-serif;
+  font: 16px/1.7 'Lora', serif;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -31,9 +33,10 @@ body {
 }
 
 h1, h2, h3 {
-  font-weight: 500;
+  font-family: 'Lora', serif;
+  font-weight: 700;
   color: var(--text-h);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.5px;
 }
 
 a {

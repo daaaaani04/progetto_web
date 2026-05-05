@@ -84,7 +84,7 @@ export default function Home() {
                 <div className={styles.settoreIcon}>{s.icona}</div>
                 <div className={styles.settoreName}>{s.label}</div>
                 </Link>
-            )) : (
+            )) : (                
                 ['Idraulica', 'Elettrica', 'Edilizia', 'Giardinaggio'].map(s => (
                 <div className={styles.settoreCard} key={s}>
                     <div className={styles.settoreName}>{s}</div>

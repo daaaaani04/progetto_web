@@ -56,8 +56,10 @@ ho dovuto modificare la policy perchè una volta che l'offerta veniva accettata 
 
 aggiunti commenti in annunci.jsx
 
+!RICORDATI DI METTERE LA POSSIBILITA DI CANCELLARE LE OFFERTE ACCETTATE
 
-
+cambiare tutti i colori in tutti i file
+    grep -rl "#c68910" client/src/ | xargs sed -i '' 's/#c68910/#2d6a4f/g'
 
 FUNZIONAMENTO REACT:
 const [settori, setSettori] = useState([])      -> aggiorna automaticamente al cambiare della variabile settori
