@@ -39,13 +39,14 @@ export default function ChatBox({ preventivoId, utenteCorrenteId, destinatarioId
     e.preventDefault();
     
     // VERIFICA DATI: Guarda la console del browser quando premi invia
+    /*
     console.log("Dati invio:", { 
       testo: nuovoMessaggio, 
       preventivo_id: preventivoId, 
       mittente_id: utenteCorrenteId, 
       destinatario_id: destinatarioId 
     });
-
+    */
     if (!nuovoMessaggio.trim() || !destinatarioId) {
         console.error("Errore: manca il destinatario o il testo è vuoto");
         return;

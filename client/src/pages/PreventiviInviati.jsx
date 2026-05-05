@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import supabase from '../lib/supabase'
 import styles from './PreventiviInviati.module.css'
+import ChatBox from './Chat'
 
 export default function PreventiviInviati({ sessione }) {
   const [offerte, setOfferte] = useState([])
   const [loading, setLoading] = useState(true)
+  const [chatAttiva,setChatAttiva] = useState(null)
 
   useEffect(() => {
     caricaOfferte()
@@ -16,6 +18,8 @@ export default function PreventiviInviati({ sessione }) {
       .select(`
         *,
         annunci (
+          id,
+          acquirente_id,
           titolo,
           comune,
           budget,
@@ -121,7 +125,11 @@ export default function PreventiviInviati({ sessione }) {
                   </button>
                 )}
                 {o.stato === 'accettata' && (
-                  <button className={styles.btnChat}>
+                  <button className={styles.btnChat} onClick = {()=> {
+                    console.log('offerta:', o)
+                    console.log('acquirente_id:', o.annunci?.acquirente_id)
+                      setChatAttiva(o)}
+                      }>
                     Apri chat
                   </button>
                 )}
@@ -131,6 +139,15 @@ export default function PreventiviInviati({ sessione }) {
           ))}
         </div>
       )}
+      {chatAttiva && (
+        <ChatBox 
+        preventivoId={chatAttiva.id}
+        utenteCorrenteId={sessione.user.id} 
+        destinatarioId={chatAttiva.annunci?.acquirente_id}
+        onClose={() => setChatAttiva(null)} 
+      />
+      )}
+    
     </main>
   )
 }

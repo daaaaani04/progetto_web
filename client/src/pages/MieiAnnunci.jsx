@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import supabase from '../lib/supabase'
 import styles from './MieiAnnunci.module.css'
+import ChatBox from './Chat'
 
 export default function MieiAnnunci({ sessione }) {
   const [annunci, setAnnunci] = useState([])
   const [offerte, setOfferte] = useState({})
   const [annunciAperti, setAnnunciAperti] = useState({})
   const [loading, setLoading] = useState(true)
+  const [chatAttiva,setChatAttiva] = useState(null)
+
 
   useEffect(() => {
     caricaAnnunci()
@@ -257,7 +260,8 @@ export default function MieiAnnunci({ sessione }) {
 
                           {o.stato === 'accettata' && (
                             <div className={styles.offertaAzioni}>
-                              <button className={styles.btnChat}>
+                              <button className={styles.btnChat}
+                              onClick={() => setChatAttiva(o.id)}>
                                 Apri chat
                               </button>
                             </div>
@@ -277,6 +281,17 @@ export default function MieiAnnunci({ sessione }) {
             </Link>
           </div>
         </>
+      )}
+      {chatAttiva && (
+        <ChatBox 
+          preventivoId={chatAttiva} 
+          utenteCorrenteId={sessione.user.id}
+          destinatarioId={   // in questo caso il destinatario è il venditore dell'offerta, cerchiamo l'offerta di riferimento
+            Object.values(offerte)
+              .flat()               
+              .find(o => o.id === chatAttiva)?.venditore_id }
+          onClose={() => setChatAttiva(null)} 
+        />
       )}
     </main>
   )
