@@ -38,7 +38,10 @@ export default function Login() {
           data: { ruolo, nome, cognome, telefono, comune, settoreSelezionato }
         }
       })
-      if (error) return setErrore(error.message)
+      if (error) {
+        console.error(error);
+        return setErrore(error.message)
+      }
       setMessaggio('Registrazione completata! Controlla la tua email.')
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password })

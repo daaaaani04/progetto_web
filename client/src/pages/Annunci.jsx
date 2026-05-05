@@ -4,7 +4,7 @@ import supabase from '../lib/supabase'
 import styles from './Annunci.module.css'
 import FormOfferta from '../components/FormOfferta'
 
-export default function Annunci({ sessione }) {
+export default function Annunci({ sessione }) {   // prop della componente dato in input alla funzione
   const [searchParams] = useSearchParams()        // legge ?settore=idraulica dalla URL
   const [annunci, setAnnunci] = useState([])      // lista annunci caricati dal DB
   const [settori, setSettori] = useState([])      // lista settori per il select
@@ -15,6 +15,8 @@ export default function Annunci({ sessione }) {
   })
   const [annuncioSelezionato, setAnnuncioSelezionato] = useState(null) // annuncio su cui aprire il modal
   const [successoOfferta, setSuccessoOfferta] = useState(false)        // gestione offerta inviata con successo
+  const [profilo, setProfilo] = useState(null)
+
 
   useEffect(() => {
     async function init() {
@@ -26,9 +28,11 @@ export default function Annunci({ sessione }) {
       if (sessione) {
         const { data: profilo } = await supabase
           .from('profiles')
-          .select('comune')
+          .select('comune', 'ruolo')
           .eq('id', sessione.user.id)
           .single()
+        
+        setProfilo(profilo) 
 
         //tiro giu anche i settori del venditore (lavoratore) per filtrarlo automaticamente
         const { data: settoriVenditore } = await supabase
@@ -207,7 +211,7 @@ export default function Annunci({ sessione }) {
                     <span className={styles.data}>
                       {new Date(a.created_at).toLocaleDateString('it-IT')}
                     </span>
-                    {sessione && (
+                    {sessione && profilo?.ruolo === 'venditore' && (
                       <button
                         className={styles.btnOfferta}
                         onClick={() => setAnnuncioSelezionato(a)}       /* al click su invia offerta attivo setAnnuncioSelezionato che apre il Form */
