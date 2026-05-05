@@ -16,8 +16,8 @@ export default function Login() {
   const [messaggio, setMessaggio] = useState(null)
   const [partitaIva, setPartitaIva] = useState('')
   const [settoreSelezionato, setSettoreSelezionato] = useState('')
-
   const [settori, setSettori] = useState([])
+  const [nomeAzienda, setNomeAzienda] = useState('')
 
   useEffect(() => {
     supabase.from('settori').select('*').then(({ data }) => {
@@ -35,7 +35,7 @@ export default function Login() {
         email,
         password,
         options: {
-          data: { ruolo, nome, cognome, telefono, comune, settoreSelezionato }
+          data: { ruolo, nome, cognome, telefono, comune, settoreSelezionato, nomeAzienda }
         }
       })
       if (error) {
@@ -123,6 +123,16 @@ export default function Login() {
                 <option value="acquirente">Acquirente</option>
                 <option value="venditore">Venditore</option>
               </select>
+
+              {ruolo === 'venditore' && (
+                <input
+                className={styles.input}
+                placeholder="Nome Azienda"
+                value={nomeAzienda}
+                onChange={e => setNomeAzienda(e.target.value)}>
+                </input>
+              )}
+
 
               {ruolo === 'venditore' && (
                 <select

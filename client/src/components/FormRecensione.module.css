@@ -1,0 +1,101 @@
+.form {
+    padding: 1.5rem;
+  }
+  
+  .titolo {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #111;
+    margin: 0 0 0.3rem;
+  }
+  
+  .sub {
+    font-size: 0.85rem;
+    color: #999;
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+  }
+  
+  .stelleRow {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .stellaBtn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #e0e0e0;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.15s, transform 0.1s;
+  }
+  
+  .stellaBtn.attiva {
+    color: #c68910;
+  }
+  
+  .stellaBtn:hover {
+    transform: scale(1.15);
+  }
+  
+  .stellaLabel {
+    margin-left: 0.5rem;
+    font-size: 0.82rem;
+    color: #888;
+    letter-spacing: 0.03em;
+  }
+  
+  .textarea {
+    width: 100%;
+    border: 0.5px solid #ddd;
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+    color: #111;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+    background: #fff;
+  }
+  
+  .textarea:focus {
+    border-color: #c68910;
+  }
+  
+  .errore {
+    color: #e53e3e;
+    font-size: 0.82rem;
+    margin: 0.75rem 0 0;
+    letter-spacing: 0.02em;
+  }
+  
+  .btnInvia {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #c68910;
+    border: none;
+    padding: 0.65rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  
+  .btnInvia:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+  
+  .btnInvia:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }

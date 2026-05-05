@@ -10,6 +10,7 @@ import Annunci from './pages/Annunci'
 import MieiAnnunci from './pages/MieiAnnunci'
 import NuovoAnnuncio from './pages/NuovoAnnuncio'
 import PreventiviInviati from './pages/PreventiviInviati'
+import ProfiloAzienda from './pages/ProfiloAzienda'
 
 export default function App() {
   const [sessione, setSessione] = useState(null)
@@ -70,6 +71,7 @@ export default function App() {
           sessione ? <PreventiviInviati sessione={sessione} /> : <Navigate to="/login" />
         } />
         <Route path="/annunci" element={<Annunci sessione={sessione} />} />
+        <Route path="/profilo/:id" element={<ProfiloAzienda sessione={sessione} />} />
       </Routes>
       <Footer />
     </BrowserRouter>

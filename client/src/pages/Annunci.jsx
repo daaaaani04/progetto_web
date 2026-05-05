@@ -28,7 +28,7 @@ export default function Annunci({ sessione }) {   // prop della componente dato 
       if (sessione) {
         const { data: profilo } = await supabase
           .from('profiles')
-          .select('comune', 'ruolo')
+          .select('comune , ruolo')
           .eq('id', sessione.user.id)
           .single()
         

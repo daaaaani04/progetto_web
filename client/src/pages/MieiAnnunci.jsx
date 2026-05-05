@@ -35,10 +35,12 @@ export default function MieiAnnunci({ sessione }) {
       .select(`
         *,
         profiles (
+          id,
           nome,
           cognome,
           telefono,
-          comune
+          comune,
+          nome_azienda
         )
       `)
       .eq('annuncio_id', annuncioId)
@@ -204,24 +206,27 @@ export default function MieiAnnunci({ sessione }) {
                       offerte[a.id].map(o => (
                         <div key={o.id} className={styles.offerta}>
                           <div className={styles.offertaTop}>
-                            <div>
-                              <span className={styles.venditore}>
-                                {o.profiles?.nome} {o.profiles?.cognome}
+                          <div>
+                            <Link
+                              to={`/profilo/${o.profiles?.id}`}
+                              className={styles.nomeVenditore}
+                            >
+                              {o.profiles?.nome_azienda || `${o.profiles?.nome} ${o.profiles?.cognome}`}
+                            </Link>
+                            {o.profiles?.comune && (
+                              <span className={styles.offertaComune}>
+                                📍 {o.profiles.comune}
                               </span>
-                              {o.profiles?.comune && (
-                                <span className={styles.offertaComune}>
-                                  📍 {o.profiles.comune}
-                                </span>
-                              )}
-                            </div>
-                            <div className={styles.offertaTopRight}>
-                              {o.prezzo && (
-                                <span className={styles.prezzo}>{o.prezzo}€</span>
-                              )}
-                              <span className={`${styles.statoOfferta} ${styles[o.stato]}`}>
-                                {o.stato}
-                              </span>
-                            </div>
+                            )}
+                          </div>
+                          <div className={styles.offertaTopRight}>
+                            {o.prezzo && (
+                              <span className={styles.prezzo}>{o.prezzo}€</span>
+                            )}
+                            <span className={`${styles.statoOfferta} ${styles[o.stato]}`}>
+                              {o.stato}
+                            </span>
+                          </div>
                           </div>
 
                           <p className={styles.messaggio}>{o.messaggio}</p>
