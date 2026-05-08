@@ -68,60 +68,50 @@ export default function Navbar({ sessione, profilo }) {
         {linkNav}
         <div className={styles.divider} />
         {sessione ? (
-          <>
-            {isVenditore ? (
-              <div className={styles.dropdownWrapper} ref={dropdownRef}>
-                <button
-                  className={`${styles.email} ${styles.emailBtn}`}
-                  onClick={() => setDropdownAperto(!dropdownAperto)}
-                  aria-expanded={dropdownAperto}
+          <div className={styles.dropdownWrapper} ref={dropdownRef}>
+            <button
+              className={`${styles.email} ${styles.emailBtn}`}
+              onClick={() => setDropdownAperto(!dropdownAperto)}
+              aria-expanded={dropdownAperto}
+            >
+              {sessione.user.email}
+              <span className={`${styles.chevron} ${dropdownAperto ? styles.chevronUp : ''}`}>▾</span>
+            </button>
+
+            {dropdownAperto && (
+              <div className={styles.dropdown}>
+                <Link
+                  className={styles.dropdownItem}
+                  to={`/profilo/${profilo?.id}`}
+                  onClick={() => setDropdownAperto(false)}
                 >
-                  {sessione.user.email}
-                  <span className={`${styles.chevron} ${dropdownAperto ? styles.chevronUp : ''}`}>▾</span>
+                  <span className={styles.dropdownIcon}></span>
+                  Profilo
+                </Link>
+                <Link
+                  className={styles.dropdownItem}
+                  to="/impostazioni"
+                  onClick={() => setDropdownAperto(false)}
+                >
+                  <span className={styles.dropdownIcon}></span>
+                  Impostazioni
+                </Link>
+                <Link
+                  className={styles.dropdownItem}
+                  to="/supporto"
+                  onClick={() => setDropdownAperto(false)}
+                >
+                  <span className={styles.dropdownIcon}></span>
+                  Supporto
+                </Link>
+                <div className={styles.dropdownDivider} />
+                <button className={styles.dropdownItemDanger} onClick={handleLogout}>
+                  <span className={styles.dropdownIcon}></span>
+                  Logout
                 </button>
-
-                {dropdownAperto && (
-                  <div className={styles.dropdown}>
-                    <Link
-                      className={styles.dropdownItem}
-                      to={`/profilo/${profilo?.id}`}
-                      onClick={() => setDropdownAperto(false)}
-                    >
-                      <span className={styles.dropdownIcon}></span>
-                      Profilo
-                    </Link>
-                    <Link
-                      className={styles.dropdownItem}
-                      to="/impostazioni"
-                      onClick={() => setDropdownAperto(false)}
-                    >
-                      <span className={styles.dropdownIcon}></span>
-                      Impostazioni
-                    </Link>
-                    <Link
-                      className={styles.dropdownItem}
-                      to="/supporto"
-                      onClick={() => setDropdownAperto(false)}
-                    >
-                      <span className={styles.dropdownIcon}></span>
-                      Supporto
-                    </Link>
-                    <div className={styles.dropdownDivider} />
-                    <button className={styles.dropdownItemDanger} onClick={handleLogout}>
-                      <span className={styles.dropdownIcon}></span>
-                      Logout
-                    </button>
-                  </div>
-                )}
               </div>
-            ) : (
-              <span className={styles.email}>{sessione.user.email}</span>
             )}
-
-            {!isVenditore && (
-              <button className={styles.btnOutline} onClick={handleLogout}>Logout</button>
-            )}
-          </>
+          </div>
         ) : (
           <Link className={styles.btnSolid} to="/login">Accedi</Link>
         )}
@@ -142,13 +132,9 @@ export default function Navbar({ sessione, profilo }) {
         {sessione ? (
           <>
             <span className={styles.mobileEmail}>{sessione.user.email}</span>
-            {isVenditore && (
-              <>
-                <Link className={styles.mobileDropdownItem} to={`/profilo/${profilo?.id}`} onClick={() => setMenuAperto(false)}>Profilo</Link>
-                <Link className={styles.mobileDropdownItem} to="/impostazioni" onClick={() => setMenuAperto(false)}>Impostazioni</Link>
-                <Link className={styles.mobileDropdownItem} to="/supporto" onClick={() => setMenuAperto(false)}>Supporto</Link>
-              </>
-            )}
+            <Link className={styles.mobileDropdownItem} to={`/profilo/${profilo?.id}`} onClick={() => setMenuAperto(false)}>Profilo</Link>
+            <Link className={styles.mobileDropdownItem} to="/impostazioni" onClick={() => setMenuAperto(false)}>Impostazioni</Link>
+            <Link className={styles.mobileDropdownItem} to="/supporto" onClick={() => setMenuAperto(false)}>Supporto</Link>
             <button className={styles.btnOutline} onClick={handleLogout}>Logout</button>
           </>
         ) : (

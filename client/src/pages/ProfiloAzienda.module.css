@@ -1,23 +1,23 @@
 .pageWrapper {
   min-height: 100vh;
-  background-color: #f4f7f6; /* Grigio chiarissimo di sfondo */
+  background-color: var(--bg);
   padding: 40px 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Lora', serif;
 }
 
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  background: white;
+  background: #fff;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
 /* Header */
 .header {
   padding: 20px 30px;
-  border-bottom: 1px solid #edf2f2;
+  border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,17 +32,24 @@
 .backBtn {
   background: none;
   border: none;
-  color: #a0aeba;
+  color: var(--text);
   cursor: pointer;
   padding: 5px;
   display: flex;
   align-items: center;
+  transition: color 0.2s;
+}
+
+.backBtn:hover {
+  color: var(--accent);
 }
 
 .navTitle {
   font-size: 18px;
-  font-weight: 600;
-  color: #2d333a;
+  font-weight: 700;
+  color: var(--text-h);
+  font-family: 'Lora', serif;
+  letter-spacing: -0.3px;
 }
 
 .userDropdown {
@@ -51,18 +58,21 @@
   gap: 10px;
   font-size: 14px;
   font-weight: 500;
-  color: #2d333a;
+  color: var(--text-h);
 }
 
 .miniAvatar {
   width: 32px;
   height: 32px;
-  background: #e1e8ed;
+  background: var(--accent-glow);
+  border: 1px solid rgba(198,137,16,0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 700;
+  color: var(--accent-dark);
+  font-family: 'Lora', serif;
 }
 
 /* Layout */
@@ -78,7 +88,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border-right: 1px solid #edf2f2;
+  border-right: 1px solid var(--border);
 }
 
 .sidebarMenu button {
@@ -86,21 +96,24 @@
   padding: 12px 15px;
   border: none;
   background: none;
-  color: #6a7c8a;
+  color: var(--text);
   font-size: 14px;
   font-weight: 500;
+  font-family: 'Lora', serif;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .sidebarMenu button:hover {
-  background: #f8fafb;
+  background: var(--bg-subtle);
+  color: var(--text-h);
 }
 
 .activeMenu {
-  background: #00b087 !important; /* Verde come nell'immagine */
-  color: white !important;
+  background: var(--accent-glow) !important;
+  color: var(--accent-dark) !important;
+  font-weight: 600 !important;
   position: relative;
 }
 
@@ -118,9 +131,11 @@
 }
 
 .sectionTitle {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: #2d333a;
+  font-family: 'Lora', serif;
+  color: var(--text-h);
+  letter-spacing: -0.3px;
   margin-bottom: 25px;
 }
 
@@ -146,17 +161,27 @@
 .inputGroup label {
   font-size: 10px;
   font-weight: 700;
-  color: #a0aeba;
-  letter-spacing: 0.5px;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Lora', serif;
 }
 
 .inputGroup input {
   padding: 12px 16px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
-  color: #2d333a;
-  background: #fcfdfe;
+  color: var(--text-h);
+  background: var(--bg-subtle);
+  font-family: 'Lora', serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputGroup input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 /* Phone Input */
@@ -167,12 +192,13 @@
 
 .countryCode {
   padding: 0 15px;
-  background: #f8fafb;
-  border: 1px solid #e1e8ed;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: 8px;
   display: flex;
   align-items: center;
   font-size: 14px;
+  color: var(--text);
 }
 
 .phoneInput input {
@@ -182,34 +208,48 @@
 /* Buttons */
 .saveBtn {
   margin-top: 30px;
-  background: #00b087;
-  color: white;
+  background: var(--accent);
+  color: #fff;
   border: none;
   padding: 12px 40px;
   border-radius: 8px;
   font-weight: 600;
+  font-family: 'Lora', serif;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s, transform 0.15s;
 }
 
 .saveBtn:hover {
-  background: #009673;
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.saveBtn:active {
+  transform: translateY(0);
 }
 
 .saveBtnGhost {
   margin-top: 25px;
-  background: white;
-  color: #00b087;
-  border: 1px solid #00b087;
+  background: #fff;
+  color: var(--accent-dark);
+  border: 1px solid var(--accent);
   padding: 10px 30px;
   border-radius: 8px;
   font-weight: 600;
+  font-family: 'Lora', serif;
   cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.saveBtnGhost:hover {
+  background: var(--accent-glow);
 }
 
 .loading {
   text-align: center;
   padding: 100px;
+  color: var(--text);
+  font-family: 'Lora', serif;
 }
 
 /* Responsive */
@@ -221,7 +261,7 @@
     flex-direction: row;
     overflow-x: auto;
     border-right: none;
-    border-bottom: 1px solid #edf2f2;
+    border-bottom: 1px solid var(--border);
   }
   .gridForm {
     grid-template-columns: 1fr;
