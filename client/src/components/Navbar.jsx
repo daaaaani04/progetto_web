@@ -8,6 +8,7 @@ export default function Navbar({ sessione, profilo }) {
   const [menuAperto, setMenuAperto] = useState(false)
   const [dropdownAperto, setDropdownAperto] = useState(false)
   const dropdownRef = useRef(null)
+  const [ConfermaLog, setConfermaLog] = useState(false)
 
   useEffect(() => {
     function handleResize() {
@@ -29,6 +30,7 @@ export default function Navbar({ sessione, profilo }) {
 
   async function handleLogout() {
     await supabase.auth.signOut()
+    setConfermaLog(false)
     setMenuAperto(false)
     setDropdownAperto(false)
   }
@@ -105,7 +107,7 @@ export default function Navbar({ sessione, profilo }) {
                   Supporto
                 </Link>
                 <div className={styles.dropdownDivider} />
-                <button className={styles.dropdownItemDanger} onClick={handleLogout}>
+                <button className={styles.dropdownItemDanger} onClick={() => setConfermaLog(true)}>
                   <span className={styles.dropdownIcon}></span>
                   Logout
                 </button>
@@ -135,12 +137,28 @@ export default function Navbar({ sessione, profilo }) {
             <Link className={styles.mobileDropdownItem} to={`/profilo/${profilo?.id}/privato`} onClick={() => setMenuAperto(false)}>Profilo</Link>
             <Link className={styles.mobileDropdownItem} to="/impostazioni" onClick={() => setMenuAperto(false)}>Impostazioni</Link>
             <Link className={styles.mobileDropdownItem} to="/supporto" onClick={() => setMenuAperto(false)}>Supporto</Link>
-            <button className={styles.btnOutline} onClick={handleLogout}>Logout</button>
+            <button className={styles.btnOutline} onClick={() => setConfermaLog(true)}>Logout</button>
           </>
         ) : (
           <Link className={styles.btnSolid} to="/login" onClick={() => setMenuAperto(false)}>Accedi</Link>
         )}
       </div>
+      {ConfermaLog && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Sei sicuro di voler uscire?</h3>
+            <p>Dovrai inserire nuovamente le tue credenziali per accedere.</p>
+            <div className={styles.modalActions}>
+              <button className={styles.btnAnnulla} onClick={() => setConfermaLog(false)}>
+                Annulla
+              </button>
+              <button className={styles.btnLogoutConfirm} onClick={handleLogout}>
+                Esci ora
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }
