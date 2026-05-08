@@ -82,7 +82,7 @@ export default function Navbar({ sessione, profilo }) {
               <div className={styles.dropdown}>
                 <Link
                   className={styles.dropdownItem}
-                  to={`/profilo/${profilo?.id}`}
+                  to={`/profilo/${profilo?.id}/privato`}
                   onClick={() => setDropdownAperto(false)}
                 >
                   <span className={styles.dropdownIcon}></span>
@@ -132,7 +132,7 @@ export default function Navbar({ sessione, profilo }) {
         {sessione ? (
           <>
             <span className={styles.mobileEmail}>{sessione.user.email}</span>
-            <Link className={styles.mobileDropdownItem} to={`/profilo/${profilo?.id}`} onClick={() => setMenuAperto(false)}>Profilo</Link>
+            <Link className={styles.mobileDropdownItem} to={`/profilo/${profilo?.id}/privato`} onClick={() => setMenuAperto(false)}>Profilo</Link>
             <Link className={styles.mobileDropdownItem} to="/impostazioni" onClick={() => setMenuAperto(false)}>Impostazioni</Link>
             <Link className={styles.mobileDropdownItem} to="/supporto" onClick={() => setMenuAperto(false)}>Supporto</Link>
             <button className={styles.btnOutline} onClick={handleLogout}>Logout</button>

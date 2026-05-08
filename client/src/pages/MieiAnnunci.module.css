@@ -166,11 +166,13 @@
   color: #bbb;
 }
 
+
 /* ─── Lista ─── */
 .lista {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  align-items: start;   /* card di altezze diverse non si allungano */
 }
 
 .card {
