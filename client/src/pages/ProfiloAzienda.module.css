@@ -208,15 +208,21 @@
 /* Buttons */
 .saveBtn {
   margin-top: 30px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 12px 40px;
-  border-radius: 8px;
+  font-size: 0.78rem;
   font-weight: 600;
-  font-family: 'Lora', serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  border: none;
+  padding: 0.82rem 1.8rem;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
+  transition: transform 0.22s var(--ease-spring),
+              box-shadow 0.22s ease;
 }
 
 .saveBtn:hover {

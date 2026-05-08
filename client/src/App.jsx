@@ -11,6 +11,8 @@ import MieiAnnunci from './pages/MieiAnnunci'
 import NuovoAnnuncio from './pages/NuovoAnnuncio'
 import PreventiviInviati from './pages/PreventiviInviati'
 import ProfiloAzienda from './pages/ProfiloAzienda'
+import Impostazioni from './pages/Impostazioni'
+import Supporto from './pages/Supporto'
 
 export default function App() {
   const [sessione, setSessione] = useState(null)
@@ -72,6 +74,8 @@ export default function App() {
         } />
         <Route path="/annunci" element={<Annunci sessione={sessione} />} />
         <Route path="/profilo/:id" element={<ProfiloAzienda sessione={sessione} />} />
+        <Route path="/impostazioni" element={<Impostazioni sessione={sessione} profilo={profilo} />} />
+        <Route path="/supporto" element={<Supporto />} />
       </Routes>
       <Footer />
     </BrowserRouter>
