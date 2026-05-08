@@ -42,7 +42,7 @@
   
   /* Hero */
   .hero {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #ebebee 60%, #c68910 150%);
     padding: 2rem 0 0;
     position: relative;
     overflow: hidden;

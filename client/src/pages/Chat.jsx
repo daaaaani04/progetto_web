@@ -50,7 +50,7 @@ export default function ChatBox({ preventivoId, utenteCorrenteId, destinatarioId
     if (!nuovoMessaggio.trim() || !destinatarioId) {
         console.error("Errore: manca il destinatario o il testo è vuoto");
         return;
-    } // <--- QUESTA PARENTESI MANCAVA NEL TUO CODICE
+    } 
 
     const { error } = await supabase
       .from('messaggi')

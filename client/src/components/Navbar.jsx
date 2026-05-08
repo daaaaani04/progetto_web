@@ -59,7 +59,16 @@ export default function Navbar({ sessione, profilo }) {
         <div className={styles.divider} />
         {sessione ? (
           <>
-            <span className={styles.email}>{sessione.user.email}</span>
+            {isVenditore ? <Link
+              to={`/profilo/${profilo?.id}`}
+              className={styles.email}
+              >
+              {sessione.user.email}
+              </Link>: 
+              <span
+                className={styles.email}>
+                {sessione.user.email}
+              </span>}
             <button className={styles.btnOutline} onClick={handleLogout}>Logout</button>
           </>
         ) : (

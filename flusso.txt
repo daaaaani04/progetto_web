@@ -73,6 +73,15 @@ faccio la chiamata api al db:
     chiamo setSettori per riempire settori -> setSettori(settoriData || [])
 
 
+modifica al db, cambiato partita_iva in settori, aggiunti al momento della registrazione
+
+
+RISOLUZIONE PROBLEMI
+sistemare profilo, aggiungere notifiche
+(possiile pagina per settori aggiuntivi)
+iframe nel profilo -> aggiungere luogo nel db
+
+
 
 
 DB 
