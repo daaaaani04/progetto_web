@@ -1,96 +1,153 @@
 /* Chat.module.css */
 
 .chatContainer {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 320px;
-    height: 450px;
-    background: white;
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    z-index: 9999;
-    border: 1px solid #e0e0e0;
-    font-family: sans-serif;
-  }
-  
-  .header {
-    background: #b18415; /* Colore oro come i tuoi bottoni */
-    color: white;
-    padding: 15px;
-    border-radius: 12px 12px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-  }
-  
-  .header button {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    line-height: 1;
-  }
-  
-  .messaggiList {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #fdfdfd;
-  }
-  
-  .mio {
-    align-self: flex-end;
-    background: #b18415;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 15px 15px 0 15px;
-    max-width: 80%;
-    font-size: 0.9rem;
-  }
-  
-  .altro {
-    align-self: flex-start;
-    background: #f0f0f0;
-    color: #333;
-    padding: 8px 12px;
-    border-radius: 15px 15px 15px 0;
-    max-width: 80%;
-    font-size: 0.9rem;
-  }
-  
-  .inputArea {
-    padding: 15px;
-    border-top: 1px solid #eee;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .inputArea input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    outline: none;
-  }
-  
-  .inputArea button {
-    background: #b18415;
-    color: white;
-    border: none;
-    padding: 0 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .inputArea button:hover {
-    background: #966d11;
-  }
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 330px;
+  height: 460px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  border: 1px solid #e8e4dc;
+  font-family: 'Lora', serif;
+  animation: scaleIn 0.3s var(--ease-spring) both;
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  color: white;
+  padding: 1rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.header button {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.header button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.messaggiList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  background: #fdfcfa;
+  scrollbar-width: thin;
+  scrollbar-color: #e8e4dc transparent;
+}
+
+.messaggiList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.messaggiList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messaggiList::-webkit-scrollbar-thumb {
+  background: #e8e4dc;
+  border-radius: 2px;
+}
+
+.mio {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  color: white;
+  padding: 0.6rem 0.9rem;
+  border-radius: 14px 14px 3px 14px;
+  max-width: 80%;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(198, 137, 16, 0.25);
+  animation: fadeIn 0.15s ease both;
+}
+
+.altro {
+  align-self: flex-start;
+  background: #fff;
+  color: #333;
+  padding: 0.6rem 0.9rem;
+  border-radius: 14px 14px 14px 3px;
+  max-width: 80%;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid #e8e4dc;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  animation: fadeIn 0.15s ease both;
+}
+
+.inputArea {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid #ede9e0;
+  display: flex;
+  gap: 0.6rem;
+  background: #fff;
+}
+
+.inputArea input {
+  flex: 1;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #e0ddd6;
+  border-radius: 20px;
+  outline: none;
+  font-size: 0.875rem;
+  font-family: inherit;
+  background: #fdfcfa;
+  color: #111;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputArea input:focus {
+  border-color: #c68910;
+  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.1);
+  background: #fff;
+}
+
+.inputArea button {
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 6px rgba(198, 137, 16, 0.3);
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+}
+
+.inputArea button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(198, 137, 16, 0.4);
+}
+
+.inputArea button:active {
+  transform: translateY(0) scale(0.97);
+}

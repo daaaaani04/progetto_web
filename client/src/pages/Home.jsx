@@ -13,6 +13,22 @@ export default function Home() {
     })
   }, [])
 
+  // Scroll reveal
+  useEffect(() => {
+    const els = document.querySelectorAll('[data-reveal]')
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible')
+          observer.unobserve(e.target)
+        }
+      }),
+      { threshold: 0.12 }
+    )
+    els.forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [settori])
+
   return (
     <main>
 
@@ -33,15 +49,15 @@ export default function Home() {
 
       {/* Stats */}
       <section className={styles.stats}>
-        <div className={styles.stat}>
+        <div className={styles.stat} data-reveal data-delay="1">
           <div className={styles.statNum}>1.2k<span className={styles.accent}>+</span></div>
           <div className={styles.statLabel}>Annunci attivi</div>
         </div>
-        <div className={styles.stat}>
+        <div className={styles.stat} data-reveal data-delay="2">
           <div className={styles.statNum}>340<span className={styles.accent}>+</span></div>
           <div className={styles.statLabel}>Professionisti</div>
         </div>
-        <div className={styles.stat}>
+        <div className={styles.stat} data-reveal data-delay="3">
           <div className={styles.statNum}>98<span className={styles.accent}>%</span></div>
           <div className={styles.statLabel}>Soddisfazione</div>
         </div>
@@ -49,19 +65,19 @@ export default function Home() {
 
       {/* Come funziona */}
       <section className={styles.how}>
-        <p className={styles.sectionLabel}>Come funziona</p>
+        <p className={styles.sectionLabel} data-reveal>Come funziona</p>
         <div className={styles.steps}>
-          <div className={styles.step}>
+          <div className={styles.step} data-reveal data-delay="1">
             <div className={styles.stepNum}>01</div>
             <h3>Pubblica la richiesta</h3>
             <p>Descrivi di cosa hai bisogno, indica la zona e il budget. In pochi minuti sei online.</p>
           </div>
-          <div className={styles.step}>
+          <div className={styles.step} data-reveal data-delay="2">
             <div className={styles.stepNum}>02</div>
             <h3>Ricevi le offerte</h3>
             <p>I professionisti del settore vedono la tua richiesta e ti inviano la loro proposta.</p>
           </div>
-          <div className={styles.step}>
+          <div className={styles.step} data-reveal data-delay="3">
             <div className={styles.stepNum}>03</div>
             <h3>Scegli il migliore</h3>
             <p>Confronta le offerte ricevute e scegli il professionista più adatto alle tue esigenze.</p>
@@ -71,22 +87,24 @@ export default function Home() {
 
       {/* Settori */}
       <section className={styles.settori}>
-        <p className={styles.sectionLabel}>Settori disponibili</p>
+        <p className={styles.sectionLabel} data-reveal>Settori disponibili</p>
         <div className={styles.settoriGrid}>
-            {settori.length > 0 ? settori.map(s => (
+            {settori.length > 0 ? settori.map((s, i) => (
                 <Link
                 className={styles.settoreCard}
                 key={s.id}
                 to={`/annunci?settore=${s.id}`}
                 style={s.immagine ? { backgroundImage: `url(${s.immagine})` } : {}}
+                data-reveal
+                data-delay={String((i % 4) + 1)}
                 >
                 <div className={styles.settoreOverlay} />
                 <div className={styles.settoreIcon}>{s.icona}</div>
                 <div className={styles.settoreName}>{s.label}</div>
                 </Link>
-            )) : (                
-                ['Idraulica', 'Elettrica', 'Edilizia', 'Giardinaggio'].map(s => (
-                <div className={styles.settoreCard} key={s}>
+            )) : (
+                ['Idraulica', 'Elettrica', 'Edilizia', 'Giardinaggio'].map((s, i) => (
+                <div className={styles.settoreCard} key={s} data-reveal data-delay={String(i + 1)}>
                     <div className={styles.settoreName}>{s}</div>
                 </div>
                 ))
@@ -95,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className={styles.cta}>
+      <section className={styles.cta} data-reveal>
         <h2>Sei un professionista e vuoi unirti a noi<span className={styles.accent}>?</span></h2>
         <Link className={styles.btnPrimary} to="/login">Inizia ora</Link>
       </section>

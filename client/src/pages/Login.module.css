@@ -1,141 +1,163 @@
 /* src/pages/Login.module.css */
 .page {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background: #fafafa;
-  }
-  
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #faf9f6 0%, #fff 50%, #faf9f6 100%);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e8e4dc;
+  border-radius: 18px;
+  padding: 2.8rem;
+  width: 100%;
+  max-width: 430px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  animation: scaleIn 0.35s var(--ease-out) both;
+}
+
+.titolo {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #111;
+  margin-bottom: 0.3rem;
+}
+
+.sottotitolo {
+  font-size: 0.875rem;
+  color: #aaa;
+  margin-bottom: 2.2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #e0ddd6;
+  border-radius: 9px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  background: #fdfcfa;
+  color: #111;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: #c68910;
+  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.12);
+  background: #fff;
+}
+
+.select {
+  width: 100%;
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #e0ddd6;
+  border-radius: 9px;
+  outline: none;
+  background: #fdfcfa;
+  color: #111;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.select:focus {
+  border-color: #c68910;
+  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.12);
+}
+
+.errore {
+  font-size: 0.82rem;
+  color: #c53030;
+  padding: 0.6rem 0.9rem;
+  background: #fff5f5;
+  border-radius: 8px;
+  border: 1px solid #fed7d7;
+  animation: fadeIn 0.2s ease both;
+}
+
+.messaggio {
+  font-size: 0.82rem;
+  color: #276749;
+  padding: 0.6rem 0.9rem;
+  background: #f0fff4;
+  border-radius: 8px;
+  border: 1px solid #c6f6d5;
+  animation: fadeIn 0.2s ease both;
+}
+
+.btnPrimary {
+  margin-top: 0.5rem;
+  padding: 0.82rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(198, 137, 16, 0.45);
+}
+
+.btnPrimary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 6px rgba(198, 137, 16, 0.2);
+}
+
+.toggle {
+  margin-top: 1.6rem;
+  font-size: 0.875rem;
+  color: #aaa;
+  text-align: center;
+}
+
+.btnLink {
+  background: none;
+  border: none;
+  color: #c68910;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s ease;
+}
+
+.btnLink:hover {
+  opacity: 0.75;
+}
+
+@media (max-width: 480px) {
   .card {
-    background: #fff;
-    border: 0.5px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 420px;
+    padding: 1.8rem 1.4rem;
   }
-  
-  .titolo {
-    font-size: 1.5rem;
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    color: #111;
-    margin-bottom: 0.3rem;
-  }
-  
-  .sottotitolo {
-    font-size: 0.85rem;
-    color: #999;
-    margin-bottom: 2rem;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  
+
   .row {
-    display: flex;
-    gap: 0.8rem;
+    flex-direction: column;
   }
-  
-  .input {
-    width: 100%;
-    padding: 0.65rem 0.9rem;
-    font-size: 0.9rem;
-    border: 0.5px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-    transition: border-color 0.15s;
-    background: #fff;
-    color: #111;
-  }
-  
-  .input:focus {
-    border-color: #c68910;
-  }
-  
-  .select {
-    width: 100%;
-    padding: 0.65rem 0.9rem;
-    font-size: 0.9rem;
-    border: 0.5px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-    background: #fff;
-    color: #111;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-  
-  .select:focus {
-    border-color: #c68910;
-  }
-  
-  .errore {
-    font-size: 0.8rem;
-    color: #e53e3e;
-    padding: 0.5rem 0.8rem;
-    background: #fff5f5;
-    border-radius: 6px;
-    border: 0.5px solid #fed7d7;
-  }
-  
-  .messaggio {
-    font-size: 0.8rem;
-    color: #276749;
-    padding: 0.5rem 0.8rem;
-    background: #f0fff4;
-    border-radius: 6px;
-    border: 0.5px solid #c6f6d5;
-  }
-  
-  .btnPrimary {
-    margin-top: 0.4rem;
-    padding: 0.7rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #fff;
-    background: #c68910;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  
-  .btnPrimary:hover {
-    opacity: 0.85;
-  }
-  
-  .toggle {
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: #999;
-    text-align: center;
-  }
-  
-  .btnLink {
-    background: none;
-    border: none;
-    color: #c68910;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    padding: 0;
-    text-decoration: underline;
-  }
-  
-  @media (max-width: 480px) {
-    .card {
-      padding: 1.5rem;
-    }
-  
-    .row {
-      flex-direction: column;
-    }
-  }
+}

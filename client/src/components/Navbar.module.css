@@ -3,10 +3,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.0rem 2.5rem;
-  border-bottom: 0.5px solid #e0e0e0;
-  background: #fff;
-  position: relative;
+  padding: 1rem 2.5rem;
+  border-bottom: 1px solid rgba(232, 230, 224, 0.8);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: box-shadow 0.3s ease;
+}
+
+.nav:has(+ *) {
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
 }
 
 .logo {
@@ -16,6 +25,11 @@
   color: #111;
   text-decoration: none;
   z-index: 10;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.75;
 }
 
 .dot {
@@ -25,31 +39,37 @@
 .links {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .link {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #666;
   text-decoration: none;
   padding: 0.5rem 0.9rem;
-  border-radius: 6px;
-  transition: color 0.15s, background 0.15s;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  position: relative;
 }
 
 .link:hover {
   color: #111;
-  background: #f5f5f5;
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+
+.link:active {
+  transform: translateY(0);
 }
 
 .divider {
-  width: 0.5px;
+  width: 1px;
   height: 18px;
   background: #ddd;
-  margin: 0 0.3rem;
+  margin: 0 0.4rem;
 }
 
 .email {
@@ -59,44 +79,62 @@
 }
 
 .btnOutline {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #111;
-  background: transparent;
-  border: 0.5px solid #ccc;
-  padding: 0.45rem 1.1rem;
-  border-radius: 6px;
+  color: #333;
+  background: #fff;
+  border: 1px solid #d5d0c8;
+  padding: 0.48rem 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.15s;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--ease-spring),
+              box-shadow 0.2s ease,
+              background 0.15s ease;
 }
 
 .btnOutline:hover {
-  background: #f5f5f5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #fafafa;
+}
+
+.btnOutline:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-sm);
 }
 
 .btnSolid {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
-  background: #e3ba67;
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
   border: none;
-  padding: 0.45rem 1.1rem;
-  border-radius: 6px;
+  padding: 0.48rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.15s;
+  box-shadow: 0 2px 8px rgba(198, 137, 16, 0.35);
+  transition: transform 0.2s var(--ease-spring),
+              box-shadow 0.2s ease;
 }
 
 .btnSolid:hover {
-  opacity: 0.85;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(198, 137, 16, 0.45);
 }
 
-/* Hamburger */
+.btnSolid:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 1px 4px rgba(198, 137, 16, 0.2);
+}
+
+/* ─── Hamburger ─── */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -113,32 +151,62 @@
   width: 22px;
   height: 1.5px;
   background: #111;
-  transition: all 0.2s;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  transform-origin: center;
 }
 
-/* Menu mobile aperto */
+/* Hamburger → X quando aperto */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ─── Menu mobile ─── */
 .mobileMenu {
-  display: none;
+  display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  background: #fff;
-  border-bottom: 0.5px solid #e0e0e0;
-  padding: 1rem 2.5rem;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(232, 230, 224, 0.8);
+  padding: 1rem 2.5rem 1.5rem;
   z-index: 9;
+  /* Animazione slide-down */
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s var(--ease-out);
 }
 
 .mobileMenu.open {
-  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .mobileMenu .link {
   font-size: 0.85rem;
-  padding: 0.6rem 0;
-  border-bottom: 0.5px solid #f0f0f0;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #f0ede8;
+  border-radius: 0;
+  transform: none;
+}
+
+.mobileMenu .link:hover {
+  transform: none;
+  background: transparent;
+  color: #c68910;
 }
 
 .mobileMenu .btnSolid,
@@ -146,16 +214,18 @@
   width: 100%;
   text-align: center;
   margin-top: 0.5rem;
-  padding: 0.7rem;
+  padding: 0.75rem;
+  justify-content: center;
 }
 
 .mobileEmail {
   font-size: 0.8rem;
   color: #888;
   padding: 0.4rem 0;
+  border-bottom: 1px solid #f0ede8;
 }
 
-/* Breakpoint mobile */
+/* ─── Breakpoint mobile ─── */
 @media (max-width: 768px) {
   .links {
     display: none;
@@ -164,4 +234,125 @@
   .hamburger {
     display: flex;
   }
+}
+
+/* ─── Dropdown wrapper ─── */
+.dropdownWrapper {
+  position: relative;
+}
+
+.emailBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.8rem;
+  color: #666;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.emailBtn:hover {
+  background: rgba(0,0,0,0.04);
+  color: #111;
+}
+
+.chevron {
+  font-size: 11px;
+  transition: transform 0.22s ease;
+  display: inline-block;
+  color: #aaa;
+}
+
+.chevronUp {
+  transform: rotate(180deg);
+}
+
+/* ─── Dropdown panel ─── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 190px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(14px);
+  border: 1px solid #e8e4dc;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+  z-index: 100;
+  padding: 6px;
+  animation: dropdownIn 0.2s var(--ease-out) both;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #374151;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dropdownItem:hover {
+  background: #f5f2ec;
+  color: #111;
+}
+
+.dropdownIcon {
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: #ede9e0;
+  margin: 5px 0;
+}
+
+.dropdownItemDanger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: #ef4444;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  font: inherit;
+}
+
+.dropdownItemDanger:hover {
+  background: #fef2f2;
+}
+
+/* ─── Mobile extra links ─── */
+.mobileDropdownItem {
+  display: block;
+  padding: 0.65rem 0;
+  color: #555;
+  font-size: 0.88rem;
+  text-decoration: none;
+  border-bottom: 1px solid #f0ede8;
+  transition: color 0.15s ease;
+}
+
+.mobileDropdownItem:hover {
+  color: #c68910;
 }
