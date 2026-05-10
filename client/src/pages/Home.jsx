@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import supabase from '../lib/supabase'
 import styles from './Home.module.css'
+import heroBg from '../assets/heroImg.jpg'
+
 
 export default function Home() {
   const [settori, setSettori] = useState([])
@@ -13,12 +15,14 @@ export default function Home() {
     })
   }, [])
 
-
   return (
     <main>
 
       {/* Hero */}
-      <section className={styles.hero}>
+      <section 
+        className={styles.hero}
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
         <p className={styles.heroLabel}>La piattaforma per connettere domanda e offerta</p>
         <h1 className={styles.heroTitle}>
           Pensa a <span className={styles.accent}>cosa fare</span><br />trova chi <span className={styles.accent}>lo fa</span>.

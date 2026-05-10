@@ -12,22 +12,21 @@
   overflow: hidden;
   padding: 6rem 2.5rem 5rem;
   border-bottom: 1px solid #e8e4dc;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+/* overlay per leggibilità */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(200, 195, 185, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 195, 185, 0.35) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 1;
-  animation: gridMove 12s linear infinite;
+  background: rgba(255, 255, 255, 0.6);
   z-index: 0;
 }
 
-/* sfumatura che copre la griglia verso il basso */
+/* sfumatura che copre l'immagine verso il basso (leggibilità) */
 .hero::after {
   content: '';
   position: absolute;
@@ -39,12 +38,6 @@
   z-index: 1;
   pointer-events: none;
 }
-
-@keyframes gridMove {
-  from { background-position: 0 0; }
-  to   { background-position: 60px 60px; }
-}
-
 .heroLabel,
 .heroTitle,
 .heroSub,
@@ -157,9 +150,33 @@
 }
 
 .stat {
-  padding: 2.2rem 2.5rem;
+  padding: 2.8rem 3rem;
   border-right: 1px solid #e8e4dc;
-  transition: background 0.2s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* linea accent in basso al hover */
+.stat::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 3rem;
+  right: 3rem;
+  height: 2px;
+  background: #c68910;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.stat:hover::after {
+  transform: scaleX(1);
 }
 
 .stat:last-child {
@@ -175,17 +192,24 @@
   font-weight: 600;
   letter-spacing: -0.04em;
   color: #111;
-  margin-bottom: 0.3rem;
   line-height: 1;
 }
 
 .statLabel {
-  font-size: 0.72rem;
-  color: #aaa;
+  font-size: 0.7rem;
+  color: #bbb;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  font-weight: 500;
 }
 
+/* piccola descrizione opzionale sotto la label */
+.statDesc {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 0.2rem;
+  line-height: 1.5;
+}
 /* ─── Come funziona ─── */
 .how {
   padding: 5rem 2.5rem;
@@ -204,36 +228,73 @@
 .steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
+  gap: 2rem;
+  position: relative;
+}
+
+/* linea connettore tra i card */
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 2.8rem;
+  left: calc(16.66% + 1rem);
+  right: calc(16.66% + 1rem);
+  height: 1px;
+  background: linear-gradient(90deg, #e8e4dc, rgba(198, 137, 16, 0.3), #e8e4dc);
+  z-index: 0;
 }
 
 .step {
   padding: 2rem;
   border: 1px solid #e8e4dc;
-  border-radius: 14px;
+  border-radius: 16px;
   background: #fff;
   box-shadow: var(--shadow-sm);
+  position: relative;
+  z-index: 1;
   transition: transform 0.25s var(--ease-spring),
               box-shadow 0.25s ease,
               border-color 0.2s ease;
 }
 
 .step:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(198, 137, 16, 0.3);
+  border-color: rgba(198, 137, 16, 0.35);
+}
+
+/* bordo accent sinistro al hover */
+.step::before {
+  content: '';
+  position: absolute;
+  top: 1.2rem;
+  bottom: 1.2rem;
+  left: -1px;
+  width: 3px;
+  background: #c68910;
+  border-radius: 0 3px 3px 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.step:hover::before {
+  opacity: 1;
 }
 
 .stepNum {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: #c68910;
-  margin-bottom: 1rem;
-  background: rgba(198, 137, 16, 0.1);
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
+  margin-bottom: 1.2rem;
+  background: rgba(198, 137, 16, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid rgba(198, 137, 16, 0.2);
 }
 
 .step h3 {
@@ -241,14 +302,14 @@
   font-weight: 600;
   color: #111;
   margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
 }
 
 .step p {
   font-size: 0.875rem;
-  color: #777;
-  line-height: 1.65;
+  color: #888;
+  line-height: 1.7;
 }
-
 /* ─── Settori ─── */
 .settori {
   padding: 5rem 2.5rem;
