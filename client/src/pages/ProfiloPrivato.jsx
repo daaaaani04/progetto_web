@@ -17,6 +17,7 @@ export default function ProfiloAzienda({ sessione }) {
   const [profilo, setProfilo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tabAttiva, setTabAttiva] = useState('details');
+  const [menuMobileAperto, setMenuMobileAperto] = useState(false);
   const [nuovaPassword, setNuovaPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [pwMsg, setPwMsg] = useState(null);
@@ -28,6 +29,7 @@ export default function ProfiloAzienda({ sessione }) {
   const [nomeValue, setNomeValue] = useState('');
   const [comuneValue, setComuneValue] = useState('');
   const [telefonoValue, setTelefonoValue] = useState('');
+  const [indirizzoValue, setIndirizzoValue] = useState('');
 
   useEffect(() => {
     caricaProfilo();
@@ -45,6 +47,7 @@ export default function ProfiloAzienda({ sessione }) {
     setNomeValue(data?.nome_azienda || data?.nome || '');
     setComuneValue(data?.comune || '');
     setTelefonoValue(data?.telefono || '');
+    setIndirizzoValue(data?.indirizzo || '');
     setLoading(false);
   }
 
@@ -55,7 +58,7 @@ export default function ProfiloAzienda({ sessione }) {
     const { error } = await supabase
       .from('profiles')
       .update({
-        ...(isVenditore ? { nome_azienda: nomeValue } : { nome: nomeValue }),
+        ...(isVenditore ? { nome_azienda: nomeValue, indirizzo: indirizzoValue || null } : { nome: nomeValue }),
         comune: comuneValue,
         telefono: telefonoValue,
       })
@@ -98,12 +101,14 @@ export default function ProfiloAzienda({ sessione }) {
     ? (profilo.nome_azienda || `${profilo.nome} ${profilo.cognome}`)
     : `${profilo.nome} ${profilo.cognome}`;
 
+  // tabs e tabAttivaLabel definiti DOPO isVenditore/isAcquirente
   const tabs = [
     { id: 'details', label: 'I miei dettagli' },
     { id: 'password', label: 'Cambia password' },
     ...(isVenditore ? [{ id: 'pubblicazione', label: 'Profilo pubblico' }] : []),
     ...(isAcquirente ? [{ id: 'annunci', label: 'I miei annunci' }] : []),
   ];
+  const tabAttivaLabel = tabs.find(t => t.id === tabAttiva)?.label || '';
 
   return (
     <div className={styles.pageWrapper}>
@@ -128,12 +133,29 @@ export default function ProfiloAzienda({ sessione }) {
 
         <div className={styles.contentLayout}>
 
-          <aside className={styles.sidebarMenu}>
+          {/* Hamburger trigger — visibile solo su mobile/tablet */}
+          <button
+            className={styles.hamburgerTrigger}
+            onClick={() => setMenuMobileAperto(prev => !prev)}
+            aria-expanded={menuMobileAperto}
+          >
+            <span className={styles.hamburgerLabel}>{tabAttivaLabel}</span>
+            <span className={`${styles.hamburgerIcon} ${menuMobileAperto ? styles.hamburgerIconOpen : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+
+          <aside className={`${styles.sidebarMenu} ${menuMobileAperto ? styles.sidebarMenuOpen : ''}`}>
             {tabs.map(t => (
               <button
                 key={t.id}
                 className={tabAttiva === t.id ? styles.activeMenu : ''}
-                onClick={() => setTabAttiva(t.id)}
+                onClick={() => {
+                  setTabAttiva(t.id);
+                  setMenuMobileAperto(false);
+                }}
               >
                 {t.label}
               </button>
@@ -190,12 +212,28 @@ export default function ProfiloAzienda({ sessione }) {
                       />
                     </div>
 
-                    <div className={styles.inputGroupFull}>
+                    {isVenditore && (
+                      <div className={styles.inputGroup}>
+                        <label>
+                          INDIRIZZO
+                          <span className={styles.labelOpzionale}>(opzionale)</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={indirizzoValue}
+                          onChange={e => setIndirizzoValue(e.target.value)}
+                          placeholder="es. Via Roma 12"
+                        />
+                        <p className={styles.inputHint}>
+                          Se compilato, verrà mostrato sul tuo profilo pubblico con una mappa.
+                        </p>
+                      </div>
+                    )}
+
+                    <div className={styles.inputGroup}>
                       <label>TELEFONO</label>
                       <div className={styles.phoneInput}>
-                        <div className={styles.countryCode}>
-                          <span>🇮🇹 +39</span>
-                        </div>
+                        <span className={styles.country}>🇮🇹 +39</span>
                         <input
                           type="text"
                           value={telefonoValue}
@@ -203,6 +241,7 @@ export default function ProfiloAzienda({ sessione }) {
                         />
                       </div>
                     </div>
+
                   </div>
 
                   {saveMsg && (
@@ -270,8 +309,7 @@ export default function ProfiloAzienda({ sessione }) {
                   href={`/profilo/${id}`}
                   target="_blank"
                   rel="noreferrer"
-                  className={styles.saveBtn}
-                  style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
+                  className={styles.linkCta}
                 >
                   Visualizza il tuo profilo pubblico →
                 </a>
@@ -287,8 +325,7 @@ export default function ProfiloAzienda({ sessione }) {
                 </p>
                 <a
                   href="/miei-annunci"
-                  className={styles.saveBtn}
-                  style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
+                  className={styles.linkCta}
                 >
                   Vai ai miei annunci →
                 </a>

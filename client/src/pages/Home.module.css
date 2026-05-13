@@ -1,32 +1,30 @@
 /* src/pages/Home.module.css */
 
-
-
 .accent {
   color: #c68910;
 }
 
 /* ─── Hero ─── */
 .hero {
-  position: relative;
-  overflow: hidden;
+  position: relative;      /* serve per gli elementi ::before e ::after che usano position: absolute*/
   padding: 6rem 2.5rem 5rem;
   border-bottom: 1px solid #e8e4dc;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
-/* overlay per leggibilità */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.6);
-  z-index: 0;
+  background-image:       /* trucco per creare una griglia in css, unisco linee orizzontali e verticali di un px */
+    linear-gradient(rgba(200, 195, 185, 0.35) 1px, transparent 1px),    /* scelgo un colore semitrasparente -> sfondo */
+    linear-gradient(90deg, rgba(200, 195, 185, 0.35) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 1;
+  animation: gridMove 12s linear infinite;  /*animazione che sposta la griglia da 0 0 a 60px 60px in 12 secondi */
+  z-index: 0;       /* come sfondo */
 }
 
-/* sfumatura che copre l'immagine verso il basso (leggibilità) */
+/* sfumatura che copre la griglia verso il basso */
 .hero::after {
   content: '';
   position: absolute;
@@ -35,9 +33,26 @@
   right: 0;
   height: 40%;
   background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 1;
-  pointer-events: none;
+  z-index: 1;       /* sopra la griglia ma sotto tutto il resto */
+  pointer-events: none;     /* serve a non coprire eventuali bottoni */
 }
+
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 60px; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* metto tutti i bottoni in terzo piano */
 .heroLabel,
 .heroTitle,
 .heroSub,
@@ -84,48 +99,49 @@
 }
 
 /* ─── Buttons ─── */
+/* definisco bottone primario */
 .btnPrimary {
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);       /* scuro in alto a sx, chiaro a dx */
   border: none;
   padding: 0.82rem 1.8rem;
   border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
+  cursor: pointer;          /* fa apparire la classica mano al passaggio */
+  text-decoration: none;    /* evita sottolietura data da <a> su cui è applicato */
   display: inline-block;
   box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
-  transition: transform 0.22s var(--ease-spring),
+  transition: transform 0.22s var(--ease-spring),     /* animo queste due proprietà */
               box-shadow 0.22s ease;
 }
-
+/* sollevamento + ombra più grande + opaca */
 .btnPrimary:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(198, 137, 16, 0.45);
 }
-
+/* quando lo clicco faccio l'opposto dell'hover: riduco ombra + diminuisco dimensione */
 .btnPrimary:active {
   transform: translateY(0) scale(0.97);
   box-shadow: 0 2px 6px rgba(198, 137, 16, 0.25);
 }
-
+/* bottone secondario -> stessa  */
 .btnSecondary {
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: #333;
-  background: #fff;
+  background: #fff;         /* non è più giallo */
   border: 1px solid #d5d0c8;
   padding: 0.82rem 1.8rem;
   border-radius: 10px;
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);   /* ombra leggera */
   transition: transform 0.22s var(--ease-spring),
               box-shadow 0.22s ease,
               background 0.15s ease;
@@ -210,6 +226,7 @@
   margin-top: 0.2rem;
   line-height: 1.5;
 }
+
 /* ─── Come funziona ─── */
 .how {
   padding: 5rem 2.5rem;
@@ -310,6 +327,7 @@
   color: #888;
   line-height: 1.7;
 }
+
 /* ─── Settori ─── */
 .settori {
   padding: 5rem 2.5rem;
@@ -434,6 +452,11 @@
     gap: 1rem;
   }
 
+  /* nascondo il connettore in mobile (le card sono in colonna) */
+  .steps::before {
+    display: none;
+  }
+
   .settoriGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -449,9 +472,6 @@
     padding: 3.5rem 1.5rem;
   }
 }
-
-
-
 
 
 .btn {

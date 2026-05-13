@@ -3,26 +3,27 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import supabase from '../lib/supabase'
 import styles from './Home.module.css'
-import heroBg from '../assets/heroImg.jpg'
+
 
 
 export default function Home() {
   const [settori, setSettori] = useState([])
 
+  // è un hook diir React che esegue side-effect
   useEffect(() => {
+    // è una classica query al db che estrae i settori
+    // restituisce una promise quindi è necessario il .then() prima di estrarre data (ignoro status...)
     supabase.from('settori').select('*').then(({ data }) => {
       setSettori(data || [])
     })
-  }, [])
+  }, [])  // lista vuota importante per eseguire una sola volta l'hook
+
 
   return (
     <main>
 
       {/* Hero */}
-      <section 
-        className={styles.hero}
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
+      <section className={styles.hero}>
         <p className={styles.heroLabel}>La piattaforma per connettere domanda e offerta</p>
         <h1 className={styles.heroTitle}>
           Pensa a <span className={styles.accent}>cosa fare</span><br />trova chi <span className={styles.accent}>lo fa</span>.

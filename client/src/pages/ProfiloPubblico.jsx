@@ -29,38 +29,28 @@ function RecensioneCard({ r }) {
   return (
     <div
       ref={ref}
-      style={{
-        background: 'var(--bg-subtle)',
-        border: '1px solid var(--border)',
-        borderRadius: 10,
-        padding: '16px 18px',
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(12px)',
-        transition: 'opacity 0.4s ease, transform 0.4s ease',
-      }}
+      className={`${styles.reviewCard} ${visible ? styles.reviewCardIn : ''}`}
     >
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-        <div className={styles.miniAvatar} style={{ width: 36, height: 36, fontSize: 14, flexShrink: 0 }}>
+      <div className={styles.reviewTop}>
+        <div className={styles.reviewAvatar}>
           {r.profiles?.nome?.[0]?.toUpperCase() ?? '?'}
         </div>
-        <div style={{ flex: 1 }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-h)', margin: '0 0 2px', fontFamily: 'Lora, serif' }}>
+        <div className={styles.reviewMeta}>
+          <p className={styles.reviewNome}>
             {r.profiles?.nome} {r.profiles?.cognome}
           </p>
-          <p style={{ fontSize: 11, color: 'var(--text)', margin: 0 }}>
+          <p className={styles.reviewData}>
             {new Date(r.created_at).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 1, flexShrink: 0 }}>
+        <div className={styles.stelle}>
           {[1,2,3,4,5].map(n => (
-            <span key={n} style={{ color: n <= r.stelle ? 'var(--accent)' : 'var(--border)', fontSize: 14 }}>★</span>
+            <span key={n} className={n <= r.stelle ? styles.starOn : styles.starOff}>★</span>
           ))}
         </div>
       </div>
       {r.testo && (
-        <p style={{ margin: '10px 0 0', fontSize: 13, color: 'var(--text)', lineHeight: 1.7, paddingTop: 10, borderTop: '1px solid var(--border)', fontFamily: 'Lora, serif' }}>
-          {r.testo}
-        </p>
+        <p className={styles.reviewTesto}>{r.testo}</p>
       )}
     </div>
   )
@@ -76,6 +66,7 @@ export default function ProfiloPubblico({ sessione }) {
   const [haGiaRecensito, setHaGiaRecensito] = useState(false)
   const [loading, setLoading]               = useState(true)
   const [tabAttiva, setTabAttiva]           = useState('recensioni')
+  const [menuMobileAperto, setMenuMobileAperto] = useState(false)
 
   useEffect(() => { caricaTutto() }, [id, sessione])
 
@@ -84,7 +75,7 @@ export default function ProfiloPubblico({ sessione }) {
 
     const { data: p } = await supabase
       .from('profiles')
-      .select('id, nome, cognome, nome_azienda, comune, telefono, created_at, settori(id, label, icona)')
+      .select('id, nome, cognome, nome_azienda, comune, indirizzo, telefono, created_at, settori(id, label, icona)')
       .eq('id', id)
       .single()
 
@@ -136,14 +127,16 @@ export default function ProfiloPubblico({ sessione }) {
   const tabs = [
     { id: 'info',       label: 'Informazioni' },
     { id: 'recensioni', label: `Recensioni${recensioni.length > 0 ? ` (${recensioni.length})` : ''}` },
+    ...(profilo.indirizzo ? [{ id: 'posizione', label: ' Posizione' }] : []),
     ...(puoRecensire && !haGiaRecensito ? [{ id: 'lascia', label: '✍️ Lascia recensione' }] : []),
   ]
+
+  const tabAttivaLabel = tabs.find(t => t.id === tabAttiva)?.label || ''
 
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
 
-        {/* Header identico a ProfiloPrivato */}
         <header className={styles.header}>
           <div className={styles.headerLeft}>
             <button onClick={() => navigate(-1)} className={styles.backBtn}>
@@ -160,37 +153,49 @@ export default function ProfiloPubblico({ sessione }) {
 
         <div className={styles.contentLayout}>
 
-          {/* Sidebar — stessa struttura */}
-          <aside className={styles.sidebarMenu}>
+          {/* Hamburger trigger — visibile solo su mobile/tablet */}
+          <button
+            className={styles.hamburgerTrigger}
+            onClick={() => setMenuMobileAperto(prev => !prev)}
+            aria-expanded={menuMobileAperto}
+          >
+            <span className={styles.hamburgerLabel}>{tabAttivaLabel}</span>
+            <span className={`${styles.hamburgerIcon} ${menuMobileAperto ? styles.hamburgerIconOpen : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+
+          <aside className={`${styles.sidebarMenu} ${menuMobileAperto ? styles.sidebarMenuOpen : ''}`}>
             {tabs.map(t => (
               <button
                 key={t.id}
                 className={tabAttiva === t.id ? styles.activeMenu : ''}
-                onClick={() => setTabAttiva(t.id)}
+                onClick={() => {
+                  setTabAttiva(t.id)
+                  setMenuMobileAperto(false)
+                }}
               >
                 {t.label}
               </button>
             ))}
 
-            {/* Separatore + CTA contatto */}
-            <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid var(--border)' }}>
+            {/* CTA contatto — solo su desktop */}
+            <div className={styles.sidebarCta}>
               {profilo.telefono ? (
                 <a
                   href={`tel:${profilo.telefono}`}
-                  className={styles.saveBtn}
-                  style={{ display: 'block', textAlign: 'center', textDecoration: 'none', marginTop: 0 }}
+                  className={styles.ctaChiama}
                 >
-                  📞 Chiama ora
+                  Chiama ora
                 </a>
               ) : (
-                <p style={{ fontSize: 12, color: 'var(--text)', textAlign: 'center' }}>
-                  Nessun contatto disponibile
-                </p>
+                <p className={styles.noContact}>Nessun contatto disponibile</p>
               )}
             </div>
           </aside>
 
-          {/* Main */}
           <main className={styles.mainFormArea}>
 
             {/* TAB: INFORMAZIONI */}
@@ -258,18 +263,57 @@ export default function ProfiloPubblico({ sessione }) {
                 )}
 
                 {recensioni.length === 0 ? (
-                  <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text)' }}>
-                    <p style={{ fontSize: 32, marginBottom: 12 }}>💬</p>
-                    <p style={{ fontFamily: 'Lora, serif', fontWeight: 700, color: 'var(--text-h)', marginBottom: 6 }}>
-                      Nessuna recensione ancora
-                    </p>
-                    <p style={{ fontSize: 13 }}>Sii il primo a condividere la tua esperienza.</p>
+                  <div className={styles.empty}>
+                    <p className={styles.emptyIcon}>💬</p>
+                    <p className={styles.emptyTitle}>Nessuna recensione ancora</p>
+                    <p className={styles.emptySub}>Sii il primo a condividere la tua esperienza.</p>
                   </div>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div className={styles.reviewList}>
                     {recensioni.map(r => <RecensioneCard key={r.id} r={r} />)}
                   </div>
                 )}
+              </section>
+            )}
+
+            {/* TAB: POSIZIONE */}
+            {tabAttiva === 'posizione' && profilo.indirizzo && (
+              <section className={styles.formCard}>
+                <h2 className={styles.sectionTitle}>Dove ci trovi</h2>
+
+                <div className={`${styles.gridForm} ${styles.posizioneInfo}`}>
+                  <div className={styles.inputGroup}>
+                    <label>INDIRIZZO</label>
+                    <input type="text" value={profilo.indirizzo} disabled />
+                  </div>
+                  {profilo.comune && (
+                    <div className={styles.inputGroup}>
+                      <label>CITTÀ</label>
+                      <input type="text" value={profilo.comune} disabled />
+                    </div>
+                  )}
+                </div>
+
+                <div className={styles.mappaWrapper}>
+                  <iframe
+                    title={`Posizione di ${nome}`}
+                    width="100%"
+                    height="400"
+                    frameBorder="0"
+                    scrolling="no"
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(`${profilo.indirizzo}, ${profilo.comune || ''}`)}&output=embed`}
+                    className={styles.mappaIframe}
+                  />
+                </div>
+
+                <a
+                  href={`https://www.google.com/maps/search/${encodeURIComponent(`${profilo.indirizzo}, ${profilo.comune || ''}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mappaLink}
+                >
+                  Apri in Google Maps ↗
+                </a>
               </section>
             )}
 
