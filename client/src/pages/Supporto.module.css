@@ -1,142 +1,162 @@
+/* container che contiene tutta la pagina supporto 
+*/
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    animation: fadeUp 0.6s var(--ease-out);
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 4rem;
-  }
-  
-  .title {
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
-  }
-  
-  .dot {
-    color: var(--accent);
-  }
-  
-  .subtitle {
-    font-size: 1.1rem;
-    color: var(--text);
-  }
-  
-  .section {
-    margin-bottom: 5rem;
-  }
-  
-  .sectionTitle {
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-    text-align: center;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .card {
-    padding: 2rem;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-  }
-  
-  .card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: var(--text-h);
-  }
-  
-  .contact {
-    text-align: center;
-    padding: 3rem;
-    background: var(--bg-subtle);
-    border-radius: 20px;
-  }
-  
-  .contactBtn {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: #fff;
-    background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-    border: none;
-    padding: 0.82rem 1.8rem;
-    border-radius: 10px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
-    transition: transform 0.22s var(--ease-spring),
-                box-shadow 0.22s ease;
-  }
-  
-  .contactBtn:hover {
-    transform: translateY(-2px);
-  }
-  
-  /* Aggiungi questi stili al file Supporto.module.css esistente */
-  
-  .searchWrapper {
-    position: relative;
-    max-width: 600px;
-    margin: 0 auto 3rem auto;
-  }
-  
-  .searchInput {
-    width: 100%;
-    padding: 1rem 1.5rem 1rem 3.5rem;
-    font-family: 'Lora', serif;
-    font-size: 1rem;
-    border: 1px solid var(--border);
-    border-radius: 50px; /* Arrotondata per uno stile moderno */
-    background: white;
-    color: var(--text-h);
-    transition: all 0.3s var(--ease-out);
-    outline: none;
-  }
-  
-  .searchInput:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-glow);
-  }
-  
-  .searchIcon {
-    position: absolute;
-    left: 1.2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    opacity: 0.5;
-  }
-  
-  .noResults {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 2rem;
-    color: var(--text);
-    font-style: italic;
-  }
-  
-  /* Ottimizzazione per la griglia durante la ricerca */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    min-height: 200px; /* Evita salti di layout se scompaiono i risultati */
-  }
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+/*
+margin bottom indica l'altezza del bordo dal basso 
+*/
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.8rem;
+}
+
+.dot {
+  color: var(--accent);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+/* per impostare il margine a 5, cioè la distanza tra i riquadri e 
+hai ancora bisogno d aiuto */
+.section {
+  margin-bottom: 5rem;
+}
+
+.sectionTitle {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+/*  setto una grid, quindi con display : grid, tale che 
+crea quante colonne vuole basta che ogni colonna sia larga almeno 300px
+*/
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  min-height: 200px; /* Evita salti di layout se scompaiono i risultati */
+}
+
+/*css di ogni tabella nella grid, distanza tra bordo e contenuto di 2rem
+angoli leggermente arrotondati e una volta che ci si passa sopra ila tabella 
+sale di 5 px e spunta dell'ombra dietro la card 
+*/
+.card {
+  padding: 2rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--text-h);
+}
+
+.contact {
+  text-align: center;
+  padding: 3rem;
+  background: var(--bg-subtle);
+  border-radius: 20px;
+}
+
+/*
+usa lo stesso gradiente degli altri bottono, 
+imposta uno spazio fra lettere di 0.09 em 
+text-trnsofrm rende il testo più grande
+*/
+.contactButton {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
+  border: none;
+  padding: 0.82rem 1.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
+  transition: transform 0.22s var(--ease-spring),
+              box-shadow 0.22s ease;
+}
+
+.contactButton:hover {
+  transform: translateY(-2px);
+}
+
+/* position relative per far entrare la lente d'ingrandimento 
+margine in alto 0 a destra automaticamente 3 rem sotto e auto a sinistra 
+*/
+
+.searchWrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+}
+
+/* metto il margine sopra a 1 destra 1,5 1 sotto 3,5 sinistra 
+la transition all diche che qualsiasi proprietà css cambi su questo elemento 
+trasformala in un animation
+*/
+.searchInput {
+  width: 100%;
+  padding: 1rem 1.5rem 1rem 3.5rem;
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 50px; 
+  background: white;
+  color: var(--text-h);
+  transition: all 0.3s var(--ease-out);
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/*
+mettendo position absolute la lente si sposta 1,2 rem a sinistra rispetto al bordo del wrapper
+e non rispetto allo schermo del browser 
+*/
+.searchIcon {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: 0.5;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text);
+  font-style: italic;
+}
+
