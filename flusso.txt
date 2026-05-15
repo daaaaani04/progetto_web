@@ -98,3 +98,6 @@ Sono le risposte a un annuncio — il venditore dice "posso farlo io":
 
 
 
+TODO
+cambiare window.confirm in: 
+    accetta offerta <- i miei annunci
