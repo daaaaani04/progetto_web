@@ -370,3 +370,69 @@
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
 }
+
+@media (max-width: 768px) {
+  .lista {
+    grid-template-columns: 1fr; /* Una sola colonna su telefono */
+  }
+  .page {
+    padding: 2rem 1.25rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  /* Adattamento Card */
+  .cardTop {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Stato e Badge allineati a sinistra invece che a destra */
+  .cardTop > div:last-child {
+    align-self: flex-start;
+  }
+
+  /* Footer della card (Bottoni) */
+  .cardBottom {
+    flex-direction: column;
+    align-items: stretch; /* Bottoni a tutta larghezza */
+    gap: 1rem;
+  }
+
+  .azioniAccettata {
+    display: flex;
+    flex-direction: row; /* Chat ed Elimina restano affiancati o puoi metterli in colonna */
+    gap: 0.5rem;
+  }
+
+  .azioniAccettata button {
+    flex: 1; /* Distribuisce lo spazio equamente */
+  }
+
+  /* Bottoni Ritira/Elimina/Chat a tutta larghezza */
+  .btnElimina, .btnChat, .btnReinvia {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem; /* Più facili da cliccare su mobile */
+  }
+
+  /* Modal responsive come in MieiAnnunci */
+  .modalContent {
+    padding: 1.8rem 1.25rem;
+    width: 95%;
+  }
+
+  .modalActions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .btnAnnulla, 
+  .btnLogoutConfirm {
+    width: 100%;
+  }
+}
