@@ -23,6 +23,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.loading {
+  padding: 3rem 2.5rem;
+  color: #bbb;
+}
+
 html {
   scroll-behavior: smooth;
 }

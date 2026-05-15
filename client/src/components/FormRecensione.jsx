@@ -2,7 +2,7 @@ import { useState } from 'react'
 import supabase from '../lib/supabase'
 import styles from './FormRecensione.module.css'
 
-export default function FormRecensione({ venditoreid, sessione, onInviata }) {
+export default function FormRecensione({ venditoreid, annuncioid, sessione, onInviata }) {
   const [stelle, setStelle] = useState(0)
   const [hover, setHover] = useState(0)
   const [testo, setTesto] = useState('')
@@ -15,17 +15,19 @@ export default function FormRecensione({ venditoreid, sessione, onInviata }) {
     setErrore(null)
 
     const { data, error } = await supabase
-      .from('recensioni')
-      .insert({
-        acquirente_id: sessione.user.id,
-        venditore_id: venditoreid,
-        stelle,
-        testo: testo.trim() || null
-      })
-      .select(`id, stelle, testo, created_at, profiles!acquirente_id(nome, cognome)`)
-      .single()
+    .from('recensioni')
+    .insert({
+      acquirente_id: sessione.user.id,
+      venditore_id: venditoreid,
+      annuncio_id: annuncioid,
+      stelle,
+      testo: testo.trim() || null
+    })
+    .select(`id, stelle, testo, created_at, profiles!recensioni_acquirente_id_fkey(nome, cognome)`)
+    .single()
 
     if (error) {
+      console.log(error)
       setErrore('Errore durante l\'invio. Riprova.')
     } else {
       onInviata(data)
@@ -33,6 +35,7 @@ export default function FormRecensione({ venditoreid, sessione, onInviata }) {
 
     setLoading(false)
   }
+
 
   return (
     <div className={styles.form}>

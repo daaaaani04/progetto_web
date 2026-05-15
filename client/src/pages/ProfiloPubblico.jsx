@@ -67,6 +67,7 @@ export default function ProfiloPubblico({ sessione }) {
   const [loading, setLoading]               = useState(true)
   const [tabAttiva, setTabAttiva]           = useState('recensioni')
   const [menuMobileAperto, setMenuMobileAperto] = useState(false)
+  const [annuncioIdPerRecensione, setAnnuncioIdPerRecensione] = useState(null)
 
   useEffect(() => { caricaTutto() }, [id, sessione])
 
@@ -94,10 +95,12 @@ export default function ProfiloPubblico({ sessione }) {
       const ids = (annunci || []).map(a => a.id)
       if (ids.length > 0) {
         const { data: offerta } = await supabase
-          .from('offerte').select('id')
+          .from('offerte').select('id, annuncio_id')  // <-- aggiungi annuncio_id
           .eq('venditore_id', id).eq('stato', 'accettata').in('annuncio_id', ids).maybeSingle()
+
         if (offerta) {
           setPuoRecensire(true)
+          setAnnuncioIdPerRecensione(offerta.annuncio_id)  // <-- salva l'id
           const { data: esiste } = await supabase
             .from('recensioni').select('id')
             .eq('venditore_id', id).eq('acquirente_id', sessione.user.id).maybeSingle()
@@ -128,7 +131,7 @@ export default function ProfiloPubblico({ sessione }) {
     { id: 'info',       label: 'Informazioni' },
     { id: 'recensioni', label: `Recensioni${recensioni.length > 0 ? ` (${recensioni.length})` : ''}` },
     ...(profilo.indirizzo ? [{ id: 'posizione', label: ' Posizione' }] : []),
-    ...(puoRecensire && !haGiaRecensito ? [{ id: 'lascia', label: '✍️ Lascia recensione' }] : []),
+    ...(puoRecensire && !haGiaRecensito ? [{ id: 'lascia', label: ' Lascia recensione' }] : []),
   ]
 
   const tabAttivaLabel = tabs.find(t => t.id === tabAttiva)?.label || ''
@@ -323,6 +326,7 @@ export default function ProfiloPubblico({ sessione }) {
                 <h2 className={styles.sectionTitle}>Lascia una recensione</h2>
                 <FormRecensione
                   venditoreid={id}
+                  annuncioid={annuncioIdPerRecensione} 
                   sessione={sessione}
                   onInviata={onRecensioneInviata}
                 />
