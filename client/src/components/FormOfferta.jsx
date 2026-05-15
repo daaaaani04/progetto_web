@@ -3,7 +3,8 @@ import { useState } from 'react'
 import supabase from '../lib/supabase'
 import styles from './FormOfferta.module.css'
 
-export default function FormOfferta({ annuncio, sessione, onClose, onSuccess }) {
+
+export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, offertaEsistente }) {
   const [form, setForm] = useState({
     messaggio: '',
     prezzo: ''
@@ -20,6 +21,19 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess }) 
     e.preventDefault()
     setErrore(null)
     setLoading(true)
+
+    if (offertaEsistente) {
+      const { error: deleteError } = await supabase
+        .from('offerte')
+        .delete()
+        .eq('id', offertaEsistente.id)
+
+      if (deleteError) {
+        setLoading(false)
+        return setErrore(deleteError.message)
+      }
+    }
+    
 
     const { error } = await supabase
       .from('offerte')

@@ -184,19 +184,11 @@ export default function ProfiloPubblico({ sessione }) {
               </button>
             ))}
 
-            {/* CTA contatto — solo su desktop */}
-            <div className={styles.sidebarCta}>
-              {profilo.telefono ? (
-                <a
-                  href={`tel:${profilo.telefono}`}
-                  className={styles.ctaChiama}
-                >
-                  Chiama ora
-                </a>
-              ) : (
-                <p className={styles.noContact}>Nessun contatto disponibile</p>
-              )}
-            </div>
+          {profilo.telefono && (
+            <a href={`tel:${profilo.telefono}`} className={styles.ctaBtn}>
+              Chiama ora
+            </a>
+          )}
           </aside>
 
           <main className={styles.mainFormArea}>

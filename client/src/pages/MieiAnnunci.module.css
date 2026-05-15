@@ -421,42 +421,42 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Grigio scuro trasparente */
-  backdrop-filter: blur(4px);    /* Effetto sfocato professionale */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Sfondo scurito semi-trasparente */
+  backdrop-filter: blur(4px);    /* Effetto sfocato moderno sullo sfondo */
   display: flex;
-  align-items: center;           /* Centra verticalmente */
-  justify-content: center;      /* Centra orizzontalmente */
-  z-index: 9999;                 /* Sopra a tutto il resto */
-  animation: fadeIn 0.2s ease-out;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;                /* Sopra a tutto il resto */
+  animation: fadeIn 0.3s ease;
 }
 
-/* La scatola bianca centrale */
 .modalContent {
   background: white;
   padding: 2.5rem;
-  border-radius: 16px;
+  border-radius: 20px;
+  max-width: 420px;
   width: 90%;
-  max-width: 400px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  animation: scaleIn 0.3s var(--ease-spring); /* Usa la tua variabile spring */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.3s var(--ease-spring) both;
 }
 
 .modalContent h3 {
-  margin-bottom: 1rem;
   font-size: 1.4rem;
-  color: var(--text-h);
+  color: #111;
+  margin-bottom: 1rem;
+  line-height: 1.3;
 }
 
 .modalContent p {
-  margin-bottom: 2rem;
-  color: var(--text);
   font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2rem;
 }
 
-/* Contenitore bottoni */
 .modalActions {
   display: flex;
   gap: 1rem;
@@ -489,7 +489,7 @@
   transition: opacity 0.2s;
 }
 
-.btnEliminaConfirm:hover {
+.btnLogoutConfirm:hover {
   opacity: 0.9;
 }
 
@@ -502,5 +502,79 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 2rem 1.25rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  /* Griglia → colonna singola */
+  .lista {
+    grid-template-columns: 1fr;
+  }
+
+  /* Card */
+  .cardTop {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cardTopRight {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cardBottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  /* Meta info */
+  .meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Offerte */
+  .offertaTop {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .offertaTopRight {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .offertaAzioni {
+    flex-wrap: wrap;
+  }
+
+  .offertaAzioni button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Modal */
+  .modalContent {
+    padding: 1.8rem 1.25rem;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .btnAnnulla,
+  .btnEliminaConfirm {
+    width: 100%;
   }
 }

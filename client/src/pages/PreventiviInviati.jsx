@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react'
 import supabase from '../lib/supabase'
 import styles from './PreventiviInviati.module.css'
 import ChatBox from './Chat'
+import FormOfferta from '../components/FormOfferta'
 
 export default function PreventiviInviati({ sessione }) {
   const [offerte, setOfferte] = useState([])
   const [loading, setLoading] = useState(true)
-  const [chatAttiva,setChatAttiva] = useState(null)
+  const [chatAttiva, setChatAttiva] = useState(null)
+  const [offertaDaReinviare, setOffertaDaReinviare] = useState(null)
+  const [confermaEliminaOfferta, setConfermaEliminaOfferta] = useState(null)
+  const [confermaEliminaAccettata, setConfermaEliminaAccettata] = useState(null)
 
   useEffect(() => {
     caricaOfferte()
@@ -34,16 +38,24 @@ export default function PreventiviInviati({ sessione }) {
     setLoading(false)
   }
 
-  async function eliminaOfferta(id) {
-    const conferma = window.confirm('Sei sicuro di voler ritirare questa offerta?')
-    if (!conferma) return
-
+  async function eliminaOfferta() {
     const { error } = await supabase
       .from('offerte')
       .delete()
-      .eq('id', id)
+      .eq('id', confermaEliminaOfferta)
 
-    if (!error) setOfferte(prev => prev.filter(o => o.id !== id))
+    if (!error) setOfferte(prev => prev.filter(o => o.id !== confermaEliminaOfferta))
+    setConfermaEliminaOfferta(null)
+  }
+
+  async function eliminaPreventivoAccettato() {
+    const { error } = await supabase
+      .from('offerte')
+      .delete()
+      .eq('id', confermaEliminaAccettata)
+
+    if (!error) setOfferte(prev => prev.filter(o => o.id !== confermaEliminaAccettata))
+    setConfermaEliminaAccettata(null)
   }
 
   const statoColore = {
@@ -51,21 +63,6 @@ export default function PreventiviInviati({ sessione }) {
     accettata: styles.statoAccettata,
     rifiutata: styles.statoRifiutata
   }
-
-async function eliminaPreventivoAccettato(id) {
-  const conferma = window.confirm(
-    'Confermi di voler eliminare questo preventivo? Procedi solo se il lavoro è stato completato.'
-  )
-  if (!conferma) return
-
-  const { error } = await supabase
-    .from('offerte')
-    .delete()
-    .eq('id', id)
-
-  if (!error) setOfferte(prev => prev.filter(o => o.id !== id))
-}
-
 
   if (loading) return <p className={styles.loading}>Caricamento...</p>
 
@@ -93,7 +90,6 @@ async function eliminaPreventivoAccettato(id) {
           {offerte.map(o => (
             <div key={o.id} className={styles.card}>
 
-              {/* Header card */}
               <div className={styles.cardTop}>
                 <div>
                   <span className={styles.settore}>
@@ -106,7 +102,6 @@ async function eliminaPreventivoAccettato(id) {
                 </span>
               </div>
 
-              {/* Dettagli annuncio */}
               <div className={styles.annuncioMeta}>
                 {o.annunci?.comune && <span>📍 {o.annunci.comune}</span>}
                 {o.annunci?.budget && <span>💶 Budget cliente: {o.annunci.budget}€</span>}
@@ -115,7 +110,6 @@ async function eliminaPreventivoAccettato(id) {
 
               <div className={styles.divider} />
 
-              {/* La tua offerta */}
               <div className={styles.offertaDetails}>
                 <div className={styles.offertaRow}>
                   <span className={styles.offertaLabel}>La tua offerta</span>
@@ -126,33 +120,41 @@ async function eliminaPreventivoAccettato(id) {
                 <p className={styles.messaggio}>{o.messaggio}</p>
               </div>
 
-              {/* Footer card */}
               <div className={styles.cardBottom}>
                 <span className={styles.data}>
                   Inviata il {new Date(o.created_at).toLocaleDateString('it-IT')}
                 </span>
+
                 {o.stato === 'inviata' && (
                   <button
                     className={styles.btnElimina}
-                    onClick={() => eliminaOfferta(o.id)}
+                    onClick={() => setConfermaEliminaOfferta(o.id)}
                   >
                     Ritira offerta
                   </button>
                 )}
+
                 {o.stato === 'accettata' && (
                   <div className={styles.azioniAccettata}>
-                    <button className={styles.btnChat} onClick={() => {
-                      setChatAttiva(o)
-                    }}>
-                      Apri chat
+                    <button className={styles.btnChat} onClick={() => setChatAttiva(o)}>
+                      Chat
                     </button>
                     <button
                       className={styles.btnElimina}
-                      onClick={() => eliminaPreventivoAccettato(o.id)}
+                      onClick={() => setConfermaEliminaAccettata(o.id)}
                     >
-                      Elimina preventivo
+                      Elimina
                     </button>
                   </div>
+                )}
+
+                {o.stato === 'rifiutata' && (
+                  <button
+                    className={styles.btnReinvia}
+                    onClick={() => setOffertaDaReinviare(o)}
+                  >
+                    Invia nuova offerta
+                  </button>
                 )}
               </div>
 
@@ -160,15 +162,65 @@ async function eliminaPreventivoAccettato(id) {
           ))}
         </div>
       )}
-      {chatAttiva && (
-        <ChatBox 
-        preventivoId={chatAttiva.id}
-        utenteCorrenteId={sessione.user.id} 
-        destinatarioId={chatAttiva.annunci?.acquirente_id}
-        onClose={() => setChatAttiva(null)} 
-      />
+
+      {/* Modal ritira offerta */}
+      {confermaEliminaOfferta && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h2>Sei sicuro di voler ritirare questa offerta?</h2>
+            <p>Non potrai più recuperare questa offerta.</p>
+            <div className={styles.modalActions}>
+              <button className={styles.btnAnnulla} onClick={() => setConfermaEliminaOfferta(null)}>
+                Annulla
+              </button>
+              <button className={styles.btnLogoutConfirm} onClick={eliminaOfferta}>
+                Ritira
+              </button>
+            </div>
+          </div>
+        </div>
       )}
-    
+
+      {/* Modal elimina preventivo accettato */}
+      {confermaEliminaAccettata && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Confermi di voler eliminare questo preventivo?</h3>
+            <p>Procedi solo se il lavoro è stato completato.</p>
+            <div className={styles.modalActions}>
+              <button className={styles.btnAnnulla} onClick={() => setConfermaEliminaAccettata(null)}>
+                Annulla
+              </button>
+              <button className={styles.btnLogoutConfirm} onClick={eliminaPreventivoAccettato}>
+                Elimina
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {chatAttiva && (
+        <ChatBox
+          preventivoId={chatAttiva.id}
+          utenteCorrenteId={sessione.user.id}
+          destinatarioId={chatAttiva.annunci?.acquirente_id}
+          onClose={() => setChatAttiva(null)}
+        />
+      )}
+
+      {offertaDaReinviare && (
+        <FormOfferta
+          annuncio={offertaDaReinviare.annunci}
+          sessione={sessione}
+          offertaEsistente={offertaDaReinviare}
+          onClose={() => setOffertaDaReinviare(null)}
+          onSuccess={() => {
+            caricaOfferte()
+            setOffertaDaReinviare(null)
+          }}
+        />
+      )}
+
     </main>
   )
 }
