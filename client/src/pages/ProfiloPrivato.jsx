@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
 import styles from './ProfiloPrivato.module.css';
 
@@ -18,6 +18,7 @@ export default function ProfiloAzienda({ sessione }) {
   const [loading, setLoading] = useState(true);
   const [tabAttiva, setTabAttiva] = useState('details');
   const [menuMobileAperto, setMenuMobileAperto] = useState(false);
+  const [menuMobileAperto, setMenuMobileAperto] = useState(false);
   const [nuovaPassword, setNuovaPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [pwMsg, setPwMsg] = useState(null);
@@ -29,6 +30,7 @@ export default function ProfiloAzienda({ sessione }) {
   const [nomeValue, setNomeValue] = useState('');
   const [comuneValue, setComuneValue] = useState('');
   const [telefonoValue, setTelefonoValue] = useState('');
+  const [indirizzoValue, setIndirizzoValue] = useState('');
   const [indirizzoValue, setIndirizzoValue] = useState('');
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function ProfiloAzienda({ sessione }) {
     setComuneValue(data?.comune || '');
     setTelefonoValue(data?.telefono || '');
     setIndirizzoValue(data?.indirizzo || '');
+    setIndirizzoValue(data?.indirizzo || '');
     setLoading(false);
   }
 
@@ -58,6 +61,7 @@ export default function ProfiloAzienda({ sessione }) {
     const { error } = await supabase
       .from('profiles')
       .update({
+        ...(isVenditore ? { nome_azienda: nomeValue, indirizzo: indirizzoValue || null } : { nome: nomeValue }),
         ...(isVenditore ? { nome_azienda: nomeValue, indirizzo: indirizzoValue || null } : { nome: nomeValue }),
         comune: comuneValue,
         telefono: telefonoValue,
@@ -102,12 +106,14 @@ export default function ProfiloAzienda({ sessione }) {
     : `${profilo.nome} ${profilo.cognome}`;
 
   // tabs e tabAttivaLabel definiti DOPO isVenditore/isAcquirente
+  // tabs e tabAttivaLabel definiti DOPO isVenditore/isAcquirente
   const tabs = [
     { id: 'details', label: 'I miei dettagli' },
     { id: 'password', label: 'Cambia password' },
     ...(isVenditore ? [{ id: 'pubblicazione', label: 'Profilo pubblico' }] : []),
     ...(isAcquirente ? [{ id: 'annunci', label: 'I miei annunci' }] : []),
   ];
+  const tabAttivaLabel = tabs.find(t => t.id === tabAttiva)?.label || '';
   const tabAttivaLabel = tabs.find(t => t.id === tabAttiva)?.label || '';
 
   return (
@@ -148,10 +154,29 @@ export default function ProfiloAzienda({ sessione }) {
           </button>
 
           <aside className={`${styles.sidebarMenu} ${menuMobileAperto ? styles.sidebarMenuOpen : ''}`}>
+          {/* Hamburger trigger — visibile solo su mobile/tablet */}
+          <button
+            className={styles.hamburgerTrigger}
+            onClick={() => setMenuMobileAperto(prev => !prev)}
+            aria-expanded={menuMobileAperto}
+          >
+            <span className={styles.hamburgerLabel}>{tabAttivaLabel}</span>
+            <span className={`${styles.hamburgerIcon} ${menuMobileAperto ? styles.hamburgerIconOpen : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+
+          <aside className={`${styles.sidebarMenu} ${menuMobileAperto ? styles.sidebarMenuOpen : ''}`}>
             {tabs.map(t => (
               <button
                 key={t.id}
                 className={tabAttiva === t.id ? styles.activeMenu : ''}
+                onClick={() => {
+                  setTabAttiva(t.id);
+                  setMenuMobileAperto(false);
+                }}
                 onClick={() => {
                   setTabAttiva(t.id);
                   setMenuMobileAperto(false);
@@ -231,8 +256,28 @@ export default function ProfiloAzienda({ sessione }) {
                     )}
 
                     <div className={styles.inputGroup}>
+                    {isVenditore && (
+                      <div className={styles.inputGroup}>
+                        <label>
+                          INDIRIZZO
+                          <span className={styles.labelOpzionale}>(opzionale)</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={indirizzoValue}
+                          onChange={e => setIndirizzoValue(e.target.value)}
+                          placeholder="es. Via Roma 12"
+                        />
+                        <p className={styles.inputHint}>
+                          Se compilato, verrà mostrato sul tuo profilo pubblico con una mappa.
+                        </p>
+                      </div>
+                    )}
+
+                    <div className={styles.inputGroup}>
                       <label>TELEFONO</label>
                       <div className={styles.phoneInput}>
+                        <span className={styles.country}>🇮🇹 +39</span>
                         <span className={styles.country}>🇮🇹 +39</span>
                         <input
                           type="text"
@@ -241,6 +286,7 @@ export default function ProfiloAzienda({ sessione }) {
                         />
                       </div>
                     </div>
+
 
                   </div>
 
@@ -325,6 +371,7 @@ export default function ProfiloAzienda({ sessione }) {
                 </p>
                 <a
                   href="/miei-annunci"
+                  className={styles.linkCta}
                   className={styles.linkCta}
                 >
                   Vai ai miei annunci →

@@ -63,6 +63,8 @@ export default function Impostazioni({ sessione, profilo }) {
     raccoltaDati:    true,
   })
 
+  const [showElimina,setshowElimina] = useState(false)
+
   const isVenditore  = profilo?.ruolo === 'venditore'
   const isAcquirente = profilo?.ruolo === 'acquirente'
   const nomeDisplay  = isVenditore
@@ -100,6 +102,12 @@ export default function Impostazioni({ sessione, profilo }) {
       setPwdMsg({ tipo: 'ok', testo: 'Password aggiornata con successo.' })
       setPwd(''); setPwdConferma('')
     }
+  }
+
+  async function handleEliminaAccount() {
+    // Qui andrà la tua logica di eliminazione definitiva (es. una Edge Function o cancellazione record)
+    await supabase.auth.signOut()
+    window.location.href = "/"
   }
 
   if (!profilo) return <div className={styles.loading}>Caricamento in corso...</div>
@@ -338,12 +346,7 @@ export default function Impostazioni({ sessione, profilo }) {
                   </p>
                   <button
                     className={styles.saveBtnDanger}
-                    onClick={async () => {
-                      if (window.confirm('Sei sicuro? Questa operazione è irreversibile.')) {
-                        await supabase.auth.signOut()
-                        navigate('/')
-                      }
-                    }}
+                    onClick={ () => setshowElimina(true) }
                   >
                     Elimina account
                   </button>
@@ -354,6 +357,22 @@ export default function Impostazioni({ sessione, profilo }) {
           </main>
         </div>
       </div>
+      {showElimina && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Sei assolutamente sicuro?</h3>
+            <p>Non potrai più recuperare i tuoi dati dopo questa operazione.</p>
+            <div className={styles.modalActions}>
+              <button className={styles.btnAnnulla} onClick={() => setshowElimina(false)}>
+                Annulla
+              </button>
+              <button className={styles.btnEliminaConfirm} onClick={handleEliminaAccount}>
+                Elimina definitivamente
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
