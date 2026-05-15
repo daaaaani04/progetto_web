@@ -153,7 +153,7 @@ export default function Login() {
               )}
             </>
           )}
-
+          {/* Mostra eventuali messaggi di errore (password corta...) o successo */}
           {errore && <p className={styles.errore}>{errore}</p>}
           {messaggio && <p className={styles.messaggio}>{messaggio}</p>}
 
@@ -164,7 +164,7 @@ export default function Login() {
 
         <p className={styles.toggle}>
           {isRegistrazione ? 'Hai già un account? ' : 'Non hai un account? '}
-          <button className={styles.btnLink} onClick={handleToggle}>
+          <button className={styles.btnLink} onClick={handleToggle}> {/* Uso un button con stile link per cambiare modalità, invece di un semplice a, perché non voglio ricaricare la pagina */}
             {isRegistrazione ? 'Accedi' : 'Registrati'}
           </button>
         </p>

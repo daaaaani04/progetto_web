@@ -307,8 +307,6 @@ export default function ProfiloAzienda({ sessione }) {
                 </p>
                 <a
                   href={`/profilo/${id}`}
-                  target="_blank"
-                  rel="noreferrer"
                   className={styles.linkCta}
                 >
                   Visualizza il tuo profilo pubblico →

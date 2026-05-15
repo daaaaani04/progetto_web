@@ -415,6 +415,84 @@
   border: 1px solid #fed7d7;
 }
 
+/* ─── Modale di Conferma Eliminazione ─── */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Sfondo scurito semi-trasparente */
+  backdrop-filter: blur(4px);    /* Effetto sfocato moderno sullo sfondo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;                /* Sopra a tutto il resto */
+  animation: fadeIn 0.3s ease;
+}
+
+.modalContent {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.3s var(--ease-spring) both;
+}
+
+.modalContent h3 {
+  font-size: 1.4rem;
+  color: #111;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.modalContent p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btnAnnulla {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.btnAnnulla:hover {
+  background: #ebe9e4;
+}
+
+.btnEliminaConfirm {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #d93025; /* Rosso per il logout */
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.btnLogoutConfirm:hover {
+  opacity: 0.9;
+}
+
 @media (max-width: 768px) {
   .page {
     padding: 2rem 1.25rem;

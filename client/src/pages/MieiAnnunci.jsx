@@ -4,14 +4,35 @@ import supabase from '../lib/supabase'
 import styles from './MieiAnnunci.module.css'
 import ChatBox from './Chat'
 
+//componente React che implementa la pagina miei annunci in cui un acquirente 
+// vede gli annunci da lui pubblicati con relative offerte ricevute da venditori 
+
 export default function MieiAnnunci({ sessione }) {
+  /*
+  definisco la componente React MieiAnnunci che prende come prop sessione (che contiene i dati dell'utente loggato)
+  tramite la hook useState di react definisco le variabili di stato, cioè: annunci, array che contiene tutti gli annunci
+  dell'utente; offerte, coppie chiave valore che assegna a ogni ID le sue offerte; annunci aperti, per memorizzare gli 
+  annunci aperti (con le offerte visibili); loading, booleano per mostrare la schermata di caricamento; chatAttiva, che contiene l'id dell'offerta
+  a cui la chat è associata; e annuncioda eliminare che memorizza l'id dell'annuncio che si vuole eliminare in modo
+  da creare una schermata per esser sicuri di eliminarlo 
+  */
   const [annunci, setAnnunci] = useState([])
   const [offerte, setOfferte] = useState({})
   const [annunciAperti, setAnnunciAperti] = useState({})
   const [loading, setLoading] = useState(true)
   const [chatAttiva,setChatAttiva] = useState(null)
+  const [annuncioDaEliminare, setAnnuncioDaEliminare] = useState(null) // Memorizza l'ID dell'annuncio
 
-
+  /*
+  use effect che gestisce effetti collaterali, ovvero esegue la funzione carica annunci ogni volta che cambia la 
+  sessione. 
+  caricaAnnunci è una funzione async perché lavora con i db supabase, in particolare eseguo una query che prende 
+  dalla tabella annunci, filtrando per le istanze che hanno come acquirente_id l'utente corrente, tutti le colonne
+  di annunci, esegue una join con settori e restuituisce tutte le colonne di settori, esegue una join di offerte e 
+  conta quante offerte ci sono per ogni riga. Estrare un array di dizionari (JSON) 
+  dopo aver recuperato i dati carica ciò che ha preso nella variabile di stato annunci (o [] se c'è un errore con supabase) 
+  e imposta loading a false per mostrare la schermata
+  */
   useEffect(() => {
     caricaAnnunci()
   }, [sessione])
@@ -26,6 +47,16 @@ export default function MieiAnnunci({ sessione }) {
     setAnnunci(data || [])
     setLoading(false)
   }
+
+  /*
+  se le offerte sono già state caricarate nella variabile di stato offerte, semplicemente chiama la toggle e quindi apre o chiude la visualizzazione 
+  se non sono state caricate fa una query a supabase, in cui estrae il campo data e prende dalla table offerte 
+  tutte le colonne di offerte, fa una join a profiles per prendere tutti i dati del venditore che ha fatto l'offerta 
+  filtrando per tutte le offerte che hanno come annuncio_id l'id dell'annuncio di cui vogliamo vedere le offerte 
+  poi cambio la variabile di stato offerte a cui aggiungo una coppia con chiave l'id dell'annuncio e valori data
+  e imposto a true il valore dell'id in annunci aperti per mostrare immediatamente
+
+  */
 
   async function caricaOfferte(annuncioId) {
     if (offerte[annuncioId]) {
@@ -52,6 +83,11 @@ export default function MieiAnnunci({ sessione }) {
     setOfferte(prev => ({ ...prev, [annuncioId]: data || [] }))
     setAnnunciAperti(prev => ({ ...prev, [annuncioId]: true }))
   }
+  
+  // serve a mostrare o nascondere la lista delle offerte di un annuncio quando si clicca sul vedi offerte
+  // cosa fa: cambia lo stato di annunci apperti, prende come input lo stato precedente, copia tutti i dati in esso
+  // e cerca l'id dell'annuncio selezionato e gli assegna il valore opposto a quello che c'èera prima(se scrivessi solo annuncioId senza quadre scriverebbe annuncioId)
+
 
   function toggleAnnuncio(annuncioId) {
     setAnnunciAperti(prev => ({
@@ -60,17 +96,30 @@ export default function MieiAnnunci({ sessione }) {
     }))
   }
 
+  //funzione legata al bottone elimina per eliminare un annuncio 
+  // con una chiamata supabase elimina la riga in annunci con quell'id
+  // se non dà errore (error : null) mette nella variabile di stato annunci tutti quelli che c'erano prima senza quello con l'id indicato 
+  // e mette che non c'è nessun annuncio da eliminare
+
   async function eliminaAnnuncio(id) {
-    const conferma = window.confirm('Sei sicuro di voler eliminare questo annuncio?')
-    if (!conferma) return
+    if (!annuncioDaEliminare) return;
 
     const { error } = await supabase
       .from('annunci')
       .delete()
       .eq('id', id)
 
-    if (!error) setAnnunci(prev => prev.filter(a => a.id !== id))
+    if (!error) { setAnnunci(prev => prev.filter(a => a.id !== id));
+                  setAnnuncioDaEliminare(null);
+    }
   }
+
+  /*
+  funzione per accettare una eventuale offerta. chiedo conferma, se non gliela do evito
+  prendo la riga in offerte relativa all'offerta che voglio accettare e cambio lo stato in accettata 
+  mette tutte le altre offerte dello stesso annuncio in rifiutata 
+  poi chiude l'annuncio impostando il suo stato a chiuso 
+  */
 
   async function accettaOfferta(offertaId, annuncioId) {
     const conferma = window.confirm('Sei sicuro di voler accettare questa offerta? Le altre offerte verranno rifiutate.')
@@ -82,7 +131,7 @@ export default function MieiAnnunci({ sessione }) {
       .eq('id', offertaId)
   
     console.log('e1:', e1)
-    if (e1) return alert('Errore durante l\'accettazione')
+    if (e1) return alert('Errore durante l\'accettazione dell\'offerta ')
   
     const { error: e2 } = await supabase
       .from('offerte')
@@ -99,8 +148,11 @@ export default function MieiAnnunci({ sessione }) {
       .eq('id', annuncioId)
   
     console.log('e3:', e3)
-    if (e3) return alert('Errore aggiornamento annuncio: ' + e3.message)
-  
+    if (e3) return alert('Errore nella chiusura dell\'annuncio: ' + e3.message)
+      
+    // qui aggiorna la var d st offerte associando alla chiave annuncio di cui si è accettata l'fferta
+    // il metodo map crea un nuovo array partendo da prev[annuncioID] in cui copia tutte le proprietà di ogni
+    //offera e sovrascrive solo la proprietà stato 
     setOfferte(prev => ({
       ...prev,
       [annuncioId]: prev[annuncioId].map(o => ({
@@ -109,11 +161,13 @@ export default function MieiAnnunci({ sessione }) {
       }))
     }))
   
+    // per impostare a chiuso lo stato dell'annuncio di cui si è accettata l'offerta
     setAnnunci(prev => prev.map(a =>
       a.id === annuncioId ? { ...a, stato: 'chiuso' } : a
     ))
   }
 
+  //per rifiutare una singola offerta
   async function rifiutaOfferta(offertaId, annuncioId) {
     const { error } = await supabase
       .from('offerte')
@@ -137,7 +191,7 @@ export default function MieiAnnunci({ sessione }) {
       <div className={styles.header}>
         <h1>I miei annunci</h1>
       </div>
-
+      {/*se non ci sono annunci mostro una scritta e un riferimeneto a componete pubblica annunci */}
       {annunci.length === 0 ? (
         <div className={styles.empty}>
           <p>Non hai ancora pubblicato nessun annuncio.</p>
@@ -151,7 +205,7 @@ export default function MieiAnnunci({ sessione }) {
             {annunci.map(a => (
               <div key={a.id} className={styles.card}>
 
-                {/* Header card */}
+                {/* per ogni annuncio creo una card */}
                 <div className={styles.cardTop}>
                   <div>
                     <span className={styles.settore}>{a.settori?.label}</span>
@@ -163,7 +217,7 @@ export default function MieiAnnunci({ sessione }) {
                     </span>
                     <button
                       className={styles.btnElimina}
-                      onClick={() => eliminaAnnuncio(a.id)}
+                      onClick={() => setAnnuncioDaEliminare(a.id)}
                     >
                       Elimina
                     </button>
@@ -292,6 +346,29 @@ export default function MieiAnnunci({ sessione }) {
               .find(o => o.id === chatAttiva)?.venditore_id }
           onClose={() => setChatAttiva(null)} 
         />
+      )}
+      {/* Modale di conferma eliminazione */}
+      {annuncioDaEliminare && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Sei sicuro di voler eliminare questo annuncio?</h3>
+            <p>Questa azione è irreversibile e tutte le offerte ricevute verranno perse.</p>
+            <div className={styles.modalActions}>
+              <button 
+                className={styles.btnAnnulla} 
+                onClick={() => setAnnuncioDaEliminare(null)}
+              >
+                Annulla
+              </button>
+              <button 
+                className={styles.btnEliminaConfirm} 
+                onClick={() => eliminaAnnuncio(annuncioDaEliminare)}
+              >
+                Elimina definitivamente
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   )
