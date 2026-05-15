@@ -52,6 +52,21 @@ export default function PreventiviInviati({ sessione }) {
     rifiutata: styles.statoRifiutata
   }
 
+async function eliminaPreventivoAccettato(id) {
+  const conferma = window.confirm(
+    'Confermi di voler eliminare questo preventivo? Procedi solo se il lavoro è stato completato.'
+  )
+  if (!conferma) return
+
+  const { error } = await supabase
+    .from('offerte')
+    .delete()
+    .eq('id', id)
+
+  if (!error) setOfferte(prev => prev.filter(o => o.id !== id))
+}
+
+
   if (loading) return <p className={styles.loading}>Caricamento...</p>
 
   return (
@@ -125,13 +140,19 @@ export default function PreventiviInviati({ sessione }) {
                   </button>
                 )}
                 {o.stato === 'accettata' && (
-                  <button className={styles.btnChat} onClick = {()=> {
-                    console.log('offerta:', o)
-                    console.log('acquirente_id:', o.annunci?.acquirente_id)
-                      setChatAttiva(o)}
-                      }>
-                    Apri chat
-                  </button>
+                  <div className={styles.azioniAccettata}>
+                    <button className={styles.btnChat} onClick={() => {
+                      setChatAttiva(o)
+                    }}>
+                      Apri chat
+                    </button>
+                    <button
+                      className={styles.btnElimina}
+                      onClick={() => eliminaPreventivoAccettato(o.id)}
+                    >
+                      Elimina preventivo
+                    </button>
+                  </div>
                 )}
               </div>
 

@@ -33,6 +33,7 @@ export default function Navbar({ sessione, profilo }) {
     setConfermaLog(false)
     setMenuAperto(false)
     setDropdownAperto(false)
+    window.location.href = "/"
   }
 
   const isVenditore = profilo?.ruolo === 'venditore'

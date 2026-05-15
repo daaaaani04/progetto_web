@@ -1,5 +1,10 @@
-/* Chat.module.css */
-
+/* Definizione css per la classe chatContainer, il div che contiene la chat totale
+position fixed bottom 24 right 24 fan si che la chat rimanga in basso a destra bloccata 
+border-radius arrotonda gli angoli, per mettere un pò d'ombra per risaltare la chat rispetto allo sfondo
+display : flex e flex-direction ... organizzano gli elementi uno sopra l'altro
+z-index fa si che il div sia sopra ogni altro elemento, in primo piano perché ha un valore elevato
+animation fa si che appaia con un leggero ingrandimento 
+*/
 .chatContainer {
   position: fixed;
   bottom: 24px;
@@ -17,7 +22,13 @@
   animation: scaleIn 0.3s var(--ease-spring) both;
   overflow: hidden;
 }
+/* la classe header definisce il riquadro che contiene scritta e bottone chiusura 
+linear gradient va da un colore a un altro
+color per definire il colore del testo dentro (eredita) 
+padding per definire la distanza tra contenuto e bordo 
 
+
+*/
 .header {
   background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
   color: white;
@@ -29,7 +40,10 @@
   font-size: 0.9rem;
   letter-spacing: 0.02em;
 }
-
+/*transition fa si che il colore dello sfondo non cambi in maniera netta, ma sia più graduale
+il param backgroun dice al browser che deve applicare la transition allo sfondo quando cambia, cioè quando passo sopra
+il tempo dell'animazione e il "metodo" cioè come 
+*/
 .header button {
   background: rgba(255,255,255,0.2);
   border: none;
@@ -45,11 +59,17 @@
   justify-content: center;
   transition: background 0.15s ease;
 }
-
+/*passare sopra il bottone col mouse lo rende più chiaro 
+*/
 .header button:hover {
   background: rgba(255,255,255,0.3);
 }
+/* dove compaiono i messaggi 
+flex 1 dice che deve occupare tutto lo spazio tra header e input 
+overflow-y auto permette di scorrere i messaggi se superano l'altezza 
+gap indica la distanza (verticale) tra ogni messaggio 
 
+*/
 .messaggiList {
   flex: 1;
   overflow-y: auto;
@@ -62,19 +82,13 @@
   scrollbar-color: #e8e4dc transparent;
 }
 
-.messaggiList::-webkit-scrollbar {
-  width: 4px;
-}
-
-.messaggiList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.messaggiList::-webkit-scrollbar-thumb {
-  background: #e8e4dc;
-  border-radius: 2px;
-}
-
+/*per i messaggi che manda l'utente corrente 
+allineati alla fine 
+overflowwrap forza l'andata a capo se la parola è troppo lunga per stare nel contenitore e la spezzetta 
+hypens : auto fa si che se il browser conosce la lingua aggiunge un trattino a capo quando tronca la parola 
+fade in serve a far comparire il messaggio da opacità 0 a 1 in 0,15s
+line height indica l'altezza della riga di testo
+*/
 .mio {
   align-self: flex-end;
   background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
@@ -86,6 +100,9 @@
   line-height: 1.5;
   box-shadow: 0 2px 6px rgba(198, 137, 16, 0.25);
   animation: fadeIn 0.15s ease both;
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+  hyphens: auto; 
 }
 
 .altro {
@@ -100,8 +117,16 @@
   border: 1px solid #e8e4dc;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   animation: fadeIn 0.15s ease both;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
+/* div in cui è presente barra di testo e messaggio invia 
+border è la cornice dell'oggetto e fa parte dell'oggetto stesso
+border-top cornice superiore
+display flex mette gli elementi del div tutti di fianco
+*/
 .inputArea {
   padding: 0.9rem 1rem;
   border-top: 1px solid #ede9e0;
@@ -120,15 +145,18 @@
   font-family: inherit;
   background: #fdfcfa;
   color: #111;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
-
+/* la transition sopra indica che (quando si clicca sulla barra) 
+il colore della cornice dell'input passa da grigio a dorato chiaro 
+*/
 .inputArea input:focus {
   border-color: #c68910;
-  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.1);
   background: #fff;
 }
 
+/*stesso gradiente dell'header
+*/
 .inputArea button {
   background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
   color: white;
@@ -142,12 +170,18 @@
   box-shadow: 0 2px 6px rgba(198, 137, 16, 0.3);
   transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
 }
-
+/*
+la transition di sopra fa si che quando passo il mouse sopra il buttone 
+il bottone sale di 1 px e cambia l'ombra
+*/
 .inputArea button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(198, 137, 16, 0.4);
 }
 
+/*
+quando schiaccio il bottone si schiaccia un po, si rimpicciolisce 
+*/
 .inputArea button:active {
-  transform: translateY(0) scale(0.97);
+  transform: translateY(0) scale(0.96);
 }

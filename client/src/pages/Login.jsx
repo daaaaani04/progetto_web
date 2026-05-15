@@ -4,6 +4,7 @@ import supabase from '../lib/supabase'
 import styles from './Login.module.css'
 
 export default function Login() {
+  /* Stato per gestire se siamo in modalità registrazione o login, e per memorizzare i dati del form */
   const [isRegistrazione, setIsRegistrazione] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -14,17 +15,18 @@ export default function Login() {
   const [ruolo, setRuolo] = useState('acquirente')
   const [errore, setErrore] = useState(null)
   const [messaggio, setMessaggio] = useState(null)
-  const [partitaIva, setPartitaIva] = useState('')
   const [settoreSelezionato, setSettoreSelezionato] = useState('')
   const [settori, setSettori] = useState([])
   const [nomeAzienda, setNomeAzienda] = useState('')
 
+  /* Recupera i settori dal database quando il componente viene montato */
   useEffect(() => {
     supabase.from('settori').select('*').then(({ data }) => {
       setSettori(data || [])
     })
   }, [])
 
+  /* gestisci iscrizione o registrazione */
   async function handleSubmit(e) {
     e.preventDefault()
     setErrore(null)
@@ -42,13 +44,16 @@ export default function Login() {
         console.error(error);
         return setErrore(error.message)
       }
+      /* La registrazione è avvenuta con successo */
       setMessaggio('Registrazione completata! Controlla la tua email.')
     } else {
+      /* Uso auth.signInWithPassword per il login, che è più semplice e diretto */
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) return setErrore(error.message)
     }
   }
 
+  /* Cambia tra modalità registrazione e login, e resetta eventuali messaggi di errore o successo */
   function handleToggle() {
     setIsRegistrazione(!isRegistrazione)
     setErrore(null)
@@ -62,9 +67,7 @@ export default function Login() {
           {isRegistrazione ? 'Registrati' : 'Accedi'}
         </h1>
         <p className={styles.sottotitolo}>
-          {isRegistrazione
-            ? 'Crea il tuo account su connetti.'
-            : 'Bentornato su connetti.'}
+          {isRegistrazione ? 'Crea il tuo account su connetti.' : 'Bentornato su connetti.'}
         </p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -73,7 +76,7 @@ export default function Login() {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)} /* Uso un tipico event handler di react: e (evento) -> fai qualcosa */
             required
           />
           <input
@@ -81,7 +84,7 @@ export default function Login() {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)} 
             required
           />
 
@@ -92,7 +95,7 @@ export default function Login() {
                   className={styles.input}
                   placeholder="Nome"
                   value={nome}
-                  onChange={e => setNome(e.target.value)}
+                  onChange={e => setNome(e.target.value)} 
                   required
                 />
                 <input
@@ -124,7 +127,8 @@ export default function Login() {
                 <option value="venditore">Venditore</option>
               </select>
 
-              {ruolo === 'venditore' && (
+              {/* se il ruolo è un venditore -> setRuolo -> fai apparire nuovi elementi */}
+              {ruolo === 'venditore' && (   
                 <input
                 className={styles.input}
                 placeholder="Nome Azienda"
