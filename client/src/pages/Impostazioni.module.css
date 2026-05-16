@@ -4,7 +4,7 @@
   min-height: 100vh;
   background-color: var(--bg);
   padding: 40px 20px;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .container {
@@ -47,7 +47,7 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--text-h);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   letter-spacing: -0.3px;
 }
 
@@ -71,7 +71,7 @@
   justify-content: center;
   font-weight: 700;
   color: var(--accent-dark);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Layout */
@@ -98,7 +98,7 @@
   color: var(--text);
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
@@ -141,7 +141,7 @@
 .sectionTitle {
   font-size: 16px;
   font-weight: 700;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text-h);
   letter-spacing: -0.2px;
   margin-bottom: 20px;
@@ -184,7 +184,7 @@
   color: var(--text);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .inputGroup input,
@@ -195,7 +195,7 @@
   font-size: 14px;
   color: var(--text-h);
   background: #fff;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -264,7 +264,7 @@
   padding: 10px 30px;
   border-radius: 8px;
   font-weight: 600;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
@@ -280,7 +280,7 @@
   padding: 11px 36px;
   border-radius: 8px;
   font-weight: 600;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
@@ -291,7 +291,7 @@
   text-align: center;
   padding: 100px;
   color: var(--text);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ── TOGGLE ── */

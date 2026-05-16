@@ -124,7 +124,7 @@ trasformala in un animation
 .searchInput {
   width: 100%;
   padding: 1rem 1.5rem 1rem 3.5rem;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 1rem;
   border: 1px solid var(--border);
   border-radius: 50px; 

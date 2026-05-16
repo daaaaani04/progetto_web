@@ -11,7 +11,7 @@
   gap: 18px;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .loadingRing {
@@ -33,7 +33,7 @@
   justify-content: center;
   gap: 14px;
   background: var(--bg);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text);
 }
 .notFound button {
@@ -43,7 +43,7 @@
   padding: 8px 22px;
   border-radius: 99px;
   cursor: pointer;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   transition: border-color 0.2s, color 0.2s;
 }
 .notFound button:hover { border-color: var(--accent); color: var(--accent); }
@@ -52,7 +52,7 @@
   text-align: center;
   padding: 100px;
   color: var(--text);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ── PAGE WRAPPER ── */
@@ -60,7 +60,7 @@
   min-height: 100vh;
   background-color: var(--bg);
   padding: 40px 20px;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   animation: fadeUp 0.4s var(--ease-out) both;
 }
 
@@ -100,7 +100,7 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--text-h);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   letter-spacing: -0.3px;
 }
 
@@ -124,7 +124,7 @@
   justify-content: center;
   font-weight: 700;
   color: var(--accent-dark);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ── HERO (profilo pubblico) ── */
@@ -188,7 +188,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 30px;
   font-weight: 700;
   color: var(--accent);
@@ -215,7 +215,7 @@
 }
 
 .heroNome {
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: clamp(20px, 3vw, 34px);
   font-weight: 700;
   color: var(--text-h);
@@ -288,7 +288,7 @@
 
 .statVal {
   display: block;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 22px;
   font-weight: 700;
   color: var(--text-h);
@@ -374,7 +374,7 @@
   color: #fff;
   border: none;
   border-radius: 8px;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -386,7 +386,7 @@
 .noContact { font-size: 12px; color: var(--text); margin: 0; }
 
 .scoreBig { display: flex; align-items: baseline; gap: 2px; margin-bottom: 8px; }
-.scoreNum { font-family: 'Lora', serif; font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
+.scoreNum { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
 .scoreMax { font-size: 15px; color: var(--text); }
 .scoreStars { display: flex; gap: 2px; margin-bottom: 6px; }
 .scoreNote { font-size: 11px; color: var(--text); margin: 0; }
@@ -427,7 +427,7 @@
   border: none;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: var(--text-h);
@@ -486,7 +486,7 @@
   color: var(--text);
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
@@ -528,7 +528,7 @@
   border: none;
   border-bottom: 2px solid transparent;
   color: var(--text);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 13px;
   cursor: pointer;
   margin-bottom: -1px;
@@ -549,7 +549,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--text-h);
@@ -576,7 +576,7 @@
   color: var(--text);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .inputGroup input {
@@ -586,7 +586,7 @@
   font-size: 14px;
   color: var(--text-h);
   background: var(--bg-subtle);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   outline: none;
 }
 
@@ -612,7 +612,7 @@
   border-right: 1px solid var(--border);
   font-size: 14px;
   color: var(--text-h);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   white-space: nowrap;
 }
 
@@ -623,7 +623,7 @@
   padding: 12px 16px;
   font-size: 14px;
   color: var(--text-h);
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   outline: none;
   min-width: 0;
 }
@@ -688,7 +688,7 @@
   50%      { transform: translateY(-5px); }
 }
 .emptyTitle {
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 17px;
   font-weight: 700;
   color: var(--text-h);
@@ -726,7 +726,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: var(--accent-dark);

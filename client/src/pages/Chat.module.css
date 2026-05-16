@@ -18,7 +18,7 @@ animation fa si che appaia con un leggero ingrandimento
   flex-direction: column;
   z-index: 9999;
   border: 1px solid #e8e4dc;
-  font-family: 'Lora', serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   animation: scaleIn 0.3s var(--ease-spring) both;
   overflow: hidden;
 }
