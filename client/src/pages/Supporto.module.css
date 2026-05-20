@@ -84,27 +84,8 @@ imposta uno spazio fra lettere di 0.09 em
 text-trnsofrm rende il testo più grande
 */
 .contactButton {
-  display: inline-block;
+  composes: btn-primary from global;
   margin-top: 1.5rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-  border: none;
-  padding: 0.82rem 1.8rem;
-  border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
-  transition: transform 0.22s var(--ease-spring),
-              box-shadow 0.22s ease;
-}
-
-.contactButton:hover {
-  transform: translateY(-2px);
 }
 
 /* position relative per far entrare la lente d'ingrandimento 

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
 
 :root {
-  --accent: #c68910;
+  --accent: #ce670c;
   --accent-dark: #a97209;
   --accent-light: #d4981c;
   --accent-glow: rgba(198, 137, 16, 0.18);
@@ -98,3 +98,249 @@ a {
 [data-reveal][data-delay="4"] { transition-delay: 0.32s; }
 [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
 [data-reveal][data-delay="6"] { transition-delay: 0.48s; }
+
+/* ─────────────────────────────────────────────────────
+   Utility globali — usate tramite composes nei moduli
+   ───────────────────────────────────────────────────── */
+
+/* Accent */
+.accent { color: var(--accent); }
+
+/* ─── Label uppercase piccola ─── */
+.page-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bbb;
+}
+
+/* ─── Bottone primario (oro) ─── */
+.btn-primary {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-block;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(198, 137, 16, 0.45);
+}
+.btn-primary:active  { transform: translateY(0) scale(0.97); }
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ─── Bottone secondario (bianco) ─── */
+.btn-secondary {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #444;
+  background: #fff;
+  border: 1px solid #d5d0c8;
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-block;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease, background 0.15s;
+}
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+  background: #fafaf8;
+}
+.btn-secondary:active { transform: translateY(0) scale(0.97); }
+
+/* ─── Input / Textarea / Select ─── */
+.form-input {
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #e0ddd6;
+  border-radius: 9px;
+  outline: none;
+  background: #fdfcfa;
+  color: #111;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-family: inherit;
+  width: 100%;
+}
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.12);
+  background: #fff;
+}
+
+.form-textarea {
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #e0ddd6;
+  border-radius: 9px;
+  outline: none;
+  background: #fdfcfa;
+  color: #111;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-family: inherit;
+  width: 100%;
+  resize: vertical;
+}
+.form-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.12);
+  background: #fff;
+}
+
+.form-select {
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #e0ddd6;
+  border-radius: 9px;
+  outline: none;
+  background: #fdfcfa;
+  color: #111;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  width: 100%;
+}
+.form-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.12);
+}
+
+/* ─── Messaggi di feedback ─── */
+.alert-error {
+  font-size: 0.82rem;
+  color: #c53030;
+  padding: 0.6rem 0.9rem;
+  background: #fff5f5;
+  border-radius: 8px;
+  border: 1px solid #fed7d7;
+  animation: fadeIn 0.2s ease both;
+}
+
+.alert-success {
+  font-size: 0.82rem;
+  color: #276749;
+  padding: 0.6rem 0.9rem;
+  background: #f0fff4;
+  border-radius: 8px;
+  border: 1px solid #c6f6d5;
+  animation: fadeIn 0.2s ease both;
+}
+
+/* ─── Modale ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease both;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.3s var(--ease-spring);
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: var(--text-h);
+}
+
+.modal-content p {
+  margin-bottom: 2rem;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-cancel {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-cancel:hover { background: #ebe9e4; }
+
+.btn-confirm-danger {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #d93025;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+.btn-confirm-danger:hover { opacity: 0.9; }
+
+/* ─── Loading dots ─── */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+  gap: 1.5rem;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loading-dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: bounce 0.6s infinite alternate;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  from { transform: translateY(0); opacity: 0.4; }
+  to   { transform: translateY(-12px); opacity: 1; }
+}

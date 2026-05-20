@@ -335,32 +335,7 @@
   margin: 0 0 12px;
 }
 
-.ctaChiama {
-  font-size: 0.rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);       /* scuro in alto a sx, chiaro a dx */
-  border: none;
-  padding: 0.82rem 1.8rem;
-  border-radius: 10px;
-  cursor: pointer;          /* fa apparire la classica mano al passaggio */
-  text-decoration: none;    /* evita sottolietura data da <a> su cui è applicato */
-  display: inline-block;
-  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
-  transition: transform 0.22s var(--ease-spring),     /* animo queste due proprietà */
-              box-shadow 0.22s ease;
-}
-.ctaChiama:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(198, 137, 16, 0.45);
-}
-/* quando lo clicco faccio l'opposto dell'hover: riduco ombra + diminuisco dimensione */
-.ctaChiama:active {
-  transform: translateY(0) scale(0.97);
-  box-shadow: 0 2px 6px rgba(198, 137, 16, 0.25);
-}
+.ctaChiama { composes: btn-primary from global; }
 
 .ctaBtn {
   margin-top: auto;
@@ -749,28 +724,10 @@
 
 /* ── BUTTONS ── */
 .saveBtn {
+  composes: btn-primary from global;
   margin-top: 20px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-  border: none;
-  padding: 0.82rem 1.8rem;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(198,137,16,0.35);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
 }
-.saveBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(198,137,16,0.42);
-}
-.saveBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+.saveBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
 .saveBtnGhost {
   margin-top: 20px;
@@ -795,28 +752,10 @@
   cursor: not-allowed;
 }
 
-/* Link CTA (tab "Profilo pubblico" / "I miei annunci") — non full-width su mobile */
+/* Link CTA */
 .linkCta {
-  display: inline-block;
+  composes: btn-primary from global;
   margin-top: 8px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-  border: none;
-  padding: 0.82rem 1.8rem;
-  border-radius: 10px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(198,137,16,0.35);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
-}
-.linkCta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(198,137,16,0.42);
 }
 
 /* ── ANIMATIONS ── */

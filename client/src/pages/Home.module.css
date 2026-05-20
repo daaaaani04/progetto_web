@@ -1,12 +1,10 @@
 /* src/pages/Home.module.css */
 
-.accent {
-  color: #c68910;
-}
+.accent { composes: accent from global; }
 
 /* ─── Hero ─── */
 .hero {
-  position: relative;      /* serve per gli elementi ::before e ::after che usano position: absolute*/
+  position: relative;
   padding: 6rem 2.5rem 5rem;
   border-bottom: 1px solid #e8e4dc;
 }
@@ -15,16 +13,15 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image:       /* trucco per creare una griglia in css, unisco linee orizzontali e verticali di un px */
-    linear-gradient(rgba(200, 195, 185, 0.35) 1px, transparent 1px),    /* scelgo un colore semitrasparente -> sfondo */
+  background-image:
+    linear-gradient(rgba(200, 195, 185, 0.35) 1px, transparent 1px),
     linear-gradient(90deg, rgba(200, 195, 185, 0.35) 1px, transparent 1px);
   background-size: 60px 60px;
   opacity: 1;
-  animation: gridMove 12s linear infinite;  /*animazione che sposta la griglia da 0 0 a 60px 60px in 12 secondi */
-  z-index: 0;       /* come sfondo */
+  animation: gridMove 12s linear infinite;
+  z-index: 0;
 }
 
-/* sfumatura che copre la griglia verso il basso */
 .hero::after {
   content: '';
   position: absolute;
@@ -33,8 +30,8 @@
   right: 0;
   height: 40%;
   background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 1;       /* sopra la griglia ma sotto tutto il resto */
-  pointer-events: none;     /* serve a non coprire eventuali bottoni */
+  z-index: 1;
+  pointer-events: none;
 }
 
 @keyframes gridMove {
@@ -42,17 +39,6 @@
   to   { background-position: 60px 60px; }
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* metto tutti i bottoni in terzo piano */
 .heroLabel,
 .heroTitle,
 .heroSub,
@@ -98,63 +84,18 @@
   animation: fadeUp 0.6s var(--ease-out) 0.4s both;
 }
 
-/* ─── Buttons ─── */
-/* definisco bottone primario */
+/* ─── Bottoni hero ─── */
 .btnPrimary {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);       /* scuro in alto a sx, chiaro a dx */
-  border: none;
+  composes: btn-primary from global;
   padding: 0.82rem 1.8rem;
   border-radius: 10px;
-  cursor: pointer;          /* fa apparire la classica mano al passaggio */
-  text-decoration: none;    /* evita sottolietura data da <a> su cui è applicato */
-  display: inline-block;
-  box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
-  transition: transform 0.22s var(--ease-spring),     /* animo queste due proprietà */
-              box-shadow 0.22s ease;
 }
-/* sollevamento + ombra più grande + opaca */
-.btnPrimary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(198, 137, 16, 0.45);
-}
-/* quando lo clicco faccio l'opposto dell'hover: riduco ombra + diminuisco dimensione */
-.btnPrimary:active {
-  transform: translateY(0) scale(0.97);
-  box-shadow: 0 2px 6px rgba(198, 137, 16, 0.25);
-}
-/* bottone secondario -> stessa  */
+
 .btnSecondary {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #333;
-  background: #fff;         /* non è più giallo */
-  border: 1px solid #d5d0c8;
+  composes: btn-secondary from global;
   padding: 0.82rem 1.8rem;
   border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);   /* ombra leggera */
-  transition: transform 0.22s var(--ease-spring),
-              box-shadow 0.22s ease,
-              background 0.15s ease;
-}
-
-.btnSecondary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  background: #fafaf8;
-}
-
-.btnSecondary:active {
-  transform: translateY(0) scale(0.97);
+  color: #333;
 }
 
 /* ─── Stats ─── */
@@ -176,7 +117,6 @@
   overflow: hidden;
 }
 
-/* linea accent in basso al hover */
 .stat::after {
   content: '';
   position: absolute;
@@ -184,24 +124,15 @@
   left: 3rem;
   right: 3rem;
   height: 2px;
-  background: #c68910;
+  background: var(--accent);
   border-radius: 2px;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
 }
-
-.stat:hover::after {
-  transform: scaleX(1);
-}
-
-.stat:last-child {
-  border-right: none;
-}
-
-.stat:hover {
-  background: #fdf9f3;
-}
+.stat:hover::after { transform: scaleX(1); }
+.stat:last-child   { border-right: none; }
+.stat:hover        { background: #fdf9f3; }
 
 .statNum {
   font-size: 2.4rem;
@@ -219,7 +150,6 @@
   font-weight: 500;
 }
 
-/* piccola descrizione opzionale sotto la label */
 .statDesc {
   font-size: 0.8rem;
   color: #999;
@@ -249,7 +179,6 @@
   position: relative;
 }
 
-/* linea connettore tra i card */
 .steps::before {
   content: '';
   position: absolute;
@@ -280,7 +209,6 @@
   border-color: rgba(198, 137, 16, 0.35);
 }
 
-/* bordo accent sinistro al hover */
 .step::before {
   content: '';
   position: absolute;
@@ -288,21 +216,18 @@
   bottom: 1.2rem;
   left: -1px;
   width: 3px;
-  background: #c68910;
+  background: var(--accent);
   border-radius: 0 3px 3px 0;
   opacity: 0;
   transition: opacity 0.25s ease;
 }
-
-.step:hover::before {
-  opacity: 1;
-}
+.step:hover::before { opacity: 1; }
 
 .stepNum {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #c68910;
+  color: var(--accent);
   margin-bottom: 1.2rem;
   background: rgba(198, 137, 16, 0.08);
   display: inline-flex;
@@ -367,10 +292,7 @@
   box-shadow: var(--shadow-lg);
   border-color: rgba(198, 137, 16, 0.4);
 }
-
-.settoreCard:active {
-  transform: translateY(-1px) scale(1.01);
-}
+.settoreCard:active { transform: translateY(-1px) scale(1.01); }
 
 .settoreOverlay {
   position: absolute;
@@ -378,7 +300,6 @@
   background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 100%);
   transition: background 0.25s ease;
 }
-
 .settoreCard:hover .settoreOverlay {
   background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 100%);
 }
@@ -391,10 +312,7 @@
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
   transition: transform 0.2s var(--ease-spring);
 }
-
-.settoreCard:hover .settoreIcon {
-  transform: scale(1.15);
-}
+.settoreCard:hover .settoreIcon { transform: scale(1.15); }
 
 .settoreName {
   position: relative;
@@ -430,79 +348,13 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
-  .heroTitle {
-    font-size: 2.4rem;
-  }
-
-  .hero {
-    padding: 4rem 1.5rem 3.5rem;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .stat {
-    border-right: none;
-    border-bottom: 1px solid #e8e4dc;
-  }
-
-  .steps {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  /* nascondo il connettore in mobile (le card sono in colonna) */
-  .steps::before {
-    display: none;
-  }
-
-  .settoriGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .cta {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .how,
-  .settori,
-  .cta {
-    padding: 3.5rem 1.5rem;
-  }
-}
-
-
-.btn {
-  display: inline-block;
-  position: relative;
-  
-  /* Tipografia */
-  font-family: 'Anton', sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  
-  /* Colori */
-  color: rgb(219, 68, 57);           /* rosso */
-  background-color: rgb(241, 232, 219); /* beige */
-  border: 0px solid transparent;
-  
-  /* Forma */
-  border-radius: 300px;              /* pill */
-  padding: 24px 40px;
-  
-  /* Ombra offset — il dettaglio caratteristico */
-  box-shadow: -8px 8px 0px 0px rgb(118, 40, 36);
-  
-  cursor: pointer;
-  transition: all 0.05s ease-in;
-}
-
-.btn:hover {
-  opacity: 0.9;
+  .heroTitle { font-size: 2.4rem; }
+  .hero      { padding: 4rem 1.5rem 3.5rem; }
+  .stats     { grid-template-columns: 1fr; }
+  .stat      { border-right: none; border-bottom: 1px solid #e8e4dc; }
+  .steps     { grid-template-columns: 1fr; gap: 1rem; }
+  .steps::before { display: none; }
+  .settoriGrid   { grid-template-columns: repeat(2, 1fr); }
+  .cta           { flex-direction: column; align-items: flex-start; }
+  .how, .settori, .cta { padding: 3.5rem 1.5rem; }
 }

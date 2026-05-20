@@ -716,28 +716,10 @@
 
 /* ── BUTTONS ── */
 .saveBtn {
+  composes: btn-primary from global;
   margin-top: 20px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-  border: none;
-  padding: 0.82rem 1.8rem;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(198,137,16,0.35);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
 }
-.saveBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(198,137,16,0.42);
-}
-.saveBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+.saveBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
 .saveBtnGhost {
   margin-top: 20px;
@@ -764,26 +746,8 @@
 
 /* Link CTA (tab "Profilo pubblico" / "I miei annunci") — non full-width su mobile */
 .linkCta {
-  display: inline-block;
+  composes: btn-primary from global;
   margin-top: 8px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-  border: none;
-  padding: 0.82rem 1.8rem;
-  border-radius: 10px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(198,137,16,0.35);
-  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
-}
-.linkCta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(198,137,16,0.42);
 }
 
 /* ── ANIMATIONS ── */
