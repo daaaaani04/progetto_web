@@ -1,5 +1,6 @@
 /* ── stesse classi di ProfiloAzienda.module.css ── */
 
+/* Wrapper pagina: occupa tutta l'altezza viewport */
 .pageWrapper {
   min-height: 100vh;
   background-color: var(--bg);
@@ -7,6 +8,8 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Contenitore principale: larghezza massima centrata, card bianca
+   con ombra forte e overflow: hidden per rispettare i bordi arrotondati */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -16,7 +19,7 @@
   overflow: hidden;
 }
 
-/* Header */
+/* Header della pagina: flex row con titolo a sinistra e info utente a destra */
 .header {
   padding: 20px 30px;
   border-bottom: 1px solid var(--border);
@@ -27,6 +30,7 @@
 
 .headerLeft { display: flex; align-items: center; gap: 15px; }
 
+/* Freccia indietro: cambia colore al hover diventando accent dorato */
 .backBtn {
   background: none;
   border: none;
@@ -39,6 +43,7 @@
 }
 .backBtn:hover { color: var(--accent); }
 
+/* Titolo dell'header */
 .navTitle {
   font-size: 18px;
   font-weight: 700;
@@ -47,6 +52,7 @@
   letter-spacing: -0.3px;
 }
 
+/* Info utente in alto a destra: nome + mini avatar */
 .userDropdown {
   display: flex;
   align-items: center;
@@ -56,6 +62,8 @@
   color: var(--text-h);
 }
 
+/* Mini avatar circolare con la prima lettera del nome.
+   Sfondo con l'alone accent, bordo dorato semitrasparente */
 .miniAvatar {
   width: 32px;
   height: 32px;
@@ -70,14 +78,14 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Layout */
+/* Layout a due colonne: sidebar (260px) + area principale (1fr) */
 .contentLayout {
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: 600px;
 }
 
-/* Sidebar Menu */
+/* Sidebar menu verticale: flex colonna con gap tra le voci */
 .sidebarMenu {
   padding: 30px 20px;
   display: flex;
@@ -86,6 +94,8 @@
   border-right: 1px solid var(--border);
 }
 
+/* Bottoni della sidebar: stile link, nessun bordo/sfondo di default.
+   Hover: sfondo grigio caldo, testo più scuro */
 .sidebarMenu button {
   text-align: left;
   padding: 12px 15px;
@@ -101,6 +111,8 @@
 }
 .sidebarMenu button:hover { background: var(--bg-subtle); color: var(--text-h); }
 
+/* Tab attiva: sfondo dorato semitrasparente, testo accent scuro.
+   !important necessario per sovrascrivere lo stato hover dei bottoni normali */
 .activeMenu {
   background: var(--accent-glow) !important;
   color: var(--accent-dark) !important;
@@ -108,7 +120,7 @@
   position: relative;
 }
 
-/* Form Area */
+/* Area principale con i form: flex colonna con gap tra le sezioni */
 .mainFormArea {
   padding: 40px;
   background: #fff;
@@ -117,6 +129,7 @@
   gap: 24px;
 }
 
+/* Card di una sezione di impostazioni: bordo, bordi arrotondati, sfondo pagina */
 .formCard {
   max-width: 700px;
   border: 1px solid var(--border);
@@ -125,11 +138,13 @@
   background: var(--bg);
 }
 
+/* Variante card pericolo (es. "Elimina account"): bordo e sfondo rosati */
 .formCardDanger {
   border-color: rgba(200,60,60,0.25);
   background: rgba(200,60,60,0.02);
 }
 
+/* Titolo della sezione (es. "Notifiche", "Privacy") */
 .sectionTitle {
   font-size: 16px;
   font-weight: 700;
@@ -139,8 +154,10 @@
   margin-bottom: 20px;
 }
 
+/* Variante titolo pericolo: testo rosso */
 .sectionTitleDanger { color: #b03030; }
 
+/* Testo descrittivo sotto il titolo */
 .cardDesc {
   font-size: 13px;
   color: var(--text);
@@ -148,11 +165,15 @@
   margin-bottom: 18px;
 }
 
+/* Griglia form a due colonne */
 .gridForm { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
+/* Gruppo input standard (occupa una colonna) */
 .inputGroup     { display: flex; flex-direction: column; gap: 8px; }
+/* Gruppo input full-width (occupa entrambe le colonne con grid-column: 1 / -1) */
 .inputGroupFull { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; }
 
+/* Label del campo: piccola, maiuscola */
 .inputGroup label,
 .inputGroupFull label {
   font-size: 10px;
@@ -163,6 +184,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Input: sfondo bianco, bordo che diventa accent al focus con alone dorato */
 .inputGroup input,
 .inputGroupFull input {
   padding: 12px 16px;
@@ -178,12 +200,14 @@
 .inputGroup input:focus,
 .inputGroupFull input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  box-shadow: 0 0 0 3px var(--accent-glow); /* alone accent-glow semitrasparente */
 }
+/* Disabilitato: semitrasparente, cursore bloccato */
 .inputGroup input:disabled,
 .inputGroupFull input:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Messages */
+/* ── Messaggi di feedback ── */
+/* Verde: operazione riuscita */
 .msgOk {
   margin-top: 12px;
   padding: 10px 14px;
@@ -194,6 +218,7 @@
   color: #3a8c55;
 }
 
+/* Rosso: errore */
 .msgErr {
   margin-top: 12px;
   padding: 10px 14px;
@@ -204,12 +229,15 @@
   color: #b03030;
 }
 
-/* Buttons */
+/* ── Bottoni ── */
+/* Salva: eredita il primario dorato globale */
 .saveBtn {
   composes: btn-primary from global;
   margin-top: 20px;
 }
 
+/* Ghost: sfondo bianco con bordo accent, testo dorato.
+   Hover: sfondo si tinge di dorato semitrasparente, si alza di 1px */
 .saveBtnGhost {
   margin-top: 20px;
   background: #fff;
@@ -226,6 +254,8 @@
 .saveBtnGhost:hover    { background: var(--accent-glow); transform: translateY(-1px); }
 .saveBtnGhost:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
+/* Bottone pericolo (es. "Elimina account"): rosso pieno.
+   Hover: rosso più scuro, si alza di 1px */
 .saveBtnDanger {
   margin-top: 4px;
   background: #b03030;
@@ -241,6 +271,7 @@
 }
 .saveBtnDanger:hover { background: #8f2020; transform: translateY(-1px); }
 
+/* Loading placeholder */
 .loading {
   text-align: center;
   padding: 100px;
@@ -248,9 +279,12 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* ── TOGGLE ── */
+/* ── TOGGLE switch ── */
+/* Lista di righe toggle (notifiche, preferenze, ecc.) */
 .toggleList  { display: flex; flex-direction: column; }
 
+/* Singola riga: testo a sinistra, toggle a destra.
+   Bordo inferiore come separatore tra le righe */
 .toggleRow {
   display: flex;
   align-items: center;
@@ -262,15 +296,19 @@
 .toggleRow:last-child  { border-bottom: none; padding-bottom: 0; }
 .toggleRow:first-child { padding-top: 0; }
 
+/* Testo della riga toggle */
 .toggleRowText  { flex: 1; }
 .toggleRowLabel { font-size: 14px; font-weight: 600; color: var(--text-h); margin: 0 0 2px; }
 .toggleRowSub   { font-size: 12px; color: var(--text); margin: 0; line-height: 1.5; }
 
+/* Il toggle switch: rettangolo arrotondato (pillola) grigio di default.
+   ease-spring per il cambio di colore da grigio ad accent — il colore
+   "rimbalza" leggermente rendendolo più percepibile */
 .toggle {
   width: 44px;
   height: 24px;
   border-radius: 99px;
-  background: var(--border);
+  background: var(--border); /* grigio quando OFF */
   border: none;
   cursor: pointer;
   position: relative;
@@ -278,8 +316,12 @@
   transition: background 0.25s var(--ease-spring);
   padding: 0;
 }
+/* Stato ON: sfondo diventa accent dorato */
 .toggleOn { background: var(--accent); }
 
+/* Il pallino bianco interno che scorre da sinistra a destra.
+   Parte a sinistra (left: 3px), scorre a destra con translateX(20px).
+   ease-spring crea un piccolo rimbalzo quando arriva alla posizione finale */
 .toggleThumb {
   position: absolute;
   top: 3px;
@@ -291,25 +333,29 @@
   box-shadow: 0 1px 4px rgba(0,0,0,0.15);
   transition: transform 0.25s var(--ease-spring);
 }
+/* Stato ON: il pallino scorre a destra di 20px */
 .toggleOn .toggleThumb { transform: translateX(20px); }
 
-/* ─── Modale ─── */
+/* ─── Modale conferma azioni pericolose ─── */
 .modalOverlay    { composes: modal-overlay from global; }
 .modalContent    { composes: modal-content from global; }
 .modalActions    { composes: modal-actions from global; }
 .btnAnnulla      { composes: btn-cancel from global; }
 .btnEliminaConfirm { composes: btn-confirm-danger from global; }
 
-/* Responsive */
+/* ─── Responsive ─── */
 @media (max-width: 850px) {
+  /* Layout: da 2 colonne a 1 colonna */
   .contentLayout { grid-template-columns: 1fr; }
+  /* Sidebar: da verticale a orizzontale con scroll */
   .sidebarMenu {
     flex-direction: row;
-    overflow-x: auto;
+    overflow-x: auto;        /* scroll orizzontale se troppe voci */
     border-right: none;
     border-bottom: 1px solid var(--border);
     padding: 16px;
   }
+  /* Form: da 2 colonne a 1 colonna */
   .gridForm    { grid-template-columns: 1fr; }
   .mainFormArea { padding: 24px 20px; }
 }

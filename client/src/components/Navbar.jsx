@@ -10,6 +10,7 @@ export default function Navbar({ sessione, profilo }) {
   const dropdownRef = useRef(null)
   const [ConfermaLog, setConfermaLog] = useState(false)
 
+  // quaando la lunghezza è più grande di 768px chiamo setMenuAperto(false)
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth > 768) setMenuAperto(false)
@@ -30,9 +31,6 @@ export default function Navbar({ sessione, profilo }) {
 
   async function handleLogout() {
     await supabase.auth.signOut()
-    setConfermaLog(false)
-    setMenuAperto(false)
-    setDropdownAperto(false)
     window.location.href = '/'    /* forzo refresh per resettare (altrimenti resta aperto profilo...) */
   }
 
@@ -41,8 +39,10 @@ export default function Navbar({ sessione, profilo }) {
 
   const linkNav = (
     <>
-      <Link className={styles.link} to="/" onClick={() => setMenuAperto(false)}>Home</Link>
+    {/* chiudo il menu se aperto */}
+      <Link className={styles.link} to="/" onClick={() => setMenuAperto(false)}>Home</Link>   
 
+      {/* Venditore vede: Annunci, Preventivi inviati */}
       {isVenditore && (
         <>
           <Link className={styles.link} to="/annunci" onClick={() => setMenuAperto(false)}>Annunci</Link>
@@ -50,10 +50,12 @@ export default function Navbar({ sessione, profilo }) {
         </>
       )}
 
+      {/* Acquirente vede: I miei annunci, Preventivi ricevuti */}
       {isAcquirente && (
         <Link className={styles.link} to="/miei-annunci" onClick={() => setMenuAperto(false)}>I miei annunci</Link>
       )}
 
+      {/* se non ho una sessione attiva, vedo solo annunci */}
       {!sessione && (
         <Link className={styles.link} to="/annunci" onClick={() => setMenuAperto(false)}>Annunci</Link>
       )}
@@ -68,27 +70,27 @@ export default function Navbar({ sessione, profilo }) {
 
       {/* Desktop */}
       <div className={styles.links}>
-        {linkNav}
-        <div className={styles.divider} />
+        {linkNav}   {/* variabile che contiene il contenuto della nav condizionale */}
+        <div className={styles.divider} />  {/* linea verticale di separazione */}
         {sessione ? (
-          <div className={styles.dropdownWrapper} ref={dropdownRef}>
+          <div className={styles.dropdownWrapper} ref={dropdownRef}>  {/* wrapper per dropdown, usato per chiudere il dropdown quando clicco fuori */}
+           {/* se aperto -> onClick chiudo, se chiuso onClick apro */}
             <button
               className={`${styles.email} ${styles.emailBtn}`}
-              onClick={() => setDropdownAperto(!dropdownAperto)}
-              aria-expanded={dropdownAperto}
+              onClick={() => setDropdownAperto(!dropdownAperto)}    
             >
               {sessione.user.email}
               <span className={`${styles.chevron} ${dropdownAperto ? styles.chevronUp : ''}`}>▾</span>
             </button>
 
+            {/* Dropdown email */}
             {dropdownAperto && (
               <div className={styles.dropdown}>
                 <Link
                   className={styles.dropdownItem}
                   to={`/profilo/${profilo?.id}/privato`}
                   onClick={() => setDropdownAperto(false)}
-                >
-                  <span className={styles.dropdownIcon}></span>
+                >  
                   Profilo
                 </Link>
                 <Link
@@ -96,7 +98,6 @@ export default function Navbar({ sessione, profilo }) {
                   to="/impostazioni"
                   onClick={() => setDropdownAperto(false)}
                 >
-                  <span className={styles.dropdownIcon}></span>
                   Impostazioni
                 </Link>
                 <Link
@@ -104,12 +105,10 @@ export default function Navbar({ sessione, profilo }) {
                   to="/supporto"
                   onClick={() => setDropdownAperto(false)}
                 >
-                  <span className={styles.dropdownIcon}></span>
                   Supporto
                 </Link>
                 <div className={styles.dropdownDivider} />
                 <button className={styles.dropdownItemDanger} onClick={() => setConfermaLog(true)}>
-                  <span className={styles.dropdownIcon}></span>
                   Logout
                 </button>
               </div>
@@ -120,13 +119,13 @@ export default function Navbar({ sessione, profilo }) {
         )}
       </div>
 
+
       {/* Hamburger */}
       <button
         className={`${styles.hamburger} ${menuAperto ? styles.open : ''}`}
         onClick={() => setMenuAperto(!menuAperto)}
-        aria-label="Menu"
       >
-        <span /><span /><span />
+        <span /><span /><span />    {/* 3 linee che vendono implìilate e gli viene aggiunta la transition*/}
       </button>
 
       {/* Menu mobile */}

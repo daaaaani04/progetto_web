@@ -1,3 +1,5 @@
+/* Wrapper pagina: padding, larghezza massima centrata.
+   fadeUp all'ingresso: la pagina intera sale dal basso quando viene montata */
 .page {
   padding: 3.5rem 2.5rem;
   max-width: 880px;
@@ -7,11 +9,14 @@
 
 .header { margin-bottom: 2rem; }
 
+/* Etichetta sovrastante — riusa la utility globale page-label
+   (0.72rem, uppercase, grigio chiaro) */
 .label {
   composes: page-label from global;
   margin-bottom: 0.8rem;
 }
 
+/* Titolo pagina: grande, grassetto, lettera-spacing negativo */
 .titolo {
   font-size: 2.1rem;
   font-weight: 600;
@@ -20,8 +25,10 @@
   margin-bottom: 0.5rem;
 }
 
+/* Colore accent dorato — riusa utility globale */
 .accent { composes: accent from global; }
 
+/* Sottotitolo descrittivo: grigio, interlinea comoda */
 .sub {
   font-size: 0.9rem;
   color: #777;
@@ -29,6 +36,8 @@
 }
 
 /* ─── Filtri ─── */
+/* Barra di ricerca: flex row con wrap (su mobile va a colonna),
+   card bianca con bordo e ombra leggera */
 .filtri {
   display: flex;
   gap: 0.8rem;
@@ -41,6 +50,8 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* Input comune: eredita form-input globale (bordo accent al focus, ecc.)
+   flex: 1 lo fa crescere per riempire lo spazio disponibile */
 .input {
   composes: form-input from global;
   flex: 1;
@@ -48,6 +59,7 @@
   width: auto;
 }
 
+/* Select comune: eredita form-select globale */
 .select {
   composes: form-select from global;
   flex: 1;
@@ -55,6 +67,7 @@
   width: auto;
 }
 
+/* Bottoni filtri: più piccoli dei bottoni globali di default */
 .btnPrimary {
   composes: btn-primary from global;
   font-size: 0.78rem;
@@ -70,6 +83,7 @@
 }
 
 /* ─── Risultati ─── */
+/* Contatore annunci trovati: piccolo, maiuscolo, grigio */
 .risultati {
   font-size: 0.78rem;
   color: #bbb;
@@ -78,12 +92,15 @@
   text-transform: uppercase;
 }
 
+/* Testo loading semplice — fallback se non si usano i loading dots */
 .loading {
   color: #bbb;
   padding: 3rem 0;
   text-align: center;
 }
 
+/* Stato vuoto (nessun risultato): centrato, molto padding verticale,
+   flex colonna per impilare testo e bottone */
 .empty {
   display: flex;
   flex-direction: column;
@@ -95,12 +112,16 @@
 }
 
 /* ─── Lista annunci ─── */
+/* Flex colonna: le card si impilano verticalmente con gap tra loro */
 .lista {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
+/* Card singolo annuncio: card bianca con bordo.
+   Tre proprietà in transizione al hover: bordo dorato, ombra, levitazione.
+   ease-spring crea il rimbalzo nella levitazione */
 .card {
   border: 1px solid #e8e4dc;
   border-radius: 14px;
@@ -112,12 +133,14 @@
               transform 0.25s var(--ease-spring);
 }
 
+/* Hover: si alza di 3px con rimbalzo, ombra più profonda, bordo dorato */
 .card:hover {
   border-color: rgba(198, 137, 16, 0.35);
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
 
+/* Parte superiore della card: flex row con spazio tra info e badge */
 .cardTop {
   display: flex;
   justify-content: space-between;
@@ -125,6 +148,7 @@
   margin-bottom: 0.8rem;
 }
 
+/* Nome del settore: piccolo, grassetto, maiuscolo, dorato */
 .settore {
   font-size: 0.7rem;
   font-weight: 700;
@@ -135,12 +159,14 @@
   margin-bottom: 0.35rem;
 }
 
+/* Titolo dell'annuncio */
 .cardTitolo {
   font-size: 1rem;
   font-weight: 600;
   color: #111;
 }
 
+/* Colonna destra della card (badge urgente + scadenza) */
 .cardTopRight {
   display: flex;
   flex-direction: column;
@@ -148,6 +174,7 @@
   gap: 0.4rem;
 }
 
+/* Badge URGENTE: testo rosso su sfondo rosa pallido con bordo rosso */
 .urgente {
   font-size: 0.68rem;
   font-weight: 700;
@@ -160,11 +187,13 @@
   border-radius: 6px;
 }
 
+/* Data di scadenza: molto piccola, grigia */
 .scadenza {
   font-size: 0.72rem;
   color: #bbb;
 }
 
+/* Descrizione testuale dell'annuncio */
 .descrizione {
   font-size: 0.875rem;
   color: #777;
@@ -172,6 +201,7 @@
   margin-bottom: 1rem;
 }
 
+/* Parte inferiore della card: flex row con bordo superiore come separatore */
 .cardBottom {
   display: flex;
   justify-content: space-between;
@@ -181,6 +211,7 @@
   border-top: 1px solid #f0ede8;
 }
 
+/* Metadati (comune, budget): flex row con gap, testo grigio chiaro */
 .meta {
   display: flex;
   gap: 1rem;
@@ -188,17 +219,21 @@
   color: #aaa;
 }
 
+/* Destra del footer card (data + bottone offerta) */
 .cardBottomRight {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
+/* Data di pubblicazione: molto piccola, grigio chiarissimo */
 .data {
   font-size: 0.75rem;
   color: #ccc;
 }
 
+/* Bottone "Invia offerta": bottone primario più compatto,
+   visibile solo per gli utenti con ruolo venditore */
 .btnOfferta {
   composes: btn-primary from global;
   font-size: 0.73rem;
@@ -208,6 +243,9 @@
 }
 
 /* ─── Toast successo ─── */
+/* Notifica popup in basso a destra dopo aver inviato un'offerta:
+   position: fixed la ancora all'angolo dello schermo indipendentemente
+   dallo scroll. scaleIn: appare ingrandendosi con ease-spring */
 .successo {
   position: fixed;
   bottom: 2rem;
@@ -226,6 +264,7 @@
   animation: scaleIn 0.25s var(--ease-spring) both;
 }
 
+/* Bottone X per chiudere il toast */
 .successo button {
   background: none;
   border: none;
@@ -235,9 +274,11 @@
 }
 
 /* ─── Loading dots ─── */
+/* Riusa direttamente le utility globali — nessuna ridefinizione */
 .loadingContainer { composes: loading-container from global; }
 .loadingDots      { composes: loading-dots from global; }
 
+/* Testo sotto i pallini animati */
 .loadingText {
   font-size: 0.78rem;
   font-weight: 600;
@@ -246,11 +287,17 @@
   color: #bbb;
 }
 
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
+  /* Meno padding su mobile */
   .page { padding: 2rem 1.25rem; }
+  /* Filtri: da row a colonna (ogni campo occupa tutta la larghezza) */
   .filtri { flex-direction: column; }
+  /* Card: top va a colonna, badge sotto il titolo */
   .cardTop { flex-direction: column; gap: 0.5rem; }
-  .cardTopRight { align-items: flex-start; }
+  .cardTopRight { align-items: flex-start; } /* badge allineati a sinistra */
+  /* Footer card: va a colonna, bottone e data si impilano */
   .cardBottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  /* Bottone offerta occupa tutta la larghezza e si sposta a sinistra */
   .cardBottomRight { width: 100%; justify-content: space-between; }
 }

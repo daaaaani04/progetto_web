@@ -1,27 +1,39 @@
 /* src/pages/Home.module.css */
 
+/* Riusa la classe globale .accent definita in index.css */
 .accent { composes: accent from global; }
 
 /* ─── Hero ─── */
+/* Sezione principale della pagina: ampio padding, separata dal resto
+   da un bordo inferiore. position: relative serve per posizionare
+   correttamente gli pseudo-elementi ::before e ::after */
 .hero {
   position: relative;
   padding: 6rem 2.5rem 5rem;
   border-bottom: 1px solid #e8e4dc;
 }
 
+/* Griglia animata in background — creata senza immagini usando
+   due gradienti lineari sovrapposti: uno orizzontale e uno verticale.
+   background-size: 60px 60px definisce la dimensione di ogni cella.
+   z-index: 0 mette la griglia dietro il contenuto (z-index: 2) */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(200, 195, 185, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 195, 185, 0.35) 1px, transparent 1px);
+    linear-gradient(rgba(200, 195, 185, 0.35) 1px, transparent 1px),    /* linee orizzontali */
+    linear-gradient(90deg, rgba(200, 195, 185, 0.35) 1px, transparent 1px); /* linee verticali */
   background-size: 60px 60px;
   opacity: 1;
+  /* Animazione continua: la griglia scorre diagonalmente in loop */
   animation: gridMove 12s linear infinite;
   z-index: 0;
 }
 
+/* Sfumatura di uscita in basso: copre il 40% inferiore dell'hero
+   con un gradiente da trasparente al colore di sfondo della pagina,
+   così la griglia svanisce gradualmente verso il contenuto sottostante */
 .hero::after {
   content: '';
   position: absolute;
@@ -31,14 +43,19 @@
   height: 40%;
   background: linear-gradient(to bottom, transparent, var(--bg));
   z-index: 1;
-  pointer-events: none;
+  pointer-events: none; /* non intercetta i click del mouse */
 }
 
+/* La griglia si muove di esattamente una cella (60px) in diagonale:
+   questo crea l'illusione di un movimento infinito e continuo
+   perché il pattern si ripete ogni 60px */
 @keyframes gridMove {
   from { background-position: 0 0; }
   to   { background-position: 60px 60px; }
 }
 
+/* Il contenuto testuale ha z-index: 2 per stare sopra la griglia (z-index: 0)
+   e la sfumatura (z-index: 1) */
 .heroLabel,
 .heroTitle,
 .heroSub,
@@ -47,6 +64,8 @@
   z-index: 2;
 }
 
+/* Etichetta sopra il titolo: piccola, maiuscola, grigia.
+   animation: fadeUp con delay 0.1s — il primo elemento ad apparire */
 .heroLabel {
   font-size: 0.72rem;
   font-weight: 500;
@@ -54,9 +73,12 @@
   text-transform: uppercase;
   color: #aaa;
   margin-bottom: 1.5rem;
+  /* both: l'animazione si applica sia prima che dopo la sua esecuzione */
   animation: fadeUp 0.6s var(--ease-out) 0.1s both;
 }
 
+/* Titolo principale: grande, pesante, lettera-spacing negativo.
+   Delay 0.2s: appare dopo l'etichetta — effetto stagger */
 .heroTitle {
   font-size: 3.8rem;
   font-weight: 600;
@@ -68,6 +90,8 @@
   animation: fadeUp 0.6s var(--ease-out) 0.2s both;
 }
 
+/* Sottotitolo: testo grigio più leggero, interlinea generosa.
+   Delay 0.3s: terzo elemento a comparire */
 .heroSub {
   font-size: 1rem;
   color: #777;
@@ -77,6 +101,8 @@
   animation: fadeUp 0.6s var(--ease-out) 0.3s both;
 }
 
+/* Riga bottoni: flex row con wrap (va a capo su schermi piccoli).
+   Delay 0.4s: ultimo elemento a comparire */
 .heroBtns {
   display: flex;
   gap: 0.9rem;
@@ -85,6 +111,8 @@
 }
 
 /* ─── Bottoni hero ─── */
+/* composes eredita tutto lo stile da btn-primary/btn-secondary globale,
+   poi si aggiungono solo gli override locali (padding, border-radius) */
 .btnPrimary {
   composes: btn-primary from global;
   padding: 0.82rem 1.8rem;
@@ -99,6 +127,8 @@
 }
 
 /* ─── Stats ─── */
+/* Griglia 3 colonne per le statistiche numeriche.
+   Sfondo bianco per distinguersi dall'hero */
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -106,6 +136,9 @@
   background: #fff;
 }
 
+/* Singola cella statistica: padding generoso, bordo destro come separatore.
+   position: relative serve per l'underline animato (::after).
+   overflow: hidden taglia l'underline fuori dai bordi */
 .stat {
   padding: 2.8rem 3rem;
   border-right: 1px solid #e8e4dc;
@@ -117,6 +150,8 @@
   overflow: hidden;
 }
 
+/* Inserisce l'elemento css dopo l'elemento di origine, inizialmente 
+    è compresso, poi quando ci passi sopra attivi hover che lo espande */
 .stat::after {
   content: '';
   position: absolute;
@@ -130,10 +165,10 @@
   transform-origin: left;
   transition: transform 0.3s ease;
 }
-.stat:hover::after { transform: scaleX(1); }
-.stat:last-child   { border-right: none; }
-.stat:hover        { background: #fdf9f3; }
+.stat:hover::after { transform: scaleX(1); } /* underline si estende al hover */
+.stat:hover        { background: #fdf9f3; }  /* leggerissimo sfondo caldo al hover */
 
+/* Numero grande della statistica */
 .statNum {
   font-size: 2.4rem;
   font-weight: 600;
@@ -142,6 +177,7 @@
   line-height: 1;
 }
 
+/* Etichetta testuale sotto il numero */
 .statLabel {
   font-size: 0.7rem;
   color: #bbb;
@@ -158,11 +194,13 @@
 }
 
 /* ─── Come funziona ─── */
+/* Sezione con i tre step del processo */
 .how {
-  padding: 5rem 2.5rem;
+  padding: 4rem 2.5rem;
   border-bottom: 1px solid #e8e4dc;
 }
 
+/* Label di sezione: piccola, maiuscola, grigia — stile editoriale */
 .sectionLabel {
   font-size: 0.72rem;
   font-weight: 600;
@@ -172,24 +210,31 @@
   margin-bottom: 3.5rem;
 }
 
+/* Griglia dei tre step */
 .steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  position: relative;
+  position: relative; /* serve per posizionare la linea connettore (::before) */
 }
 
+/* Linea orizzontale che connette i tre step: posizionata
+   esattamente al centro dei pallini numerati (top: 2.8rem).
+   Il gradiente sfuma ai bordi per un aspetto più elegante */
 .steps::before {
   content: '';
   position: absolute;
-  top: 2.8rem;
-  left: calc(16.66% + 1rem);
-  right: calc(16.66% + 1rem);
+  top: 2.8rem; /* allineata verticalmente ai numeri cerchiati */
+  left: calc(16.66% + 1rem);  /* inizia dopo il primo terzo */
+  right: calc(16.66% + 1rem); /* finisce prima dell'ultimo terzo */
   height: 1px;
   background: linear-gradient(90deg, #e8e4dc, rgba(198, 137, 16, 0.3), #e8e4dc);
   z-index: 0;
 }
 
+/* Singolo step: card bianca con bordo, ombra leggera.
+   z-index: 1 per stare sopra la linea connettore.
+   Tre proprietà in transizione: posizione (levitazione), ombra, colore bordo */
 .step {
   padding: 2rem;
   border: 1px solid #e8e4dc;
@@ -203,26 +248,32 @@
               border-color 0.2s ease;
 }
 
+/* Hover: si alza di 5px (ease-spring crea il rimbalzo),
+   ombra più profonda, bordo diventa dorato semitrasparente */
 .step:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
   border-color: rgba(198, 137, 16, 0.35);
 }
 
+/* Barra verticale dorata sul bordo sinistro della card:
+   appare in opacità al hover. Inizia invisibile (opacity: 0)
+   e transisce a opacity: 1 al hover dello step */
 .step::before {
   content: '';
   position: absolute;
   top: 1.2rem;
   bottom: 1.2rem;
-  left: -1px;
+  left: -1px; /* sovrapposta al bordo sinistro della card */
   width: 3px;
   background: var(--accent);
   border-radius: 0 3px 3px 0;
   opacity: 0;
   transition: opacity 0.25s ease;
 }
-.step:hover::before { opacity: 1; }
+.step:hover::before { opacity: 1; } /* la barra appare al hover */
 
+/* Numero cerchiato (01, 02, 03): piccolo cerchio dorato semitrasparente */
 .stepNum {
   font-size: 0.68rem;
   font-weight: 700;
@@ -259,6 +310,7 @@
   border-bottom: 1px solid #e8e4dc;
 }
 
+/* Griglia 4 colonne per le card dei settori */
 .settoriGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -266,6 +318,10 @@
   margin-top: 2.5rem;
 }
 
+/* Card settore: usa background-image per l'immagine di copertina.
+   justify-content: flex-end mette il nome in basso.
+   overflow: hidden taglia l'immagine ai bordi arrotondati.
+   Transizione su tre proprietà con ease-spring per il rimbalzo */
 .settoreCard {
   border: 1px solid #e8e4dc;
   border-radius: 14px;
@@ -274,12 +330,12 @@
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-end; /* nome settore sempre in basso */
   position: relative;
   overflow: hidden;
   background-size: cover;
   background-position: center;
-  background-color: #f0ede8;
+  background-color: #f0ede8; /* fallback se l'immagine non carica */
   min-height: 140px;
   box-shadow: var(--shadow-sm);
   transition: transform 0.25s var(--ease-spring),
@@ -287,13 +343,19 @@
               border-color 0.2s ease;
 }
 
+/* Hover: si alza e si ingrandisce leggermente (scale 1.02),
+   ombra più profonda, bordo dorato */
 .settoreCard:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: var(--shadow-lg);
   border-color: rgba(198, 137, 16, 0.4);
 }
+/* Active: torna quasi alla posizione originale — feedback click */
 .settoreCard:active { transform: translateY(-1px) scale(1.01); }
 
+/* Overlay scuro sfumato sull'immagine: gradiente da nero 55% in basso
+   a nero 10% in alto, garantisce leggibilità del testo bianco.
+   Al hover diventa più scuro per aumentare il contrasto */
 .settoreOverlay {
   position: absolute;
   inset: 0;
@@ -304,16 +366,8 @@
   background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 100%);
 }
 
-.settoreIcon {
-  position: relative;
-  z-index: 1;
-  font-size: 1.4rem;
-  margin-bottom: 0.4rem;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-  transition: transform 0.2s var(--ease-spring);
-}
-.settoreCard:hover .settoreIcon { transform: scale(1.15); }
-
+/* Nome settore: bianco uppercase, z-index sopra l'overlay,
+   text-shadow per leggibilità sull'immagine */
 .settoreName {
   position: relative;
   z-index: 1;
@@ -326,6 +380,8 @@
 }
 
 /* ─── CTA ─── */
+/* Sezione call-to-action finale: flex row con spazio tra titolo e bottone.
+   Sfondo con gradiente diagonale tenue per differenziarla dalle altre sezioni */
 .cta {
   padding: 5rem 2.5rem;
   background: linear-gradient(135deg, #fdf9f3 0%, #fff 60%, #fdf9f3 100%);
@@ -333,7 +389,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* su mobile va a colonna */
   border-bottom: 1px solid #e8e4dc;
 }
 
@@ -348,13 +404,20 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
+  /* Titolo hero più piccolo su mobile */
   .heroTitle { font-size: 2.4rem; }
+  /* Meno padding laterale su schermi stretti */
   .hero      { padding: 4rem 1.5rem 3.5rem; }
+  /* Stats: da 3 colonne a 1 colonna, bordo orizzontale invece di verticale */
   .stats     { grid-template-columns: 1fr; }
   .stat      { border-right: none; border-bottom: 1px solid #e8e4dc; }
+  /* Steps: da 3 colonne a 1 colonna, nasconde la linea connettore */
   .steps     { grid-template-columns: 1fr; gap: 1rem; }
   .steps::before { display: none; }
+  /* Settori: da 4 colonne a 2 colonne */
   .settoriGrid   { grid-template-columns: repeat(2, 1fr); }
+  /* CTA: da row a colonna */
   .cta           { flex-direction: column; align-items: flex-start; }
+  /* Meno padding verticale nelle sezioni */
   .how, .settori, .cta { padding: 3.5rem 1.5rem; }
 }

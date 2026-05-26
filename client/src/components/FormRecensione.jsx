@@ -10,7 +10,6 @@ export default function FormRecensione({ venditoreid, annuncioid, sessione, onIn
   const [errore, setErrore] = useState(null)
 
   async function handleInvia() {
-    if (stelle === 0) return setErrore('Seleziona almeno una stella.')
     setLoading(true)
     setErrore(null)
 

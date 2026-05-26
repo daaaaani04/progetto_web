@@ -1,4 +1,8 @@
 /* src/components/Footer.module.css */
+
+/* Footer principale: bordo superiore per separarlo dal contenuto.
+   margin-top: auto spinge il footer in fondo alla pagina grazie al
+   flex-direction: column sul #root (definito in index.css) */
 .footer {
   border-top: 1px solid #e8e4dc;
   padding: 2.2rem 2.5rem 1.8rem;
@@ -6,6 +10,7 @@
   background: #fff;
 }
 
+/* Riga superiore: logo a sinistra, link di navigazione a destra */
 .top {
   display: flex;
   justify-content: space-between;
@@ -13,6 +18,8 @@
   margin-bottom: 0.5rem;
 }
 
+/* Logo nel footer: più piccolo di quello nella navbar.
+   Hover: diventa semitrasparente con transizione rapida */
 .logo {
   font-size: 1.3rem;
   font-weight: 500;
@@ -21,20 +28,23 @@
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
-
 .logo:hover {
   opacity: 0.65;
 }
 
+/* Punto decorativo dorato nel logo */
 .dot {
   color: #c68910;
 }
 
+/* Contenitore link footer */
 .links {
   display: flex;
   gap: 0.3rem;
 }
 
+/* Link footer: molto piccoli, maiuscoli, grigio chiaro.
+   Hover: testo più scuro + sfondo grigio semitrasparente */
 .link {
   font-size: 0.75rem;
   font-weight: 500;
@@ -46,12 +56,12 @@
   border-radius: 7px;
   transition: color 0.2s ease, background 0.2s ease;
 }
-
 .link:hover {
   color: #111;
   background: rgba(0,0,0,0.04);
 }
 
+/* Sezione social media: centrata */
 .social {
   margin-bottom: 1.5rem;
   display: flex;
@@ -60,6 +70,7 @@
   text-align: center;
 }
 
+/* Label "Seguici su" */
 .socialTitle {
   display: block;
   font-size: 0.75rem;
@@ -70,11 +81,15 @@
   margin-bottom: 1.4rem;
 }
 
+/* Riga dei bottoni social */
 .socialLinks {
   display: flex;
   gap: 1.2rem;
 }
 
+/* Singolo bottone social: cerchio neutro di default.
+   Hover: si riempie con il gradiente dorato, testo bianco, si alza di 2px.
+   Quattro proprietà in transizione simultanea con ease-spring per il rimbalzo */
 .socialBtn {
   width: 36px;
   height: 36px;
@@ -95,14 +110,14 @@
               border-color 0.2s ease,
               transform 0.2s var(--ease-spring);
 }
-
 .socialBtn:hover {
-  background: linear-gradient(135deg, #c68910, #d4981c);
+  background: linear-gradient(135deg, #c68910, #d4981c); /* gradiente dorato */
   color: #fff;
   border-color: #c68910;
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* levitazione con rimbalzo ease-spring */
 }
 
+/* Striscia copyright in fondo: bordo superiore, testo grigio chiarissimo */
 .bottom {
   border-top: 1px solid #f0ede8;
   padding-top: 1rem;
@@ -110,13 +125,15 @@
   color: #ccc;
 }
 
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
+  /* Top: da row a colonna, logo sopra e link sotto */
   .top {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-
+  /* Link: si wrappano su più righe se non ci stanno */
   .links {
     flex-wrap: wrap;
   }

@@ -1,57 +1,60 @@
-/* container che contiene tutta la pagina supporto 
-*/
+/* Contenitore principale pagina Supporto:
+   larghezza massima centrata, padding generoso */
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
-/*
-margin bottom indica l'altezza del bordo dal basso 
-*/
 
+/* Header centrato con ampio spazio inferiore */
 .header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
+/* Titolo principale grande */
 .title {
   font-size: 2.8rem;
 }
 
+/* Punto decorativo dorato nel titolo */
 .dot {
   color: var(--accent);
 }
 
+/* Sottotitolo descrittivo */
 .subtitle {
   font-size: 1.1rem;
   color: var(--text);
 }
 
-/* per impostare il margine a 5, cioè la distanza tra i riquadri e 
-hai ancora bisogno d aiuto */
+/* Sezione (es. "Domande frequenti", "Contatti"):
+   margin-bottom: 5rem crea ampio respiro tra le sezioni */
 .section {
   margin-bottom: 5rem;
 }
 
+/* Titolo di sezione centrato */
 .sectionTitle {
   margin-bottom: 2rem;
   font-size: 1.8rem;
   text-align: center;
 }
-/*  setto una grid, quindi con display : grid, tale che 
-crea quante colonne vuole basta che ogni colonna sia larga almeno 300px
-*/
+
+/* Griglia responsive per le card FAQ:
+   auto-fit crea automaticamente il numero di colonne che ci stanno,
+   con un minimo di 300px per colonna — si adatta da 1 a N colonne
+   senza media query esplicite */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  min-height: 200px; /* Evita salti di layout se scompaiono i risultati */
+  min-height: 200px; /* evita salti di layout se le card scompaiono durante la ricerca */
 }
 
-/*css di ogni tabella nella grid, distanza tra bordo e contenuto di 2rem
-angoli leggermente arrotondati e una volta che ci si passa sopra ila tabella 
-sale di 5 px e spunta dell'ombra dietro la card 
-*/
+/* Card FAQ: card bianca con bordo e angoli arrotondati.
+   Hover: si alza di 5px con ease-out (decelerazione veloce) + ombra media —
+   effetto di "sollevamento" più fluido rispetto all'ease-spring */
 .card {
   padding: 2rem;
   background: white;
@@ -59,7 +62,6 @@ sale di 5 px e spunta dell'ombra dietro la card
   border-radius: 12px;
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
 }
-
 .card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
@@ -71,6 +73,7 @@ sale di 5 px e spunta dell'ombra dietro la card
   color: var(--text-h);
 }
 
+/* Sezione contatti: sfondo leggermente colorato, bordi molto arrotondati (20px) */
 .contact {
   text-align: center;
   padding: 3rem;
@@ -78,61 +81,56 @@ sale di 5 px e spunta dell'ombra dietro la card
   border-radius: 20px;
 }
 
-/*
-usa lo stesso gradiente degli altri bottono, 
-imposta uno spazio fra lettere di 0.09 em 
-text-trnsofrm rende il testo più grande
-*/
+/* Bottone "Contattaci": eredita il primario dorato globale */
 .contactButton {
   composes: btn-primary from global;
   margin-top: 1.5rem;
 }
 
-/* position relative per far entrare la lente d'ingrandimento 
-margine in alto 0 a destra automaticamente 3 rem sotto e auto a sinistra 
-*/
-
+/* Wrapper della barra di ricerca: posizionamento relativo per
+   ancorare l'icona lente in modo assoluto all'interno */
 .searchWrapper {
   position: relative;
   max-width: 600px;
   margin: 0 auto 3rem auto;
 }
 
-/* metto il margine sopra a 1 destra 1,5 1 sotto 3,5 sinistra 
-la transition all diche che qualsiasi proprietà css cambi su questo elemento 
-trasformala in un animation
-*/
+/* Input di ricerca: bordo arrotondato a pillola (border-radius: 50px).
+   padding-left: 3.5rem lascia spazio all'icona lente posizionata in assoluto.
+   transition: all — qualsiasi proprietà CSS che cambia viene animata
+   (bordo, ombra, sfondo) — semplice ma efficace per il focus */
 .searchInput {
   width: 100%;
   padding: 1rem 1.5rem 1rem 3.5rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 1rem;
   border: 1px solid var(--border);
-  border-radius: 50px; 
+  border-radius: 50px;
   background: white;
   color: var(--text-h);
   transition: all 0.3s var(--ease-out);
   outline: none;
 }
-
+/* Focus: bordo accent + alone dorato più pronunciato (4px invece di 3px) */
 .searchInput:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
-/*
-mettendo position absolute la lente si sposta 1,2 rem a sinistra rispetto al bordo del wrapper
-e non rispetto allo schermo del browser 
-*/
+/* Icona lente: position: absolute la posiziona rispetto al .searchWrapper
+   (che ha position: relative). left: 1.2rem la allinea dentro l'input.
+   top: 50% + translateY(-50%) la centra verticalmente esattamente a metà */
 .searchIcon {
   position: absolute;
   left: 1.2rem;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); /* centra verticalmente */
   font-size: 1.2rem;
-  opacity: 0.5;
+  opacity: 0.5; /* semi-trasparente per non sovrastare il testo */
 }
 
+/* Messaggio "nessun risultato": si estende su tutta la larghezza della griglia
+   (grid-column: 1 / -1 occupa dalla prima all'ultima colonna) */
 .noResults {
   grid-column: 1 / -1;
   text-align: center;
@@ -140,4 +138,3 @@ e non rispetto allo schermo del browser
   color: var(--text);
   font-style: italic;
 }
-

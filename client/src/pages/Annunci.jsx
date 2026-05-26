@@ -1,106 +1,79 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'  // ← aggiungi import
 import supabase from '../lib/supabase'
 import styles from './Annunci.module.css'
 import FormOfferta from '../components/FormOfferta'
 
-export default function Annunci({ sessione }) {   // prop della componente dato in input alla funzione
-  const [searchParams] = useSearchParams()        // legge ?settore=idraulica dalla URL
-  const [annunci, setAnnunci] = useState([])      // lista annunci caricati dal DB
-  const [settori, setSettori] = useState([])      // lista settori per il select
-  const [loading, setLoading] = useState(true)    // mostra "Caricamento..." mentre aspetta
+export default function Annunci({ sessione }) {
+  const [searchParams] = useSearchParams()  // sposta qui, prima degli stati
+
+  const [annunci, setAnnunci] = useState([])
+  const [settori, setSettori] = useState([])
+  const [loading, setLoading] = useState(true)
   const [filtri, setFiltri] = useState({
     comune: '',
-    settore_id: searchParams.get('settore') || '' // se URL ha ?settore=X, parte già filtrato
+    settore_id: searchParams.get('settore') || ''  // legge URL al primo render
   })
-  const [annuncioSelezionato, setAnnuncioSelezionato] = useState(null) // annuncio su cui aprire il modal
-  const [successoOfferta, setSuccessoOfferta] = useState(false)        // gestione offerta inviata con successo
+  const [annuncioSelezionato, setAnnuncioSelezionato] = useState(null)
+  const [successoOfferta, setSuccessoOfferta] = useState(false)
   const [profilo, setProfilo] = useState(null)
-
 
   useEffect(() => {
     async function init() {
-      // carica tutti i settori dal db per popolare la scrollbar
       const { data: settoriData } = await supabase.from('settori').select('*')
       setSettori(settoriData || [])
 
-      // se c'è una sessione tira giù il comune relativo all'utente proprietario della sessione per usarlo come filtro
+      let filtriIniziali = {
+        comune: '',
+        settore_id: searchParams.get('settore') || ''  // URL ha priorità
+      }
+
       if (sessione) {
-        const { data: profilo } = await supabase
+        const { data: profiloData } = await supabase
           .from('profiles')
-          .select('comune , ruolo')
+          .select('comune, ruolo, settore')
           .eq('id', sessione.user.id)
           .single()
-        
-        setProfilo(profilo) 
 
-        //tiro giu anche i settori del venditore (lavoratore) per filtrarlo automaticamente
-        const { data: settoriVenditore } = await supabase
-          .from('venditore_settori')
-          .select('settore_id')
-          .eq('venditore_id', sessione.user.id)
+        setProfilo(profiloData)
 
-        // uso searchParam importato da router-react per tirare fuori il settore dall'url
-        const settoreDaUrl = searchParams.get('settore')
-        // prendo il primo settore: scelta progettuale -> un venditore puo avere più settore
-          // in questo momento in registrazione prendo solo un settore
-            // db implementato come (venditore_id e settore_id) come chiave primaria -> possono esserci stesso venditore con due settori diversi
-        const primoSettore = settoreDaUrl || settoriVenditore?.[0]?.settore_id || ''
-
-        // oggetto che verrà usato come filtro nella ricerca degli annunci
-        const filtriIniziali = {
-          comune: profilo?.comune || '',
-          settore_id: primoSettore
+        filtriIniziali = {
+          comune: profiloData?.comune || '',
+          settore_id: searchParams.get('settore') || profiloData?.settore || ''  // ← URL prima, poi profilo
         }
-
-        // setto i filtri
-        setFiltri(filtriIniziali)
-        // carico gli annunci passando i filtri come parametro
-        await caricaAnnunci(filtriIniziali)
-      } else {
-        const filtriIniziali = {
-          comune: '',
-          settore_id: searchParams.get('settore') || ''
-        }
-        setFiltri(filtriIniziali)
-        // a meno che non sono un venditore non ho filtri
-        await caricaAnnunci(filtriIniziali)
       }
+
+      setFiltri(filtriIniziali)
+      await caricaAnnunci(filtriIniziali)
     }
 
     init()
-  }, [sessione, searchParams])
+  }, [sessione])
 
-  // le funzioni dichiarate con function vengono hoistate, sollevate in cima 
   async function caricaAnnunci(f = filtri) {
-    setLoading(true)    // può essere utile settare una variabile di caricamento che termina al termine dell'operazione 
+    setLoading(true)
 
-    //semplicemente costruisco la query
     let query = supabase
       .from('annunci')
       .select('*, settori(*)')
       .eq('stato', 'attivo')
       .order('created_at', { ascending: false })
 
-     // se è presente un comune passato come filtro aggiungo filtro alla query
-    if (f.comune) query = query.ilike('comune', `%${f.comune}%`)   // -> cerca il comune filtrato all'interno dei comuni delle query (prima quello che vuoi dopo quello che vuoi)
-    // uguale a quello di prima ma questo fa ricerca esatta
+    // aggiungo filtri solo se presenti
+    if (f.comune) query = query.ilike('comune', `%${f.comune}%`)
     if (f.settore_id) query = query.eq('settore_id', f.settore_id)
 
-    // eseguo chiamata al db
     const { data } = await query
-
-    setAnnunci(data || [])      // modifico valore di annunci, simile a annunci=data ma dinamico (react se ne accorge)
+    setAnnunci(data || [])
     setLoading(false)
   }
 
   function handleFiltro(e) {
     const { name, value } = e.target
-    setFiltri(prev => ({ ...prev, [name]: value }))   //sovrascrive il filtro che conteneva prev con: il valore
+    setFiltri(prev => ({ ...prev, [name]: value }))
   }
 
   function handleCerca(e) {
-    // blocca il comportamento del refresh
     e.preventDefault()
     caricaAnnunci()
   }
@@ -111,11 +84,11 @@ export default function Annunci({ sessione }) {   // prop della componente dato 
     caricaAnnunci(vuoti)
   }
 
-  // lo uso per gestire lo switch del nome quando seleziono un settore
-  const settoreSelezionato = settori.find(s => s.id === filtri.settore_id)  // cerca il settore relativo al filtro selezionato in quel momento
+  // cerca il settore selezionato per mostrarne il label nell'header
+  const settoreSelezionato = settori.find(s => String(s.id) === String(filtri.settore_id))
 
   return (
-    <main className={styles.page}>
+   <main className={styles.page}>
 
       {/* Header */}
       <div className={styles.header}>
@@ -204,8 +177,8 @@ export default function Annunci({ sessione }) {   // prop della componente dato 
 
                 <div className={styles.cardBottom}>
                   <div className={styles.meta}>
-                    {a.comune && <span>📍 {a.comune}</span>}
-                    {a.budget && <span>💶 {a.budget}€</span>}
+                    {a.comune && <span> Luogo: {a.comune}</span>}
+                    {a.budget && <span> Budget: {a.budget}€</span>}
                   </div>
                   <div className={styles.cardBottomRight}>
                     <span className={styles.data}>

@@ -1,5 +1,7 @@
+/* Form recensione: padding interno generoso */
 .form { padding: 1.6rem; }
 
+/* Titolo della sezione recensione */
 .titolo {
   font-size: 1rem;
   font-weight: 600;
@@ -8,6 +10,7 @@
   margin: 0 0 0.3rem;
 }
 
+/* Sottotitolo/istruzioni: grigio chiaro */
 .sub {
   font-size: 0.875rem;
   color: #aaa;
@@ -15,6 +18,8 @@
   line-height: 1.65;
 }
 
+/* ─── Selezione stelle ─── */
+/* Riga delle stelle: flex row con gap minimo tra i bottoni */
 .stelleRow {
   display: flex;
   align-items: center;
@@ -22,19 +27,25 @@
   margin-bottom: 1.3rem;
 }
 
+/* Singolo bottone stella: grande (2rem), grigio di default.
+   Hover: si ingrandisce del 20% con ease-spring (rimbalzo).
+   .attiva: diventa dorata (accent) */
 .stellaBtn {
   background: none;
   border: none;
   font-size: 2rem;
-  color: #e8e4dc;
+  color: #e8e4dc;       /* grigio chiaro quando non selezionata */
   cursor: pointer;
   padding: 0;
   line-height: 1;
   transition: color 0.15s ease, transform 0.2s var(--ease-spring);
 }
+/* Stella selezionata: colore accent dorato */
 .stellaBtn.attiva { color: var(--accent); }
+/* Hover: la stella si ingrandisce leggermente con rimbalzo */
 .stellaBtn:hover  { transform: scale(1.2); }
 
+/* Etichetta testuale accanto alle stelle (es. "Eccellente") */
 .stellaLabel {
   margin-left: 0.6rem;
   font-size: 0.82rem;
@@ -42,8 +53,10 @@
   letter-spacing: 0.03em;
 }
 
+/* Textarea per il testo della recensione: eredita la utility globale */
 .textarea { composes: form-textarea from global; min-height: 80px; }
 
+/* Messaggio di errore: testo rosso semplice (senza box) */
 .errore {
   color: #c53030;
   font-size: 0.82rem;
@@ -51,6 +64,7 @@
   letter-spacing: 0.02em;
 }
 
+/* Bottone "Invia recensione": eredita il primario dorato globale */
 .btnInvia {
   composes: btn-primary from global;
   margin-top: 1rem;

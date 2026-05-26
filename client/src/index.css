@@ -1,37 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
 
+/* ─────────────────────────────────────────────────────
+   :root — Design token globali
+   Tutte le variabili CSS usate in tutta l'app vengono
+   definite qui una volta sola. Cambiare un valore qui
+   lo aggiorna ovunque venga usata la variabile.
+   ───────────────────────────────────────────────────── */
 :root {
+  /* Palette accent (oro/arancio) — usata per bottoni, bordi attivi, testi in evidenza */
   --accent: #ce670c;
-  --accent-dark: #a97209;
-  --accent-light: #d4981c;
-  --accent-glow: rgba(198, 137, 16, 0.18);
-  --text: #6b6b6b;
-  --text-h: #1a1a1a;
-  --bg: #fafaf8;
-  --border: #e8e6e0;
-  --bg-subtle: #f5f3ef;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --accent-dark: #a97209;        /* variante più scura, hover su testi/bottoni ghost */
+  --accent-light: #d4981c;       /* variante più chiara, usata nel gradiente del bottone primario */
+  --accent-glow: rgba(198, 137, 16, 0.18); /* alone semitrasparente dorato, sfondo avatar/pill */
 
+  /* Colori testo */
+  --text: #6b6b6b;   /* testo body secondario */
+  --text-h: #1a1a1a; /* testo heading, quasi nero */
+
+  /* Sfondi */
+  --bg: #fafaf8;        /* sfondo generale pagina (bianco caldo) */
+  --border: #e8e6e0;    /* bordi card, divisori */
+  --bg-subtle: #f5f3ef; /* sfondo leggermente più scuro per input, card secondarie */
+
+  /* Ombre — tre livelli di profondità */
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.05);   /* ombra leggera, card piatte */
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);  /* ombra media, card in hover */
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);  /* ombra forte, container principali */
+
+  /* Curve di easing personalizzate per le transizioni */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* effetto "molla": supera leggermente il valore finale e torna — usato su translateY hover */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);        /* decelerazione veloce — usato su animazioni fadeUp/scaleIn */
+
+  /* Font di base globale — system-ui stack per massima compatibilità */
   font: 16px/1.7 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text);
   background: var(--bg);
+  /* Migliora la resa dei font su macOS/iOS (anti-aliasing subpixel) */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Stato loading generico — testo grigio chiaro con padding generoso */
 .loading {
   padding: 3rem 2.5rem;
   color: #bbb;
 }
 
+/* Scroll fluido quando si naviga verso un'ancora (#id) */
 html {
   scroll-behavior: smooth;
 }
 
+/* Reset universale: elimina margin/padding di default del browser,
+   box-sizing: border-box fa sì che padding e border siano inclusi
+   nelle dimensioni dichiarate (width/height) */
 * {
   margin: 0;
   padding: 0;
@@ -43,12 +65,17 @@ body {
   color: var(--text);
 }
 
+/* #root è il div in cui React monta tutta l'app.
+   min-height + flex colonna fa sì che il Footer rimanga sempre
+   in fondo alla pagina anche con poco contenuto */
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Stile comune per tutti i titoli — grassetto scuro con
+   letter-spacing negativo per un look moderno compatto */
 h1, h2, h3 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 700;
@@ -56,57 +83,44 @@ h1, h2, h3 {
   letter-spacing: -0.5px;
 }
 
+/* I link ereditano il colore del testo genitore invece del blu di default */
 a {
   color: inherit;
 }
 
 /* ─── Animazioni globali ─── */
 
+/* fadeUp: il componente sale dal basso mentre appare
+   — usato su titoli hero, card, sezioni pagina */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* animazione che fa comparire il componente e ne modifica l'opacità */
+/* fadeIn: semplice dissolvenza in entrata — usato su overlay, alert */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
+/* scaleIn: appare ingrandendosi leggermente da 95% a 100%
+   combinato con fadeIn — usato su modali e card login */
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* ─── Scroll reveal ─── */
 
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s var(--ease-out),
-              transform 0.65s var(--ease-out);
-}
-
-[data-reveal].visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-[data-reveal][data-delay="1"] { transition-delay: 0.08s; }
-[data-reveal][data-delay="2"] { transition-delay: 0.16s; }
-[data-reveal][data-delay="3"] { transition-delay: 0.24s; }
-[data-reveal][data-delay="4"] { transition-delay: 0.32s; }
-[data-reveal][data-delay="5"] { transition-delay: 0.40s; }
-[data-reveal][data-delay="6"] { transition-delay: 0.48s; }
-
-/* ─────────────────────────────────────────────────────
+/*
    Utility globali — usate tramite composes nei moduli
-   ───────────────────────────────────────────────────── */
+ */
 
-/* Accent */
+/* Testo nel colore accent dorato — es. span decorativi nei titoli */
 .accent { color: var(--accent); }
 
 /* ─── Label uppercase piccola ─── */
+/* Etichetta sovrastante di sezione: tutto maiuscolo, spaziatura larga,
+   molto piccola e grigia — stile editoriale */
 .page-label {
   font-size: 0.72rem;
   font-weight: 600;
@@ -116,28 +130,37 @@ a {
 }
 
 /* ─── Bottone primario (oro) ─── */
+/* Bottone principale call-to-action: gradiente dorato diagonale,
+   testo bianco uppercase, ombra colorata che amplifica sul hover.
+   Transizione con ease-spring per l'effetto "rimbalzo" al hover. */
 .btn-primary {
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: #fff;
+  /* Gradiente da accent (arancio) ad accent-light (oro) */
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
   border: none;
   padding: 0.8rem 1.8rem;
   border-radius: 10px;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: nowrap;    /* impedisce il testo a capo */
   display: inline-block;
   text-decoration: none;
+  /* Ombra colorata (dorata) che dà profondità al bottone */
   box-shadow: 0 3px 12px rgba(198, 137, 16, 0.35);
+  /* Transizione: si sposta su di 2px e l'ombra si allarga — effetto levitazione */
   transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
 }
+/* Hover: si alza di 2px, ombra più grande e opaca */
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 20px rgba(198, 137, 16, 0.45);
 }
+/* Active (click): torna giù e si rimpicciolisce leggermente — feedback tattile */
 .btn-primary:active  { transform: translateY(0) scale(0.97); }
+/* Disabled: semitrasparente, cursore bloccato, nessun effetto hover */
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -146,6 +169,8 @@ a {
 }
 
 /* ─── Bottone secondario (bianco) ─── */
+/* Bottone alternativo: sfondo bianco con bordo grigio chiaro.
+   Stesso meccanismo di levitazione del primario ma più sobrio. */
 .btn-secondary {
   font-size: 0.8rem;
   font-weight: 600;
@@ -161,34 +186,42 @@ a {
   display: inline-block;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
+  /* Transizione su tre proprietà: posizione, ombra e sfondo */
   transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease, background 0.15s;
 }
 .btn-secondary:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
-  background: #fafaf8;
+  background: #fafaf8; /* leggerissimo cambio sfondo al hover */
 }
 .btn-secondary:active { transform: translateY(0) scale(0.97); }
 
 /* ─── Input / Textarea / Select ─── */
+/* Input testuale: bordo grigio che diventa dorato al focus,
+   con un alone (box-shadow) semitrasparente per evidenziare il campo attivo.
+   Lo sfondo diventa bianco puro al focus per aumentare il contrasto. */
 .form-input {
   padding: 0.72rem 1rem;
   font-size: 0.9rem;
   border: 1px solid #e0ddd6;
   border-radius: 9px;
-  outline: none;
+  outline: none; /* rimuove il bordo di default del browser, sostituito da box-shadow */
   background: #fdfcfa;
   color: #111;
+  /* Transizione su bordo, alone e sfondo */
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   font-family: inherit;
   width: 100%;
 }
+/* Focus: bordo accent + alone accent semitrasparente (3px, 12% opacità) */
 .form-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(198, 137, 16, 0.12);
   background: #fff;
 }
 
+/* Textarea: identico a form-input ma con resize solo verticale
+   (l'utente può allungare in altezza ma non in larghezza) */
 .form-textarea {
   padding: 0.72rem 1rem;
   font-size: 0.9rem;
@@ -200,7 +233,7 @@ a {
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   font-family: inherit;
   width: 100%;
-  resize: vertical;
+  resize: vertical; /* disabilita il resize orizzontale */
 }
 .form-textarea:focus {
   border-color: var(--accent);
@@ -208,6 +241,7 @@ a {
   background: #fff;
 }
 
+/* Select: stesso stile degli input, cursore pointer perché è cliccabile */
 .form-select {
   padding: 0.72rem 1rem;
   font-size: 0.9rem;
@@ -219,7 +253,6 @@ a {
   cursor: pointer;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   font-family: inherit;
-  width: 100%;
 }
 .form-select:focus {
   border-color: var(--accent);
@@ -227,6 +260,8 @@ a {
 }
 
 /* ─── Messaggi di feedback ─── */
+/* Errore: testo rosso scuro su sfondo rosa chiaro con bordo rosso,
+   appare con una fadeIn rapida (0.2s) */
 .alert-error {
   font-size: 0.82rem;
   color: #c53030;
@@ -237,6 +272,7 @@ a {
   animation: fadeIn 0.2s ease both;
 }
 
+/* Successo: testo verde su sfondo verde chiarissimo con bordo verde */
 .alert-success {
   font-size: 0.82rem;
   color: #276749;
@@ -248,12 +284,15 @@ a {
 }
 
 /* ─── Modale ─── */
+/* Overlay: copre tutto lo schermo (position: fixed, inset: 0),
+   sfondo nero semitrasparente + blur del contenuto sottostante.
+   z-index altissimo per stare sopra tutto. Appare con fadeIn. */
 .modal-overlay {
   position: fixed;
-  inset: 0;
+  inset: 0; /* shorthand per top/right/bottom/left: 0 */
   background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);         /* sfoca il contenuto dietro */
+  -webkit-backdrop-filter: blur(4px); /* prefisso per Safari */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,6 +300,9 @@ a {
   animation: fadeIn 0.2s ease both;
 }
 
+/* Contenitore modale: card bianca centrata, appare con scaleIn
+   (si ingrandisce da 95% a 100%) usando ease-spring per un effetto
+   leggermente elastico */
 .modal-content {
   background: #fff;
   padding: 2.5rem;
@@ -284,12 +326,14 @@ a {
   font-size: 0.95rem;
 }
 
+/* Riga dei bottoni modale: flex row centrato con gap */
 .modal-actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
 }
 
+/* Bottone annulla modale: sfondo neutro, hover leggermente più scuro */
 .btn-cancel {
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
@@ -301,6 +345,8 @@ a {
 }
 .btn-cancel:hover { background: #ebe9e4; }
 
+/* Bottone conferma azione distruttiva (es. logout, elimina):
+   sfondo rosso pieno, testo bianco. Hover: opacità ridotta */
 .btn-confirm-danger {
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
@@ -315,6 +361,7 @@ a {
 .btn-confirm-danger:hover { opacity: 0.9; }
 
 /* ─── Loading dots ─── */
+/* Wrapper centrato con molto padding verticale */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -324,22 +371,28 @@ a {
   gap: 1.5rem;
 }
 
+/* Tre pallini affiancati */
 .loading-dots {
   display: flex;
   gap: 0.5rem;
 }
 
+/* Ogni pallino è un cerchio dorato che rimbalza su e giù.
+   nth-child(2) e (3) hanno animation-delay progressivo:
+   i tre pallini rimbalzano in sequenza creando l'effetto onda */
 .loading-dots span {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: var(--accent);
-  animation: bounce 0.6s infinite alternate;
+  animation: bounce 0.6s infinite alternate; /* alternate: su → giù → su → ... */
 }
 
 .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
 .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
 
+/* bounce: il pallino sale di 12px e diventa completamente opaco;
+   al ritorno (alternate) scende e torna semitrasparente */
 @keyframes bounce {
   from { transform: translateY(0); opacity: 0.4; }
   to   { transform: translateY(-12px); opacity: 1; }

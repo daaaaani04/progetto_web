@@ -1,4 +1,8 @@
 /* src/pages/Login.module.css */
+
+/* Wrapper pagina login: occupa almeno l'80% dell'altezza viewport,
+   centra la card sia verticalmente che orizzontalmente con flexbox.
+   Sfondo con gradiente diagonale tenue per non essere completamente bianco */
 .page {
   min-height: 80vh;
   display: flex;
@@ -8,6 +12,9 @@
   background: linear-gradient(135deg, #faf9f6 0%, #fff 50%, #faf9f6 100%);
 }
 
+/* Card del form: larghezza fissa (max 430px), centrata.
+   scaleIn: appare ingrandendosi da 95% a 100% con ease-out —
+   effetto di "materializzazione" della card nella pagina */
 .card {
   background: #fff;
   border: 1px solid #e8e4dc;
@@ -15,10 +22,12 @@
   padding: 2.8rem;
   width: 100%;
   max-width: 430px;
+  /* Due ombre sovrapposte: una più grande e diffusa, una più piccola e definita */
   box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
   animation: scaleIn 0.35s var(--ease-out) both;
 }
 
+/* Titolo "Accedi" / "Registrati" */
 .titolo {
   font-size: 1.6rem;
   font-weight: 600;
@@ -27,29 +36,36 @@
   margin-bottom: 0.3rem;
 }
 
+/* Sottotitolo di benvenuto: grigio chiaro, più piccolo */
 .sottotitolo {
   font-size: 0.875rem;
   color: #aaa;
   margin-bottom: 2.2rem;
 }
 
+/* Form: flex colonna, i campi si impilano con gap uniforme */
 .form {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 }
 
+/* Riga affiancata (es. Nome + Cognome): flex row con gap */
 .row {
   display: flex;
   gap: 0.8rem;
 }
 
+/* Input, select, errore, successo: tutti ereditano le utility globali.
+   Non serve ridefinire nulla — i comportamenti (focus accent, animazioni)
+   sono già definiti in index.css */
 .input  { composes: form-input from global; }
 .select { composes: form-select from global; }
-.errore { composes: alert-error from global; }
+.errore { composes: alert-error from global; }     /* box rosso con fadeIn */
+.messaggio { composes: alert-success from global; } /* box verde con fadeIn */
 
-.messaggio { composes: alert-success from global; }
-
+/* Bottone submit: eredita btn-primary, override per farlo full-width
+   e aggiunge un margine superiore per separarlo dai campi */
 .btnPrimary {
   composes: btn-primary from global;
   margin-top: 0.5rem;
@@ -59,6 +75,7 @@
   border-radius: 9px;
 }
 
+/* Testo "Hai già un account?" sotto al form */
 .toggle {
   margin-top: 1.6rem;
   font-size: 0.875rem;
@@ -66,6 +83,9 @@
   text-align: center;
 }
 
+/* Bottone "Registrati" / "Accedi" stilizzato come link testuale:
+   nessuno sfondo né bordo, colore accent, sottolineato.
+   Hover: diventa semitrasparente (opacity 0.75) con transizione rapida */
 .btnLink {
   background: none;
   border: none;
@@ -75,12 +95,15 @@
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 2px; /* sposta la sottolineatura leggermente sotto la baseline */
   transition: opacity 0.15s ease;
 }
 .btnLink:hover { opacity: 0.75; }
 
+/* ─── Responsive ─── */
 @media (max-width: 480px) {
+  /* Meno padding interno su schermi molto piccoli */
   .card { padding: 1.8rem 1.4rem; }
+  /* Nome + Cognome: da affiancati a impilati */
   .row  { flex-direction: column; }
 }

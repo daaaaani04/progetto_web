@@ -21,20 +21,8 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, of
     e.preventDefault()
     setErrore(null)
     setLoading(true)
-
-    if (offertaEsistente) {
-      const { error: deleteError } = await supabase
-        .from('offerte')
-        .delete()
-        .eq('id', offertaEsistente.id)
-
-      if (deleteError) {
-        setLoading(false)
-        return setErrore(deleteError.message)
-      }
-    }
     
-
+    /* tento di inserire un'offerta per un determinato annuncio, se gia presente ritorna errore */
     const { error } = await supabase
       .from('offerte')
       .insert({
@@ -53,7 +41,7 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, of
       }
       return setErrore(error.message)
     }
-
+    // arriva qui solo se non ha incontrato nessun erorre e chiama la funzione onSuccess che fa apparire il messaggio
     onSuccess()
   }
 
@@ -72,11 +60,11 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, of
 
         {/* Dettagli annuncio */}
         <div className={styles.annuncioInfo}>
-          {annuncio.comune && <span>📍 {annuncio.comune}</span>}
-          {annuncio.budget && <span>💶 Budget: {annuncio.budget}€</span>}
+          {annuncio.comune && <span> {annuncio.comune}</span>}
+          {annuncio.budget && <span> Budget: {annuncio.budget}€</span>}
           {annuncio.urgente && <span className={styles.urgente}>Urgente</span>}
         </div>
-
+        {/* solita condizione: se ha descrizione -> renderizza */}
         {annuncio.descrizione && (
           <p className={styles.annuncioDesc}>{annuncio.descrizione}</p>
         )}
@@ -94,7 +82,7 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, of
               placeholder="Es. 250"
               value={form.prezzo}
               onChange={handleChange}
-              min="0"
+              min="1"
             />
           </div>
 

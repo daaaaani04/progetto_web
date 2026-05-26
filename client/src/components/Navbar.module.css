@@ -1,4 +1,10 @@
 /* src/components/Navbar.module.css */
+
+/* Barra di navigazione: sticky rimane fissa in cima allo schermo durante lo scroll.
+   backdrop-filter: blur crea l'effetto "vetro smerigliato" — il contenuto
+   della pagina che scorre sotto appare sfocato.
+   Lo sfondo è bianco con 88% di opacità per lasciare intravedere il blur.
+   z-index: 100 assicura che stia sopra tutti gli altri elementi */
 .nav {
   display: flex;
   justify-content: space-between;
@@ -7,17 +13,23 @@
   border-bottom: 1px solid rgba(232, 230, 224, 0.8);
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px); /* prefisso per Safari */
   position: sticky;
   top: 0;
   z-index: 100;
   transition: box-shadow 0.3s ease;
 }
 
+/* Selettore :has() — CSS moderno: aggiunge l'ombra alla navbar
+   solo quando c'è un elemento dopo di lei (ovvero sempre, in pratica).
+   Nota: questa regola non è ancora supportata da tutti i browser ma
+   è un progressivo enhancement */
 .nav:has(+ *) {
   box-shadow: 0 1px 0 rgba(0,0,0,0.04);
 }
 
+/* Logo "connetti.": testo grande, quasi nero.
+   Hover: diventa semitrasparente con transizione rapida */
 .logo {
   font-size: 1.7rem;
   font-weight: 500;
@@ -32,17 +44,21 @@
   opacity: 0.75;
 }
 
+/* Punto dorato nel logo (il "." di "connetti.") */
 .dot {
   color: #c68910;
 }
 
+/* Contenitore dei link di navigazione: flex row con gap piccolo */
 .links {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-/* bottone home, annunci... */
+/* Link di navigazione (Home, Annunci, ecc.): testo piccolo uppercase.
+   Al hover: testo più scuro, sfondo grigio semitrasparente,
+   si alza leggermente di 1px — effetto sottile ma percepibile */
 .link {
   font-size: 0.78rem;
   font-weight: 500;
@@ -55,93 +71,40 @@
   transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
   position: relative;
 }
-/* quando ci passi sopra */
 .link:hover {
   color: #111;
   background: rgba(0,0,0,0.04);
   transform: translateY(-1px);
 }
-
 .link:active {
-  transform: translateY(0);
+  transform: translateY(0); /* al click torna giù — feedback */
 }
 
-/* | */
+/* Separatore verticale | tra gruppi di link */
 .divider {
   width: 1px;
   height: 18px;
   background: #ddd;
   margin: 0 0.4rem;
 }
-/*
-.email {
-  font-size: 0.8rem;
-  color: #888;
-  padding: 0 0.5rem;
-}
-*/
 
-/*
-.btnOutline {
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #333;
-  background: #fff;
-  border: 1px solid #d5d0c8;
-  padding: 0.48rem 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s var(--ease-spring),
-              box-shadow 0.2s ease,
-              background 0.15s ease;
-}
-
-.btnOutline:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  background: #fafafa;
-}
-
-.btnOutline:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: var(--shadow-sm);
-}
-*/
+/* Bottone "Accedi" / "Profilo": gradiente dorato, testo bianco.
+   Stesso stile del btn-primary ma definito localmente perché
+   la navbar ha dimensioni e shadow leggermente diverse */
 .btnSolid {
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #c68910 0%, #d4981c 100%);
-  border: none;
-  padding: 0.48rem 1.2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(198, 137, 16, 0.35);
-  transition: transform 0.2s var(--ease-spring),
-              box-shadow 0.2s ease;
-}
-
-.btnSolid:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(198, 137, 16, 0.45);
-}
-
-.btnSolid:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 1px 4px rgba(198, 137, 16, 0.2);
+  composes: btn-primary from global;
+  font-size: 0.73rem;
+  font-weight: 700;
+  padding: 0.48rem 1rem;
+  border-radius: 7px;
 }
 
 /* ─── Hamburger ─── */
+/* Bottone hamburger (≡) visibile solo su mobile — nascosto su desktop.
+   Contiene tre span che formano le tre linee orizzontali */
 .hamburger {
-  display: none;
-  flex-direction: column;
+  display: none; /* nascosto su desktop, display: flex su mobile */
+  flex-direction: column;     /* -> le linee sono impilate verticalmente */
   gap: 5px;
   background: none;
   border: none;
@@ -150,17 +113,24 @@
   z-index: 10;
 }
 
+/* Singola linea dell'hamburger: rettangolo sottile.
+   transform-origin: center è necessario per la rotazione
+   che trasforma le linee in una X */
 .hamburger span {
   display: block;
   width: 22px;
   height: 1.5px;
   background: #111;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-  transform-origin: center;
+  transition: transform 0.25s ease, opacity 0.25s ease;   /* evita il cambiamendo istantaneo -> più naturale */
+  transform-origin: center;   /* punto di rotazione al centro della linea */
 }
 
-/* Hamburger → X quando aperto */
-.hamburger.open span:nth-child(1) {
+/* Stato aperto — le tre linee formano una X:
+   - Linea 1: si abbassa di 6.5px e ruota di 45° → diagonale discendente
+   - Linea 2: svanisce e si restringe a larghezza zero
+   - Linea 3: si alza di 6.5px e ruota di -45° → diagonale ascendente
+   Il risultato è una X simmetrica */
+.hamburger.open span:nth-child(1) {     /* si riferisce specificatamente al primo fliglio dello span */
   transform: translateY(6.5px) rotate(45deg);
 }
 .hamburger.open span:nth-child(2) {
@@ -172,12 +142,17 @@
 }
 
 /* ─── Menu mobile ─── */
+/* Menu a tendina su mobile: si posiziona appena sotto la navbar (top: 100%).
+   Inizia nascosto (opacity: 0, traslato su di 8px, pointer-events: none
+   per non intercettare click quando è nascosto).
+   Al click l'hamburger aggiunge la classe .open e il menu appare
+   con una transizione su opacity e transform */
 .mobileMenu {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   position: absolute;
-  top: 100%;
+  top: 100%; /* attaccato al fondo della navbar */
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.96);
@@ -186,19 +161,22 @@
   border-bottom: 1px solid rgba(232, 230, 224, 0.8);
   padding: 1rem 2.5rem 1.5rem;
   z-index: 9;
-  /* Animazione slide-down */
+  /* Stato iniziale: invisibile e spostato in alto */
   opacity: 0;
   transform: translateY(-8px);
-  pointer-events: none;
+  pointer-events: none; /* non riceve eventi quando nascosto */
   transition: opacity 0.22s ease, transform 0.22s var(--ease-out);
 }
 
+/* Stato aperto: visibile, nella posizione corretta */
 .mobileMenu.open {
   opacity: 1;
   transform: translateY(0);
-  pointer-events: auto;
+  pointer-events: auto; /* riceve eventi quando visibile */
 }
 
+/* Link nel menu mobile: più grandi, con bordo inferiore come separatore,
+   nessun effetto translateY (il menu è già verticale) */
 .mobileMenu .link {
   font-size: 0.85rem;
   padding: 0.65rem 0;
@@ -206,22 +184,44 @@
   border-radius: 0;
   transform: none;
 }
-
 .mobileMenu .link:hover {
   transform: none;
   background: transparent;
-  color: #c68910;
+  color: #ce670c; /* solo il colore cambia, nessun movimento */
 }
 
-.mobileMenu .btnSolid,
-.mobileMenu .btnOutline {
-  width: 100%;
-  text-align: center;
-  margin-top: 0.5rem;
-  padding: 0.75rem;
-  justify-content: center;
-}
+/* Bottone "Esci" nel menu mobile: stile outline rosso per evidenziare l'azione pericolosa.
+   Al hover: sfondo rosso chiarissimo, testo rosso più scuro, bordo rosso più scuro */
+   .btnOutline {
+    font-size: 0.48rem;
+    font-weight: 100;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ef4444;
+    background: none;
+    border: none;                /* nessun bordo, come dropdownItemDanger */
+    padding: 0.65rem 0;          /* stesso padding dei .link mobile */
+    border-bottom: 1px solid #f0ede8;  /* stesso separatore degli altri link */
+    border-radius: 0;            /* coerente con i link mobile */
+    cursor: pointer;
+    text-decoration: none;
+    text-align: left;            /* testo a sinistra */
+    width: 100%;                 /* occupa tutta la riga */
+    transition: color 0.15s ease, background 0.15s ease;
+    font: inherit;
+  }
+  
+  .btnOutline:hover {
+    color: #dc2626;
+    background: transparent;
+  }
+  
+  .btnOutline:active {
+    transform: scale(0.98);
+  }
 
+
+/* Email utente nel menu mobile */
 .mobileEmail {
   font-size: 0.8rem;
   color: #888;
@@ -231,20 +231,22 @@
 
 /* ─── Breakpoint mobile ─── */
 @media (max-width: 768px) {
+  /* Su mobile i link desktop scompaiono e appare l'hamburger */
   .links {
     display: none;
   }
-
   .hamburger {
     display: flex;
   }
 }
 
 /* ─── Dropdown wrapper ─── */
+/* Contenitore relativo per il dropdown del profilo utente */
 .dropdownWrapper {
   position: relative;
 }
 
+/* Bottone che mostra email + chevron — apre il dropdown */
 .emailBtn {
   background: none;
   border: none;
@@ -259,28 +261,30 @@
   color: #666;
   transition: background 0.15s ease, color 0.15s ease;
 }
-
 .emailBtn:hover {
   background: rgba(0,0,0,0.04);
   color: #111;
 }
 
+/* Freccia ▾ accanto all'email: ruota di 180° quando il dropdown è aperto */
 .chevron {
-  font-size: 11px;
+  font-size: 20px;
   transition: transform 0.22s ease;
   display: inline-block;
   color: #aaa;
 }
-
+/* Stato aperto: ruota la freccia verso l'alto */
 .chevronUp {
   transform: rotate(180deg);
 }
 
 /* ─── Dropdown panel ─── */
+/* Menu dropdown utente: si posiziona sotto il bottone email.
+   Appare con dropdownIn: scende di 8px e si ingrandisce da 97% a 100% */
 .dropdown {
   position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
+  top: calc(100% + 10px); /* 10px di gap sotto il bottone */
+  right: 0; /* allineato a destra con il bottone */
   min-width: 190px;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(14px);
@@ -292,11 +296,14 @@
   animation: dropdownIn 0.2s var(--ease-out) both;
 }
 
+/* Animazione dropdown: appare calando leggermente e ingrandendosi */
 @keyframes dropdownIn {
   from { opacity: 0; transform: translateY(-8px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Voce del dropdown: flex row con icona + testo.
+   Hover: sfondo grigio caldo, testo più scuro */
 .dropdownItem {
   display: flex;
   align-items: center;
@@ -307,25 +314,22 @@
   font-size: 0.85rem;
   text-decoration: none;
   transition: background 0.15s ease, color 0.15s ease;
+  justify-content: center;
 }
-
 .dropdownItem:hover {
   background: #f5f2ec;
   color: #111;
 }
 
-.dropdownIcon {
-  font-size: 15px;
-  width: 20px;
-  text-align: center;
-}
-
+/* Linea separatrice orizzontale tra gruppi di voci */
 .dropdownDivider {
   height: 1px;
   background: #ede9e0;
   margin: 5px 0;
 }
 
+/* Voce "Esci" (azione pericolosa): testo rosso, sfondo rosso al hover.
+   È un <button> invece di <a> perché esegue logout, non navigazione */
 .dropdownItemDanger {
   display: flex;
   align-items: center;
@@ -340,13 +344,14 @@
   cursor: pointer;
   transition: background 0.15s ease;
   font: inherit;
+  justify-content: center;
 }
-
 .dropdownItemDanger:hover {
-  background: #fef2f2;
+  background: #fef2f2; /* sfondo rosso chiarissimo */
 }
 
 /* ─── Mobile extra links ─── */
+/* Link nel menu mobile per le voci del profilo */
 .mobileDropdownItem {
   display: block;
   padding: 0.65rem 0;
@@ -356,14 +361,58 @@
   border-bottom: 1px solid #f0ede8;
   transition: color 0.15s ease;
 }
-
 .mobileDropdownItem:hover {
-  color: #c68910;
+  color: #ce670c; /* diventa dorato al hover */
 }
 
 /* ─── Modale logout ─── */
-.modalOverlay    { composes: modal-overlay from global; }
-.modalContent    { composes: modal-content from global; }
-.modalActions    { composes: modal-actions from global; }
-.btnAnnulla      { composes: btn-cancel from global; }
-.btnLogoutConfirm { composes: btn-confirm-danger from global; }
+/* Riusa interamente le utility globali di index.css.
+   La modale di conferma logout è identica alla struttura globale */
+   .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Grigio scuro trasparente */
+    backdrop-filter: blur(4px);    /* Effetto sfocato professionale */
+    display: flex;
+    align-items: center;           /* Centra verticalmente */
+    justify-content: center;      /* Centra orizzontalmente */
+    z-index: 9999;                 /* Sopra a tutto il resto */
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  /* La scatola bianca centrale */
+  .modalContent {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: scaleIn 0.3s var(--ease-spring); /* Usa la tua variabile spring */
+  }
+  
+  .modalContent h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: var(--text-h);
+  }
+  
+  .modalContent p {
+    margin-bottom: 2rem;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  
+  /* Contenitore bottoni */
+  .modalActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+.btnAnnulla      { composes: btn-cancel from global; }       /* bottone grigio annulla */
+.btnLogoutConfirm { composes: btn-confirm-danger from global; } /* bottone rosso conferma */

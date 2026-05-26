@@ -1,10 +1,15 @@
 /* src/pages/NuovoAnnuncio.module.css */
+
+/* Wrapper pagina: sfondo con gradiente diagonale tenue (bianco caldo),
+   min-height assicura che la pagina occupi almeno l'80% dell'altezza */
 .page {
   padding: 3.5rem 2.5rem;
   background: linear-gradient(135deg, #faf9f6 0%, #fff 60%, #faf9f6 100%);
   min-height: 80vh;
 }
 
+/* Contenitore centrato con larghezza massima stretta (form verticale).
+   fadeUp: la pagina sale dal basso all'ingresso */
 .container {
   max-width: 650px;
   margin: 0 auto;
@@ -13,11 +18,13 @@
 
 .header { margin-bottom: 2.8rem; }
 
+/* Etichetta "Nuovo annuncio" sopra il titolo — utility globale */
 .label {
   composes: page-label from global;
   margin-bottom: 0.8rem;
 }
 
+/* Titolo principale: grande, compatto, quasi nero */
 .titolo {
   font-size: 2.1rem;
   font-weight: 600;
@@ -26,14 +33,18 @@
   margin-bottom: 0.5rem;
 }
 
+/* Punto decorativo dorato nel titolo */
 .accent { composes: accent from global; }
 
+/* Sottotitolo descrittivo */
 .sub {
   font-size: 0.9rem;
   color: #777;
   line-height: 1.65;
 }
 
+/* Card del form: card bianca con bordo e ombra doppia (una diffusa, una definita).
+   flex colonna con gap generoso tra i campi */
 .form {
   background: #fff;
   border: 1px solid #e8e4dc;
@@ -45,12 +56,14 @@
   box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.03);
 }
 
+/* Gruppo campo: label + input in colonna */
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+/* Label del campo: piccola, maiuscola, grigio chiaro */
 .fieldLabel {
   font-size: 0.76rem;
   font-weight: 600;
@@ -59,16 +72,22 @@
   color: #aaa;
 }
 
+/* Input, textarea, select: ereditano tutte le utility globali
+   (bordo accent al focus, alone dorato, transizioni) */
 .input    { composes: form-input from global; }
 .textarea { composes: form-textarea from global; min-height: 100px; }
 .select   { composes: form-select from global; }
 
+/* Riga a due colonne per campi affiancati (es. Comune + Budget) */
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
+/* Campo checkbox "Richiesta urgente": l'intera riga è cliccabile.
+   Hover/checked: bordo e sfondo cambiano per segnalare lo stato.
+   Transizione su bordo e sfondo */
 .checkboxField {
   display: flex;
   align-items: center;
@@ -81,26 +100,33 @@
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
+/* :has() — CSS moderno: seleziona .checkboxField che contiene
+   un .checkbox in stato checked. Quando il checkbox è spuntato,
+   il bordo diventa dorato e lo sfondo assume un lieve tono caldo */
 .checkboxField:has(.checkbox:checked) {
   border-color: var(--accent);
   background: rgba(198, 137, 16, 0.04);
 }
 
+/* Il checkbox vero: accent-color colora il segno di spunta con il colore dorato */
 .checkbox {
   width: 16px;
   height: 16px;
-  accent-color: var(--accent);
+  accent-color: var(--accent); /* colora nativo il checkbox senza SVG custom */
   cursor: pointer;
 }
 
+/* Testo accanto al checkbox */
 .checkboxLabel {
   font-size: 0.9rem;
   color: #555;
   cursor: pointer;
 }
 
+/* Box errore rosso con fadeIn */
 .errore { composes: alert-error from global; }
 
+/* Riga bottoni in fondo al form: allineata a destra, separata da un bordo */
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -109,12 +135,16 @@
   border-top: 1px solid #f0ede8;
 }
 
+/* Bottoni: ereditano tutte le proprietà globali incluse animazioni hover/active */
 .btnPrimary  { composes: btn-primary from global; }
 .btnSecondary { composes: btn-secondary from global; }
 
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .page { padding: 2rem 1.25rem; }
+  /* Comune + Budget: da affiancati a impilati */
   .row  { grid-template-columns: 1fr; }
+  /* Bottoni: si invertono (Pubblica in alto, Annulla sotto) e diventano full-width */
   .actions { flex-direction: column-reverse; }
   .btnPrimary,
   .btnSecondary { width: 100%; text-align: center; }

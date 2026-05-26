@@ -1,7 +1,9 @@
-/* ── stessa struttura di ProfiloPrivato.module.css ── */
+/* ── stessa struttura di ProfiloPubblico.module.css ── */
 /* usa le variabili di index.css */
 
 /* ── LOADING / NOT FOUND ── */
+/* Schermata di caricamento: centra verticalmente il contenuto
+   nell'intera altezza della pagina con flexbox */
 .loadingPage {
   min-height: 100vh;
   display: flex;
@@ -14,17 +16,22 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Spinner circolare: cerchio con bordo parzialmente colorato (solo il top è accent).
+   L'animazione spin ruota il cerchio di 360° in continuazione —
+   la parte dorata del bordo gira creando l'effetto "ruota che gira" */
 .loadingRing {
   width: 36px;
   height: 36px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
+  border: 2px solid var(--border);      /* bordo grigio su 3 lati */
+  border-top-color: var(--accent);      /* solo il lato superiore è dorato */
   border-radius: 50%;
-  animation: spin 0.85s linear infinite;
+  animation: spin 0.85s linear infinite; /* linear = velocità costante, nessuna accelerazione */
 }
 
+/* Rotazione completa: da 0° a 360° */
 @keyframes spin { to { transform: rotate(360deg) } }
 
+/* Pagina "profilo non trovato" */
 .notFound {
   min-height: 100vh;
   display: flex;
@@ -36,6 +43,8 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text);
 }
+/* Bottone "Torna indietro" nella pagina not found:
+   a pillola, diventa dorato al hover */
 .notFound button {
   background: none;
   border: 1px solid var(--border);
@@ -48,6 +57,7 @@
 }
 .notFound button:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Loading inline (testo semplice) */
 .loading {
   text-align: center;
   padding: 100px;
@@ -56,6 +66,9 @@
 }
 
 /* ── PAGE WRAPPER ── */
+/* Wrapper principale: min-height viewport, padding per distaccare
+   il container dai bordi dello schermo.
+   fadeUp: l'intera pagina sale dal basso all'ingresso */
 .pageWrapper {
   min-height: 100vh;
   background-color: var(--bg);
@@ -64,12 +77,16 @@
   animation: fadeUp 0.4s var(--ease-out) both;
 }
 
+/* Stato "pagina completamente caricata" — usato per riattivare
+   animazioni sugli elementi figli (.statCell) */
 .pageIn {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ── CONTAINER ── */
+/* Card principale della pagina: centrata, bianca, ombra forte.
+   overflow: hidden fa rispettare il border-radius ai figli */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -80,6 +97,7 @@
 }
 
 /* ── HEADER ── */
+/* Barra superiore della card: titolo a sinistra, nome utente + avatar a destra */
 .header {
   padding: 20px 30px;
   border-bottom: 1px solid var(--border);
@@ -94,6 +112,7 @@
   gap: 15px;
 }
 
+/* Titolo header */
 .navTitle {
   font-size: 18px;
   font-weight: 700;
@@ -102,6 +121,7 @@
   letter-spacing: -0.3px;
 }
 
+/* Info utente in alto a destra */
 .userDropdown {
   display: flex;
   align-items: center;
@@ -111,6 +131,7 @@
   color: var(--text-h);
 }
 
+/* Avatar circolare con la prima lettera del nome */
 .miniAvatar {
   width: 32px;
   height: 32px;
@@ -125,7 +146,8 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* ── HERO (profilo pubblico) ── */
+/* ── HERO (sezione visibile nel profilo pubblico) ── */
+/* Hero section: sfondo bianco, overflow hidden per contenere l'alone animato */
 .hero {
   position: relative;
   background: #fff;
@@ -133,6 +155,9 @@
   overflow: hidden;
 }
 
+/* Alone dorato animato in background: gradiente radiale che pulsa.
+   breathe: alterna opacità (0.5 → 1) e scala (1 → 1.1) ogni 7 secondi
+   dando l'effetto di "respiro" della luce */
 .heroGlow {
   position: absolute;
   top: -80px;
@@ -140,7 +165,7 @@
   width: 340px;
   height: 340px;
   background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
-  pointer-events: none;
+  pointer-events: none; /* non intercetta i click */
   animation: breathe 7s ease-in-out infinite;
 }
 
@@ -149,10 +174,12 @@
   50%       { opacity: 1;   transform: scale(1.1); }
 }
 
+/* Padding interno del hero */
 .heroInner {
   padding: 0 30px;
 }
 
+/* Freccia indietro: diventa accent al hover */
 .backBtn {
   background: none;
   border: none;
@@ -166,6 +193,7 @@
 }
 .backBtn:hover { color: var(--accent); }
 
+/* Row principale del hero: avatar/monogramma + info testuali */
 .heroCard {
   display: flex;
   gap: 24px;
@@ -173,10 +201,12 @@
   padding: 22px 0 28px;
 }
 
+/* Monogramma (iniziale del nome): quadrato con angoli arrotondati, sfondo dorato.
+   monIn: appare scalando da 0.8 a 1 — effetto "pop" con delay 0.1s */
 .monogram {
   width: 72px;
   height: 72px;
-  flex-shrink: 0;
+  flex-shrink: 0; /* non si restringe mai */
   border-radius: 12px;
   background: var(--accent-glow);
   border: 1px solid rgba(198,137,16,0.22);
@@ -190,13 +220,17 @@
   animation: monIn 0.5s 0.1s both;
 }
 
+/* Il monogramma appare ingrandendosi: parte da 0.8 (80%) e arriva a 1 (100%) */
 @keyframes monIn {
   from { opacity: 0; transform: scale(0.8); }
   to   { opacity: 1; transform: scale(1); }
 }
 
-.heroInfo { flex: 1; min-width: 0; }
+/* Area informazioni testuali del profilo: flex: 1 occupa tutto lo spazio restante */
+.heroInfo { flex: 1; min-width: 0; } /* min-width: 0 permette il text-overflow */
 
+/* Etichetta piccola sopra il nome (es. "Venditore · Idraulica"):
+   fadeUp con delay 0.15s — appare dopo il monogramma */
 .eyebrow {
   display: flex;
   align-items: center;
@@ -209,6 +243,9 @@
   animation: fadeUp 0.4s 0.15s both;
 }
 
+/* Nome dell'azienda/professionista: usa clamp() per adattarsi al viewport
+   (min 20px, preferito 3vw, max 34px) — font fluido senza media query.
+   fadeUp con delay 0.2s */
 .heroNome {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: clamp(20px, 3vw, 34px);
@@ -220,6 +257,7 @@
   animation: fadeUp 0.4s 0.2s both;
 }
 
+/* Sottotitolo del profilo: fadeUp con delay 0.25s */
 .heroSub {
   font-size: 13px;
   color: var(--text);
@@ -227,6 +265,7 @@
   animation: fadeUp 0.4s 0.25s both;
 }
 
+/* Row di pill (badge informativi): fadeUp con delay 0.3s — ultimo a comparire */
 .pills {
   display: flex;
   flex-wrap: wrap;
@@ -234,6 +273,8 @@
   animation: fadeUp 0.4s 0.3s both;
 }
 
+/* Singola pill: badge a pillola con bordo sottile.
+   Transizione su tre proprietà per l'hover */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -241,19 +282,21 @@
   padding: 4px 12px;
   background: var(--bg-subtle);
   border: 1px solid var(--border);
-  border-radius: 99px;
+  border-radius: 99px; /* perfettamente a pillola */
   font-size: 12px;
   color: var(--text);
   text-decoration: none;
   transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 
+/* Pill cliccabile (link): hover dorato */
 .pillLink:hover {
   border-color: var(--accent);
   background: var(--accent-glow);
   color: var(--accent-dark);
 }
 
+/* Pill valutazione stelle: sempre con sfondo dorato */
 .pillStar {
   color: var(--accent-dark);
   border-color: rgba(198,137,16,0.25);
@@ -261,12 +304,16 @@
 }
 
 /* ── STATS STRIP ── */
+/* Striscia con statistiche (annunci, offerte, recensioni, media voti):
+   4 colonne separate da bordi verticali */
 .statsStrip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--border);
 }
 
+/* Singola cella statistica: inizia invisibile (opacity: 0), anima
+   con fadeUp quando .pageIn è presente sul genitore */
 .statCell {
   padding: 16px 0;
   text-align: center;
@@ -275,12 +322,14 @@
   animation: fadeUp 0.4s both;
 }
 .statCell:last-child { border-right: none; }
+/* Quando la pagina è caricata (.pageIn sul wrapper) le celle animano */
 .pageIn .statCell {
   animation-name: fadeUp;
   animation-duration: 0.4s;
   animation-fill-mode: both;
 }
 
+/* Valore numerico grande della statistica */
 .statVal {
   display: block;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -290,6 +339,7 @@
   line-height: 1;
 }
 
+/* Etichetta testuale sotto il valore */
 .statLbl {
   display: block;
   font-size: 10px;
@@ -300,6 +350,7 @@
 }
 
 /* ── LAYOUT ── */
+/* Layout principale a due colonne: sidebar (260px) + area form */
 .contentLayout {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -307,6 +358,7 @@
 }
 
 /* ── SIDEBAR (profilo pubblico, con sideCard) ── */
+/* Sidebar con card informative: flex colonna */
 .sidebar {
   padding: 28px 20px;
   border-right: 1px solid var(--border);
@@ -315,6 +367,7 @@
   gap: 14px;
 }
 
+/* Singola card informativa nella sidebar */
 .sideCard {
   background: var(--bg-subtle);
   border: 1px solid var(--border);
@@ -322,6 +375,7 @@
   padding: 16px;
 }
 
+/* Label di sezione nella sidebar: molto piccola, maiuscola */
 .sideLabel {
   font-size: 10px;
   text-transform: uppercase;
@@ -330,6 +384,8 @@
   margin: 0 0 12px;
 }
 
+/* Bottone CTA ("Chiama", "Contatta"): sfondo accent pieno, full-width.
+   Hover: scurisce lo sfondo, si alza di 1px */
 .ctaBtn {
   display: flex;
   align-items: center;
@@ -350,25 +406,34 @@
 }
 .ctaBtn:hover { background: var(--accent-dark); transform: translateY(-1px); }
 
+/* Testo "contatto non disponibile" */
 .noContact { font-size: 12px; color: var(--text); margin: 0; }
 
+/* ── Blocco valutazione media ── */
 .scoreBig { display: flex; align-items: baseline; gap: 2px; margin-bottom: 8px; }
 .scoreNum { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
 .scoreMax { font-size: 15px; color: var(--text); }
 .scoreStars { display: flex; gap: 2px; margin-bottom: 6px; }
 .scoreNote { font-size: 11px; color: var(--text); margin: 0; }
 
+/* Stelle piene e vuote */
 .starOn  { color: var(--accent); font-size: 14px; }
 .starOff { color: var(--border); font-size: 14px; }
 
+/* ── Barre distribuzione voti (1★ → 5★) ── */
 .bars { display: flex; flex-direction: column; gap: 7px; }
 .barRow { display: flex; align-items: center; gap: 6px; }
 .barN { font-size: 11px; color: var(--text); width: 10px; text-align: right; }
 .barStar { color: var(--accent); font-size: 10px; }
+/* Track: sfondo grigio della barra */
 .barTrack { flex: 1; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+/* Fill: la parte dorata della barra che rappresenta la percentuale.
+   transition: width 0.9s — la barra si riempie animatamente
+   quando il componente viene montato (la width è impostata inline in JSX) */
 .barFill  { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.9s var(--ease-out); }
 .barCount { font-size: 11px; color: var(--text); width: 14px; }
 
+/* Lista info contatti (telefono, indirizzo, ecc.) */
 .infoList {
   list-style: none;
   margin: 0; padding: 0;
@@ -383,9 +448,11 @@
   font-size: 13px;
   color: var(--text-h);
 }
-.infoList li span:first-child { font-size: 14px; }
+.infoList li span:first-child { font-size: 14px; } /* icona emoji */
 
 /* ── HAMBURGER TRIGGER — nascosto su desktop ── */
+/* Bottone che mostra la sezione corrente + icona hamburger su mobile.
+   Su desktop è display: none — appare solo sotto 850px */
 .hamburgerTrigger {
   display: none;
   width: 100%;
@@ -401,13 +468,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  grid-column: 1 / -1; /* occupa tutta la larghezza del grid */
+  grid-column: 1 / -1; /* occupa tutta la larghezza del grid quando visibile */
 }
 
+/* Testo della sezione attiva (es. "I miei dettagli") */
 .hamburgerLabel {
   text-align: left;
 }
 
+/* Icona hamburger a tre linee: stack verticale di span */
 .hamburgerIcon {
   display: flex;
   flex-direction: column;
@@ -417,6 +486,7 @@
   flex-shrink: 0;
 }
 
+/* Singola linea dell'hamburger */
 .hamburgerIcon span {
   display: block;
   width: 100%;
@@ -426,17 +496,19 @@
   transition: transform 0.3s var(--ease-out), opacity 0.2s;
 }
 
+/* Stato aperto: le tre linee formano una X (identico alla navbar) */
 .hamburgerIconOpen span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
 .hamburgerIconOpen span:nth-child(2) {
-  opacity: 0;
+  opacity: 0; /* linea centrale svanisce */
 }
 .hamburgerIconOpen span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ── SIDEBAR MENU (profilo privato, tab) ── */
+/* ── SIDEBAR MENU (profilo privato, tab navigazione) ── */
+/* Colonna sinistra con i bottoni di navigazione tra le sezioni */
 .sidebarMenu {
   padding: 30px 20px;
   display: flex;
@@ -445,6 +517,7 @@
   border-right: 1px solid var(--border);
 }
 
+/* Bottoni di navigazione: aspetto link, transizione sfondo/colore */
 .sidebarMenu button {
   text-align: left;
   padding: 12px 15px;
@@ -461,18 +534,19 @@
   display: block;
   box-sizing: border-box;
 }
-
 .sidebarMenu button:hover {
   background: var(--bg-subtle);
   color: var(--text-h);
 }
 
+/* Tab attiva: sfondo dorato semitrasparente, testo accent scuro */
 .activeMenu {
   background: var(--accent-glow) !important;
   color: var(--accent-dark) !important;
 }
 
 /* ── MAIN ── */
+/* Area principale dei form: flex colonna */
 .mainFormArea {
   padding: 40px;
   background: #fff;
@@ -482,6 +556,7 @@
 }
 
 /* ── TABS (profilo pubblico) ── */
+/* Barra tab orizzontale con bordo inferiore */
 .tabsBar {
   display: flex;
   gap: 0;
@@ -489,6 +564,8 @@
   margin-bottom: 24px;
 }
 
+/* Singolo bottone tab: bordo inferiore trasparente di default.
+   margin-bottom: -1px sovrappone il bordo del bottone al bordo della barra */
 .tabBtn {
   padding: 11px 18px;
   background: none;
@@ -503,18 +580,22 @@
 }
 .tabBtn:hover { color: var(--text-h); }
 
+/* Tab attiva: bordo inferiore accent dorato, testo più scuro */
 .tabOn {
   color: var(--accent-dark);
-  border-bottom-color: var(--accent);
+  border-bottom-color: var(--accent); /* sottolineatura dorata */
   font-weight: 600;
 }
 
 /* ── FORM CARD ── */
+/* Container di ogni sezione del form:
+   fadeUp brevissimo (0.22s) quando si cambia tab — effetto di transizione */
 .formCard {
   max-width: 100%;
   animation: fadeUp 0.22s var(--ease-out);
 }
 
+/* Titolo della sezione */
 .sectionTitle {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
@@ -525,18 +606,21 @@
 }
 
 /* ── FORM GRID + INPUTS ── */
+/* Griglia due colonne per i campi del form */
 .gridForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+/* Gruppo campo: flex colonna (label sopra, input sotto) */
 .inputGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+/* Label: piccola, maiuscola */
 .inputGroup label {
   font-size: 10px;
   font-weight: 700;
@@ -546,6 +630,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Input con sfondo leggermente colorato (bg-subtle) */
 .inputGroup input {
   padding: 12px 16px;
   border: 1px solid var(--border);
@@ -557,20 +642,23 @@
   outline: none;
 }
 
+/* Input disabilitato (es. email non modificabile) */
 .inputGroup input:disabled {
   opacity: 0.65;
   cursor: default;
 }
 
+/* Campo telefono composito: prefisso "+39" + input affiancati */
 .phoneInput {
   display: flex;
   align-items: stretch;
   border: 1px solid var(--border);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: hidden; /* nasconde i bordi interni extra */
   background: var(--bg-subtle);
 }
 
+/* Prefisso telefonico "🇮🇹 +39": area grigia separata dall'input da un bordo */
 .country {
   display: flex;
   align-items: center;
@@ -580,9 +668,11 @@
   font-size: 14px;
   color: var(--text-h);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  white-space: nowrap;
+  white-space: nowrap; /* non va mai a capo */
 }
 
+/* Input del numero: nessun bordo (il bordo è sul .phoneInput padre),
+   occupa tutto lo spazio rimanente con flex: 1 */
 .phoneInput input {
   flex: 1;
   border: none;
@@ -592,9 +682,10 @@
   color: var(--text-h);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   outline: none;
-  min-width: 0;
+  min-width: 0; /* permette all'input di restringersi in flexbox */
 }
 
+/* Testo "(opzionale)" accanto alla label: più piccolo e semitrasparente */
 .labelOpzionale {
   font-weight: 400;
   opacity: 0.55;
@@ -603,6 +694,7 @@
   letter-spacing: 0.08em;
 }
 
+/* Suggerimento sotto l'input (es. "Verrà mostrato sulla mappa") */
 .inputHint {
   font-size: 12px;
   color: var(--text);
@@ -611,6 +703,7 @@
 }
 
 /* ── MESSAGES ── */
+/* Messaggio di successo: verde chiaro */
 .msgOk {
   padding: 10px 14px;
   background: rgba(94,201,124,0.07);
@@ -620,6 +713,7 @@
   color: #3a8c55;
 }
 
+/* Messaggio di errore: rosso chiaro */
 .msgErr {
   padding: 10px 14px;
   background: rgba(220,38,38,0.07);
@@ -629,6 +723,7 @@
   color: #b91c1c;
 }
 
+/* Banner "offerta già inviata": verde, flex row con icona */
 .alreadyBanner {
   display: flex;
   align-items: center;
@@ -644,12 +739,15 @@
 
 /* ── EMPTY STATE ── */
 .empty { text-align: center; padding: 48px 20px; }
+
+/* Icona dell'empty state: galleggia su e giù (3s, ease-in-out per fluidità) */
 .emptyIcon {
   font-size: 34px;
   margin-bottom: 12px;
   display: inline-block;
   animation: float 3s ease-in-out infinite;
 }
+/* float: oscilla tra posizione normale e 5px verso l'alto */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-5px); }
@@ -664,8 +762,12 @@
 .emptySub { font-size: 13px; color: var(--text); margin: 0; }
 
 /* ── REVIEWS ── */
+/* Lista recensioni: flex colonna */
 .reviewList { display: flex; flex-direction: column; gap: 12px; }
 
+/* Card recensione: inizia invisibile (opacity: 0, traslata verso il basso di 12px).
+   JavaScript aggiunge .reviewCardIn quando la card entra nel viewport,
+   scatenando la transizione che la fa apparire */
 .reviewCard {
   background: var(--bg-subtle);
   border: 1px solid var(--border);
@@ -675,15 +777,17 @@
   transform: translateY(12px);
   transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), border-color 0.2s;
 }
-.reviewCard:hover { border-color: rgba(198,137,16,0.28); }
-.reviewCardIn { opacity: 1; transform: translateY(0); }
+.reviewCard:hover { border-color: rgba(198,137,16,0.28); } /* bordo dorato al hover */
+.reviewCardIn { opacity: 1; transform: translateY(0); }    /* stato visibile */
 
+/* Header della recensione: avatar + nome + stelle */
 .reviewTop {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
+/* Avatar circolare con iniziale del nome del recensore */
 .reviewAvatar {
   width: 36px;
   height: 36px;
@@ -700,11 +804,13 @@
   flex-shrink: 0;
 }
 
+/* Info testuali della recensione */
 .reviewMeta { flex: 1; }
 .reviewNome { font-size: 13px; font-weight: 600; color: var(--text-h); margin: 0 0 2px; }
 .reviewData { font-size: 11px; color: var(--text); margin: 0; }
 .stelle { display: flex; gap: 1px; flex-shrink: 0; margin-top: 2px; }
 
+/* Testo della recensione: separato dall'header da un bordo */
 .reviewTesto {
   margin: 10px 0 0;
   font-size: 13px;
@@ -715,12 +821,15 @@
 }
 
 /* ── BUTTONS ── */
+/* Salva modifiche: eredita bottone primario globale */
 .saveBtn {
   composes: btn-primary from global;
   margin-top: 20px;
 }
 .saveBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
+/* Bottone ghost (cambia password): bordo dorato, sfondo trasparente.
+   Hover: sfondo si tinge di dorato, si alza leggermente */
 .saveBtnGhost {
   margin-top: 20px;
   font-size: 0.78rem;
@@ -744,21 +853,23 @@
   cursor: not-allowed;
 }
 
-/* Link CTA (tab "Profilo pubblico" / "I miei annunci") — non full-width su mobile */
+/* Link CTA verso profilo pubblico / annunci: eredita il primario */
 .linkCta {
   composes: btn-primary from global;
   margin-top: 8px;
 }
 
 /* ── ANIMATIONS ── */
+/* fadeUp locale: translateY di soli 10px (più sottile del globale che fa 20px) —
+   usato per le transizioni interne (cambio tab, card recensioni) */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ───────────────────────────────────────────── */
-/* ── RESPONSIVE ──────────────────────────────── */
-/* ───────────────────────────────────────────── */
+/* ─────────────────────────────────────────────── */
+/* ── RESPONSIVE ─────────────────────────────── */
+/* ─────────────────────────────────────────────── */
 
 /* TABLET — sotto 850px: hamburger al posto della sidebar */
 @media (max-width: 850px) {
@@ -766,18 +877,20 @@
     padding: 20px 12px;
   }
 
-  /* Layout: colonna singola */
+  /* Layout: da due colonne a una colonna */
   .contentLayout {
     grid-template-columns: 1fr;
   }
 
-  /* Hamburger visibile */
+  /* Hamburger trigger visibile */
   .hamburgerTrigger {
     display: flex;
     grid-column: 1;
   }
 
-  /* Sidebar: nascosta di default, si apre con animazione */
+  /* Sidebar menu: nascosta di default con max-height: 0.
+     Quando aperta (.sidebarMenuOpen) max-height: 400px —
+     la transizione su max-height crea l'animazione "slide down" */
   .sidebarMenu {
     flex-direction: column;
     border-right: none;
@@ -788,13 +901,11 @@
     overflow: hidden;
     transition: max-height 0.3s var(--ease-out), padding 0.3s var(--ease-out);
   }
-
   .sidebarMenuOpen {
-    max-height: 400px;
+    max-height: 400px; /* abbastanza alto per contenere tutte le voci */
     padding: 10px 12px;
     gap: 4px;
   }
-
   .sidebarMenu button {
     width: 100%;
     text-align: left;
@@ -805,7 +916,7 @@
     min-width: unset;
   }
 
-  /* Sidebar profilo pubblico (con sideCard) → wrap orizzontale */
+  /* Sidebar profilo pubblico: da colonna a row orizzontale con wrap */
   .sidebar {
     border-right: none;
     border-bottom: 1px solid var(--border);
@@ -819,7 +930,7 @@
     min-width: 200px;
   }
 
-  /* Stats strip → 2 colonne */
+  /* Stats strip: da 4 colonne a 2×2 */
   .statsStrip {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -830,16 +941,14 @@
     border-right: none;
   }
 
-  /* Form → colonna singola */
+  /* Form: da 2 colonne a 1 colonna */
   .gridForm {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-
   .mainFormArea {
     padding: 24px 20px;
   }
-
   .header {
     padding: 16px 20px;
   }
@@ -854,9 +963,8 @@
     padding: 12px 8px;
   }
   .container {
-    border-radius: 12px;
+    border-radius: 12px; /* bordi meno arrotondati su schermi piccoli */
   }
-
   .header {
     padding: 14px 16px;
     gap: 8px;
@@ -866,17 +974,19 @@
     min-width: 0;
     flex: 1;
   }
+  /* Titolo tronca con ellipsis se troppo lungo */
   .navTitle {
     font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  /* Nasconde il testo del nome utente, mantiene solo l'avatar */
   .userDropdown span {
     display: none;
   }
 
-  /* Hero compatto */
+  /* Hero più compatto su mobile */
   .heroInner {
     padding: 0 16px;
   }
@@ -896,7 +1006,7 @@
     font-size: 12px;
   }
 
-  /* Sidebar pubblico → colonna */
+  /* Sidebar pubblica: da row a colonna */
   .sidebar {
     flex-direction: column;
     padding: 16px;
@@ -911,20 +1021,21 @@
     margin-bottom: 14px;
   }
 
-  /* Tabs profilo pubblico */
+  /* Tab bar: scroll orizzontale se le tab non ci stanno */
   .tabsBar {
     overflow-x: auto;
     scrollbar-width: thin;
     margin-bottom: 18px;
   }
   .tabBtn {
-    white-space: nowrap;
+    white-space: nowrap; /* impedisce il testo della tab di andare a capo */
     flex-shrink: 0;
     padding: 10px 14px;
     font-size: 12px;
   }
 
-  /* Input: 16px evita zoom iOS */
+  /* font-size: 16px sugli input evita lo zoom automatico di iOS
+     (iOS fa zoom sull'input se il font è minore di 16px) */
   .inputGroup input,
   .phoneInput input {
     font-size: 16px;
@@ -954,6 +1065,7 @@
     padding: 0.72rem 1.4rem;
   }
 
+  /* Card recensioni: padding ridotto */
   .reviewCard {
     padding: 14px 16px;
   }

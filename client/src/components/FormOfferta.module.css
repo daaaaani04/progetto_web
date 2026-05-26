@@ -1,9 +1,13 @@
+/* Overlay scuro dietro il modale: copre tutto lo schermo (position: fixed, inset: 0).
+   backdrop-filter: blur sfoca il contenuto della pagina sottostante.
+   Appare con fadeIn (dissolvenza rapida 0.2s).
+   Il click sull'overlay chiude il modale (gestito in JSX con onClick={onClose}) */
 .overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px); /* prefisso Safari */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +16,9 @@
   animation: fadeIn 0.2s ease both;
 }
 
+/* Finestra modale: card bianca centrata, max-height 90vh con scroll.
+   Appare con scaleIn + ease-spring — si "materializza" ingrandendosi
+   da 95% a 100% con un leggero rimbalzo elastico */
 .modal {
   background: #fff;
   border-radius: 18px;
@@ -19,12 +26,12 @@
   padding: 2.2rem;
   width: 100%;
   max-width: 530px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 90vh;        /* non supera l'altezza dello schermo */
+  overflow-y: auto;        /* scroll interno se il contenuto è troppo lungo */
   box-shadow: 0 16px 48px rgba(0,0,0,0.16), 0 4px 12px rgba(0,0,0,0.06);
-  animation: scaleIn 0.3s var(--ease-spring) both;
 }
 
+/* Header modale: flex row con titolo a sinistra e bottone chiudi a destra */
 .modalHeader {
   display: flex;
   justify-content: space-between;
@@ -32,6 +39,7 @@
   margin-bottom: 1rem;
 }
 
+/* Etichetta settore: piccola, maiuscola, dorata — identica alle card annunci */
 .settore {
   font-size: 0.7rem;
   font-weight: 700;
@@ -42,13 +50,16 @@
   margin-bottom: 0.35rem;
 }
 
+/* Titolo dell'annuncio nel modale */
 .modalTitolo {
   font-size: 1.1rem;
   font-weight: 600;
   color: #111;
-  max-width: 380px;
+  max-width: 380px; /* impedisce che il titolo lungo spinga il bottone ✕ fuori */
 }
 
+/* Bottone ✕ per chiudere il modale: nessuno sfondo di default.
+   Hover: sfondo grigio caldo + testo più scuro */
 .closeBtn {
   background: none;
   border: none;
@@ -58,10 +69,11 @@
   padding: 0.3rem 0.6rem;
   border-radius: 7px;
   transition: background 0.15s ease, color 0.15s ease;
-  flex-shrink: 0;
+  flex-shrink: 0; /* non si restringe se il titolo è lungo */
 }
 .closeBtn:hover { background: #f5f2ec; color: #111; }
 
+/* Metadati dell'annuncio (comune, budget, urgente): flex row con wrap */
 .annuncioInfo {
   display: flex;
   gap: 1rem;
@@ -71,37 +83,43 @@
   margin-bottom: 0.8rem;
 }
 
+/* Testo URGENTE in rosso — senza bordo (diverso dal badge nella lista) */
 .urgente {
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #e53e3e;
+  color: #e11926;
 }
 
+/* Descrizione dell'annuncio: testo grigio, interlinea comoda */
 .annuncioDesc {
   font-size: 0.875rem;
   color: #777;
   line-height: 1.65;
 }
 
+/* Linea separatrice orizzontale tra i dettagli dell'annuncio e il form */
 .divider {
   height: 1px;
   background: #f0ede8;
   margin: 1.3rem 0;
 }
 
+/* Form offerta: flex colonna con gap tra i campi */
 .form {
   display: flex;
   flex-direction: column;
   gap: 1.3rem;
 }
 
+/* Singolo campo del form: flex colonna (label sopra, input sotto) */
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+/* Label del campo: piccola, maiuscola, grigio chiaro */
 .fieldLabel {
   font-size: 0.73rem;
   font-weight: 600;
@@ -110,10 +128,14 @@
   color: #aaa;
 }
 
+/* Input e textarea: ereditano le utility globali (bordo accent al focus, ecc.) */
 .input    { composes: form-input from global; }
 .textarea { composes: form-textarea from global; min-height: 90px; }
+
+/* Messaggio di errore: box rosso con fadeIn */
 .errore   { composes: alert-error from global; }
 
+/* Riga bottoni: allineata a destra, separata dal form da un bordo superiore */
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -122,12 +144,17 @@
   border-top: 1px solid #f0ede8;
 }
 
+/* Bottoni azione: ereditano i globali con padding leggermente diverso */
 .btnPrimary   { composes: btn-primary from global; padding: 0.78rem 1.6rem; border-radius: 9px; }
 .btnSecondary { composes: btn-secondary from global; padding: 0.78rem 1.6rem; border-radius: 9px; }
 
+/* ─── Responsive ─── */
 @media (max-width: 480px) {
+  /* Meno padding interno su schermi piccoli */
   .modal { padding: 1.6rem 1.3rem; }
+  /* Bottoni si impilano in colonna (annulla sotto, invia sopra — column-reverse) */
   .actions { flex-direction: column-reverse; }
+  /* Bottoni diventano full-width */
   .btnPrimary,
   .btnSecondary { width: 100%; text-align: center; }
 }

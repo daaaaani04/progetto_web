@@ -1,7 +1,9 @@
 /* ── stessa struttura di ProfiloPrivato.module.css ── */
-/* usa le variabili di index.css */
+/* usa le variabili di index.css — i commenti completi sono in ProfiloPrivato.module.css,
+   qui vengono annotate solo le differenze */
 
 /* ── LOADING / NOT FOUND ── */
+/* Schermata di caricamento centrata — identica a ProfiloPrivato */
 .loadingPage {
   min-height: 100vh;
   display: flex;
@@ -14,6 +16,8 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Spinner: cerchio con solo il bordo superiore colorato (accent).
+   spin ruota il cerchio di 360° in modo lineare e infinito */
 .loadingRing {
   width: 36px;
   height: 36px;
@@ -25,6 +29,7 @@
 
 @keyframes spin { to { transform: rotate(360deg) } }
 
+/* Pagina "profilo non trovato" */
 .notFound {
   min-height: 100vh;
   display: flex;
@@ -56,6 +61,7 @@
 }
 
 /* ── PAGE WRAPPER ── */
+/* fadeUp: intera pagina sale dal basso all'ingresso */
 .pageWrapper {
   min-height: 100vh;
   background-color: var(--bg);
@@ -64,12 +70,14 @@
   animation: fadeUp 0.4s var(--ease-out) both;
 }
 
+/* Classe aggiunta via JS dopo il montaggio — riabilita le animazioni dei figli */
 .pageIn {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ── CONTAINER ── */
+/* Card principale: centrata, bianca, ombra forte */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -80,6 +88,8 @@
 }
 
 /* ── HEADER ── */
+/* DIFFERENZA rispetto a ProfiloPrivato: z-index: 9999 per stare sopra
+   all'alone animato (.heroGlow) che usa position: absolute */
 .header {
   position: relative;
   z-index: 9999;
@@ -113,6 +123,7 @@
   color: var(--text-h);
 }
 
+/* Avatar circolare con la prima lettera del nome */
 .miniAvatar {
   width: 32px;
   height: 32px;
@@ -127,7 +138,8 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* ── HERO (profilo pubblico) ── */
+/* ── HERO ── */
+/* Hero section con overflow: hidden per contenere il glow animato */
 .hero {
   position: relative;
   background: #fff;
@@ -135,6 +147,8 @@
   overflow: hidden;
 }
 
+/* Alone dorato pulsante in alto a destra:
+   breathe anima opacità (0.5→1) e scala (1→1.1) in 7s — effetto "respiro" */
 .heroGlow {
   position: absolute;
   top: -80px;
@@ -155,6 +169,8 @@
   padding: 0 30px;
 }
 
+/* DIFFERENZA: z-index: 10000 per stare sopra all'header (9999)
+   — necessario perché il backBtn qui è dentro .hero, non dentro .header */
 .backBtn {
   position: relative;
   z-index: 10000;
@@ -171,6 +187,7 @@
 }
 .backBtn:hover { color: var(--accent); }
 
+/* Row principale hero: monogramma + info */
 .heroCard {
   display: flex;
   gap: 24px;
@@ -178,6 +195,7 @@
   padding: 22px 0 28px;
 }
 
+/* Monogramma: appare scalando da 0.8 a 1 con delay 0.1s (monIn) */
 .monogram {
   width: 72px;
   height: 72px;
@@ -202,6 +220,7 @@
 
 .heroInfo { flex: 1; min-width: 0; }
 
+/* Eyebrow: fadeUp con delay 0.15s */
 .eyebrow {
   display: flex;
   align-items: center;
@@ -214,6 +233,7 @@
   animation: fadeUp 0.4s 0.15s both;
 }
 
+/* Nome: font fluido con clamp(), fadeUp delay 0.2s */
 .heroNome {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: clamp(20px, 3vw, 34px);
@@ -225,6 +245,7 @@
   animation: fadeUp 0.4s 0.2s both;
 }
 
+/* Sottotitolo: fadeUp delay 0.25s */
 .heroSub {
   font-size: 13px;
   color: var(--text);
@@ -232,6 +253,7 @@
   animation: fadeUp 0.4s 0.25s both;
 }
 
+/* Pills: fadeUp delay 0.3s — ultima a comparire */
 .pills {
   display: flex;
   flex-wrap: wrap;
@@ -239,6 +261,7 @@
   animation: fadeUp 0.4s 0.3s both;
 }
 
+/* Pill badge: a pillola, transizione su bordo/sfondo/colore */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -252,13 +275,12 @@
   text-decoration: none;
   transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
-
 .pillLink:hover {
   border-color: var(--accent);
   background: var(--accent-glow);
   color: var(--accent-dark);
 }
-
+/* Pill stelline: sempre dorata */
 .pillStar {
   color: var(--accent-dark);
   border-color: rgba(198,137,16,0.25);
@@ -266,12 +288,14 @@
 }
 
 /* ── STATS STRIP ── */
+/* 4 colonne con statistiche, separate da bordi verticali */
 .statsStrip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--border);
 }
 
+/* Celle inizialmente invisibili, animano con fadeUp quando .pageIn è presente */
 .statCell {
   padding: 16px 0;
   text-align: center;
@@ -305,13 +329,14 @@
 }
 
 /* ── LAYOUT ── */
+/* Due colonne: sidebar (260px) + area contenuto */
 .contentLayout {
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: 500px;
 }
 
-/* ── SIDEBAR (profilo pubblico, con sideCard) ── */
+/* ── SIDEBAR (card informative del profilo pubblico) ── */
 .sidebar {
   padding: 28px 20px;
   border-right: 1px solid var(--border);
@@ -320,6 +345,7 @@
   gap: 14px;
 }
 
+/* Card informativa nella sidebar */
 .sideCard {
   background: var(--bg-subtle);
   border: 1px solid var(--border);
@@ -327,6 +353,7 @@
   padding: 16px;
 }
 
+/* Label di sezione della sidebar */
 .sideLabel {
   font-size: 10px;
   text-transform: uppercase;
@@ -335,8 +362,10 @@
   margin: 0 0 12px;
 }
 
+/* Bottone "Chiama" — eredita btn-primary globale */
 .ctaChiama { composes: btn-primary from global; }
 
+/* Bottone CTA generico: sfondo accent pieno, hover scurisce */
 .ctaBtn {
   margin-top: auto;
   display: flex;
@@ -360,23 +389,28 @@
 
 .noContact { font-size: 12px; color: var(--text); margin: 0; }
 
+/* Blocco valutazione media con numero grande */
 .scoreBig { display: flex; align-items: baseline; gap: 2px; margin-bottom: 8px; }
 .scoreNum { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
 .scoreMax { font-size: 15px; color: var(--text); }
 .scoreStars { display: flex; gap: 2px; margin-bottom: 6px; }
 .scoreNote { font-size: 11px; color: var(--text); margin: 0; }
 
+/* Stelle */
 .starOn  { color: var(--accent); font-size: 14px; }
 .starOff { color: var(--border); font-size: 14px; }
 
+/* Barre distribuzione voti */
 .bars { display: flex; flex-direction: column; gap: 7px; }
 .barRow { display: flex; align-items: center; gap: 6px; }
 .barN { font-size: 11px; color: var(--text); width: 10px; text-align: right; }
 .barStar { color: var(--accent); font-size: 10px; }
 .barTrack { flex: 1; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+/* La fill si espande animatamente (0.9s) quando la width viene impostata via JS */
 .barFill  { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.9s var(--ease-out); }
 .barCount { font-size: 11px; color: var(--text); width: 14px; }
 
+/* Lista info contatti */
 .infoList {
   list-style: none;
   margin: 0; padding: 0;
@@ -393,7 +427,7 @@
 }
 .infoList li span:first-child { font-size: 14px; }
 
-/* ── HAMBURGER TRIGGER — nascosto su desktop ── */
+/* ── HAMBURGER TRIGGER — solo mobile ── */
 .hamburgerTrigger {
   display: none;
   width: 100%;
@@ -409,12 +443,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  grid-column: 1 / -1; /* occupa tutta la larghezza del grid */
+  grid-column: 1 / -1;
 }
 
-.hamburgerLabel {
-  text-align: left;
-}
+.hamburgerLabel { text-align: left; }
 
 .hamburgerIcon {
   display: flex;
@@ -425,6 +457,7 @@
   flex-shrink: 0;
 }
 
+/* Linee dell'hamburger — transizione verso la X quando aperto */
 .hamburgerIcon span {
   display: block;
   width: 100%;
@@ -433,18 +466,11 @@
   border-radius: 2px;
   transition: transform 0.3s var(--ease-out), opacity 0.2s;
 }
+.hamburgerIconOpen span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburgerIconOpen span:nth-child(2) { opacity: 0; }
+.hamburgerIconOpen span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.hamburgerIconOpen span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.hamburgerIconOpen span:nth-child(2) {
-  opacity: 0;
-}
-.hamburgerIconOpen span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* ── SIDEBAR MENU (profilo privato, tab) ── */
+/* ── SIDEBAR MENU (tab navigazione) ── */
 .sidebarMenu {
   padding: 30px 20px;
   display: flex;
@@ -469,12 +495,9 @@
   display: block;
   box-sizing: border-box;
 }
+.sidebarMenu button:hover { background: var(--bg-subtle); color: var(--text-h); }
 
-.sidebarMenu button:hover {
-  background: var(--bg-subtle);
-  color: var(--text-h);
-}
-
+/* Tab attiva: sfondo dorato semitrasparente */
 .activeMenu {
   background: var(--accent-glow) !important;
   color: var(--accent-dark) !important;
@@ -489,7 +512,7 @@
   gap: 24px;
 }
 
-/* ── TABS (profilo pubblico) ── */
+/* ── TABS (barra navigazione orizzontale) ── */
 .tabsBar {
   display: flex;
   gap: 0;
@@ -497,6 +520,7 @@
   margin-bottom: 24px;
 }
 
+/* Tab: bordo inferiore trasparente → accent quando attiva */
 .tabBtn {
   padding: 11px 18px;
   background: none;
@@ -518,6 +542,7 @@
 }
 
 /* ── FORM CARD ── */
+/* fadeUp brevissimo al cambio tab */
 .formCard {
   max-width: 100%;
   animation: fadeUp 0.22s var(--ease-out);
@@ -570,6 +595,7 @@
   cursor: default;
 }
 
+/* Campo telefono composito */
 .phoneInput {
   display: flex;
   align-items: stretch;
@@ -637,6 +663,7 @@
   color: #b91c1c;
 }
 
+/* Banner "hai già inviato un'offerta" */
 .alreadyBanner {
   display: flex;
   align-items: center;
@@ -652,6 +679,7 @@
 
 /* ── EMPTY STATE ── */
 .empty { text-align: center; padding: 48px 20px; }
+/* Icona che galleggia: 3s ease-in-out oscillazione dolce */
 .emptyIcon {
   font-size: 34px;
   margin-bottom: 12px;
@@ -674,6 +702,7 @@
 /* ── REVIEWS ── */
 .reviewList { display: flex; flex-direction: column; gap: 12px; }
 
+/* Card recensione: appare con transizione quando JS aggiunge .reviewCardIn */
 .reviewCard {
   background: var(--bg-subtle);
   border: 1px solid var(--border);
@@ -692,6 +721,7 @@
   gap: 12px;
 }
 
+/* Avatar circolare del recensore */
 .reviewAvatar {
   width: 36px;
   height: 36px;
@@ -729,6 +759,7 @@
 }
 .saveBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
+/* Ghost: bordo accent, hover sfondo dorato semitrasparente */
 .saveBtnGhost {
   margin-top: 20px;
   font-size: 0.78rem;
@@ -752,40 +783,29 @@
   cursor: not-allowed;
 }
 
-/* Link CTA */
 .linkCta {
   composes: btn-primary from global;
   margin-top: 8px;
 }
 
 /* ── ANIMATIONS ── */
+/* fadeUp locale: translateY solo 10px (più sottile del globale 20px) */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ───────────────────────────────────────────── */
-/* ── RESPONSIVE ──────────────────────────────── */
-/* ───────────────────────────────────────────── */
+/* ─────────────────────────────────────────────── */
+/* ── RESPONSIVE ─────────────────────────────── */
+/* ─────────────────────────────────────────────── */
 
-/* TABLET — sotto 850px: hamburger al posto della sidebar */
+/* TABLET — sotto 850px */
 @media (max-width: 850px) {
-  .pageWrapper {
-    padding: 20px 12px;
-  }
+  .pageWrapper { padding: 20px 12px; }
+  .contentLayout { grid-template-columns: 1fr; }
+  .hamburgerTrigger { display: flex; grid-column: 1; }
 
-  /* Layout: colonna singola */
-  .contentLayout {
-    grid-template-columns: 1fr;
-  }
-
-  /* Hamburger visibile */
-  .hamburgerTrigger {
-    display: flex;
-    grid-column: 1;
-  }
-
-  /* Sidebar: nascosta di default, si apre con animazione */
+  /* Sidebar menu: slide down con max-height */
   .sidebarMenu {
     flex-direction: column;
     border-right: none;
@@ -796,13 +816,11 @@
     overflow: hidden;
     transition: max-height 0.3s var(--ease-out), padding 0.3s var(--ease-out);
   }
-
   .sidebarMenuOpen {
     max-height: 400px;
     padding: 10px 12px;
     gap: 4px;
   }
-
   .sidebarMenu button {
     width: 100%;
     text-align: left;
@@ -813,7 +831,7 @@
     min-width: unset;
   }
 
-  /* Sidebar profilo pubblico (con sideCard) → wrap orizzontale */
+  /* Sidebar pubblica: da colonna a row */
   .sidebar {
     border-right: none;
     border-bottom: 1px solid var(--border);
@@ -822,152 +840,52 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-  .sideCard {
-    flex: 1;
-    min-width: 200px;
-  }
+  .sideCard { flex: 1; min-width: 200px; }
 
-  /* Stats strip → 2 colonne */
-  .statsStrip {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  /* Stats: da 4 a 2×2 */
+  .statsStrip { grid-template-columns: repeat(2, 1fr); }
   .statCell:nth-child(2) { border-right: none; }
   .statCell:nth-child(3) { border-top: 1px solid var(--border); }
-  .statCell:nth-child(4) {
-    border-top: 1px solid var(--border);
-    border-right: none;
-  }
+  .statCell:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
 
-  /* Form → colonna singola */
-  .gridForm {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .mainFormArea {
-    padding: 24px 20px;
-  }
-
-  .header {
-    padding: 16px 20px;
-  }
-  .navTitle {
-    font-size: 16px;
-  }
+  .gridForm { grid-template-columns: 1fr; gap: 16px; }
+  .mainFormArea { padding: 24px 20px; }
+  .header { padding: 16px 20px; }
+  .navTitle { font-size: 16px; }
 }
 
 /* MOBILE — sotto 480px */
 @media (max-width: 480px) {
-  .pageWrapper {
-    padding: 12px 8px;
-  }
-  .container {
-    border-radius: 12px;
-  }
+  .pageWrapper { padding: 12px 8px; }
+  .container { border-radius: 12px; }
+  .header { padding: 14px 16px; gap: 8px; }
+  .headerLeft { gap: 10px; min-width: 0; flex: 1; }
+  .navTitle { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .userDropdown span { display: none; } /* nasconde il nome, mantiene l'avatar */
 
-  .header {
-    padding: 14px 16px;
-    gap: 8px;
-  }
-  .headerLeft {
-    gap: 10px;
-    min-width: 0;
-    flex: 1;
-  }
-  .navTitle {
-    font-size: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .userDropdown span {
-    display: none;
-  }
+  .heroInner { padding: 0 16px; }
+  .heroCard { gap: 14px; padding: 16px 0 20px; }
+  .monogram { width: 54px; height: 54px; font-size: 24px; }
+  .heroNome { font-size: 20px; }
+  .heroSub { font-size: 12px; }
 
-  /* Hero compatto */
-  .heroInner {
-    padding: 0 16px;
-  }
-  .heroCard {
-    gap: 14px;
-    padding: 16px 0 20px;
-  }
-  .monogram {
-    width: 54px;
-    height: 54px;
-    font-size: 24px;
-  }
-  .heroNome {
-    font-size: 20px;
-  }
-  .heroSub {
-    font-size: 12px;
-  }
+  .sidebar { flex-direction: column; padding: 16px; }
+  .mainFormArea { padding: 20px 16px; gap: 18px; }
+  .sectionTitle { font-size: 15px; margin-bottom: 14px; }
 
-  /* Sidebar pubblico → colonna */
-  .sidebar {
-    flex-direction: column;
-    padding: 16px;
-  }
+  /* Tab con scroll orizzontale */
+  .tabsBar { overflow-x: auto; scrollbar-width: thin; margin-bottom: 18px; }
+  .tabBtn { white-space: nowrap; flex-shrink: 0; padding: 10px 14px; font-size: 12px; }
 
-  .mainFormArea {
-    padding: 20px 16px;
-    gap: 18px;
-  }
-  .sectionTitle {
-    font-size: 15px;
-    margin-bottom: 14px;
-  }
+  /* 16px evita lo zoom automatico su iOS */
+  .inputGroup input, .phoneInput input { font-size: 16px; padding: 11px 14px; }
+  .country { font-size: 13px; padding: 0 10px; }
 
-  /* Tabs profilo pubblico */
-  .tabsBar {
-    overflow-x: auto;
-    scrollbar-width: thin;
-    margin-bottom: 18px;
-  }
-  .tabBtn {
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 10px 14px;
-    font-size: 12px;
-  }
-
-  /* Input: 16px evita zoom iOS */
-  .inputGroup input,
-  .phoneInput input {
-    font-size: 16px;
-    padding: 11px 14px;
-  }
-  .country {
-    font-size: 13px;
-    padding: 0 10px;
-  }
-
-  /* Bottoni full-width su mobile */
-  .saveBtn {
-    width: 100%;
-    text-align: center;
-    padding: 0.9rem 1rem;
-  }
-  .saveBtnGhost {
-    width: 100%;
-    text-align: center;
-    padding: 0.9rem 1rem;
-  }
-  .ctaBtn {
-    padding: 12px;
-  }
-  .linkCta {
-    font-size: 0.72rem;
-    padding: 0.72rem 1.4rem;
-  }
-
-  .reviewCard {
-    padding: 14px 16px;
-  }
-  .reviewAvatar {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
+  /* Bottoni full-width */
+  .saveBtn { width: 100%; text-align: center; padding: 0.9rem 1rem; }
+  .saveBtnGhost { width: 100%; text-align: center; padding: 0.9rem 1rem; }
+  .ctaBtn { padding: 12px; }
+  .linkCta { font-size: 0.72rem; padding: 0.72rem 1.4rem; }
+  .reviewCard { padding: 14px 16px; }
+  .reviewAvatar { width: 32px; height: 32px; font-size: 13px; }
 }
