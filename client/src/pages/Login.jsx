@@ -47,7 +47,11 @@ export default function Login() {
       /* La registrazione è avvenuta con successo */
       setMessaggio('Registrazione completata! Controlla la tua email.')
     } else {
-      /* Uso auth.signInWithPassword per il login, che è più semplice e diretto */
+      /* Uso auth.signInWithPassword per il login, che è più semplice e diretto
+          Le password non girano mai in chiaro nel senso classico, perché Supabase gestisce l'autenticazione internamente:
+          supabase.auth.signInWithPassword({ email, password }) — la password viene inviata via HTTPS a Supabase, che la hasha lato server. Non la tocchi mai tu.
+          Il client riceve un JWT (json web token) access token, non la password.
+          Il token viene salvato in localStorage o cookie (configurabile). */
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) return setErrore(error.message)
     }
@@ -69,7 +73,7 @@ export default function Login() {
         <p className={styles.sottotitolo}>
           {isRegistrazione ? 'Crea il tuo account su connetti.' : 'Bentornato su connetti.'}
         </p>
-
+       {/* ho email e password in entrambi i casi quindi no rendering condizionato */}
         <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}

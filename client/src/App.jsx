@@ -60,7 +60,7 @@ export default function App() {
     <BrowserRouter>
       <Navbar sessione={sessione} profilo={profilo} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home sessione={sessione} profilo={profilo} />} />
         <Route path="/login" element={
           sessione ? <Navigate to="/" /> : <Login />
         } />

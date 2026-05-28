@@ -1,13 +1,27 @@
 // src/pages/Home.jsx
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import supabase from '../lib/supabase'
 import styles from './Home.module.css'
 
 
 
-export default function Home() {
+export default function Home({ sessione, profilo }) {
   const [settori, setSettori] = useState([])
+  const [mostraleModale, setMostraleModale] = useState(false)
+  const navigate = useNavigate()
+
+  function handlePubblicaClick(e) {
+    if (profilo?.ruolo === 'venditore') {
+      e.preventDefault()
+      setMostraleModale(true)
+    }
+  }
+
+  async function handleConfermaLogout() {
+    await supabase.auth.signOut()
+    navigate('/login')
+  }
 
   // è un hook diir React che esegue side-effect
   useEffect(() => {
@@ -32,7 +46,7 @@ export default function Home() {
           Pubblica la tua richiesta e ricevi offerte da professionisti verificati nella tua zona. Semplice, veloce, affidabile.
         </p>
         <div className={styles.heroBtns}>
-          <Link className={styles.btnPrimary} to="/annunci/nuovo">Pubblica un annuncio</Link>
+          <Link className={styles.btnPrimary} to="/annunci/nuovo" onClick={handlePubblicaClick}>Pubblica un annuncio</Link>
           <Link className={styles.btnSecondary} to="/annunci">Sfoglia annunci</Link>
         </div>
       </section>
@@ -104,6 +118,22 @@ export default function Home() {
         <h2>Sei un professionista e vuoi unirti a noi<span className={styles.accent}>?</span></h2>
         <Link className={styles.btnPrimary} to="/login">Inizia ora</Link>
       </section>
+
+      {/* Modale logout venditore */}
+      {mostraleModale && (
+        <div className={styles.overlay} onClick={() => setMostraleModale(false)}>
+          <div className={styles.modale} onClick={e => e.stopPropagation()}>
+            <h3>Sei sicuro di voler uscire?</h3>
+            <p className={styles.modaleMsg}>
+              Per pubblicare un annuncio dovrai accedere come acquirente.<br />
+            </p>
+            <div className={styles.modaleAzioni}>
+              <button className={styles.btnAnnulla} onClick={() => setMostraleModale(false)}>Annulla</button>
+              <button className={styles.btnLogout} onClick={handleConfermaLogout}>Logout</button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </main>
   )

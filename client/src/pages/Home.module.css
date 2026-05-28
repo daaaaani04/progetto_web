@@ -27,7 +27,7 @@
   background-size: 60px 60px;
   opacity: 1;
   /* Animazione continua: la griglia scorre diagonalmente in loop */
-  animation: gridMove 12s linear infinite;
+  animation: gridMove 10s linear infinite;
   z-index: 0;
 }
 
@@ -313,7 +313,7 @@
 /* Griglia 4 colonne per le card dei settori */
 .settoriGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);      /* 4 colonne uguali ognuna una frazione */
   gap: 1rem;
   margin-top: 2.5rem;
 }
@@ -400,6 +400,21 @@
   color: #111;
   max-width: 420px;
   line-height: 1.3;
+}
+
+/* ─── Modale logout venditore ─── */
+.overlay  { composes: modal-overlay  from global; }
+.modale   { composes: modal-content  from global; }
+.modaleAzioni { composes: modal-actions from global; }
+.btnAnnulla   { composes: btn-cancel        from global; }
+.btnLogout    { composes: btn-confirm-danger from global; }
+
+.modaleMsg {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.65;
+  margin-bottom: 1.6rem;
+  text-align: center;
 }
 
 /* ─── Responsive ─── */
