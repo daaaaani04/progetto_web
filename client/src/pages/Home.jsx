@@ -11,13 +11,14 @@ export default function Home({ sessione, profilo }) {
   const [mostraleModale, setMostraleModale] = useState(false)
   const navigate = useNavigate()
 
+  // se il ruolo è venditore, mostro una modale 
   function handlePubblicaClick(e) {
     if (profilo?.ruolo === 'venditore') {
       e.preventDefault()
       setMostraleModale(true)
     }
   }
-
+  // se clicco su conferma logout, eseguo il logout e reindirizzo alla login
   async function handleConfermaLogout() {
     await supabase.auth.signOut()
     navigate('/login')

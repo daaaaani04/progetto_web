@@ -291,11 +291,6 @@ export default function ProfiloPubblico({ sessione }) {
 
                 <div className={styles.mappaWrapper}>
                   <iframe
-                    title={`Posizione di ${nome}`}
-                    width="100%"
-                    height="400"
-                    frameBorder="0"
-                    scrolling="no"
                     src={`https://maps.google.com/maps?q=${encodeURIComponent(`${profilo.indirizzo}, ${profilo.comune || ''}`)}&output=embed`}
                     className={styles.mappaIframe}
                   />

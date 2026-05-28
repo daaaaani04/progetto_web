@@ -230,8 +230,8 @@ export default function MieiAnnunci({ sessione }) {
 
                 <div className={styles.cardBottom}>
                   <div className={styles.meta}>
-                    {a.comune && <span>📍 {a.comune}</span>}
-                    {a.budget && <span>💶 {a.budget}€</span>}
+                    {a.comune && <span>Luogo: {a.comune}</span>}
+                    {a.budget && <span>Budjet: {a.budget}€</span>}
                     {a.urgente && <span className={styles.urgente}>Urgente</span>}
                   </div>
                   <span className={styles.data}>
@@ -271,8 +271,8 @@ export default function MieiAnnunci({ sessione }) {
                               {o.profiles?.nome_azienda || `${o.profiles?.nome} ${o.profiles?.cognome}`}
                             </Link>
                             {o.profiles?.comune && (
-                              <span className={styles.offertaComune}>
-                                📍 {o.profiles.comune}
+                              <span className={styles.offertaComune}><br/>
+                                  Luogo: {o.profiles.comune}
                               </span>
                             )}
                           </div>

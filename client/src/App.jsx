@@ -18,7 +18,7 @@ import ProfiloPubblico from './pages/ProfiloPubblico'
 export default function App() {
   const [sessione, setSessione] = useState(null)
   const [profilo, setProfilo] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)    // se sta ancora caricando
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -27,6 +27,7 @@ export default function App() {
       else setLoading(false)
     })
 
+    // in ascolto su cambiamenti di autenticazione, lavora in tempo reale
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSessione(session)
       if (session) caricaProfilo(session.user.id)
