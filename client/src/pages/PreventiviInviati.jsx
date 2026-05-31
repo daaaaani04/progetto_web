@@ -103,8 +103,8 @@ export default function PreventiviInviati({ sessione }) {
               </div>
 
               <div className={styles.annuncioMeta}>
-                {o.annunci?.comune && <span>📍 {o.annunci.comune}</span>}
-                {o.annunci?.budget && <span>💶 Budget cliente: {o.annunci.budget}€</span>}
+                {o.annunci?.comune && <span>Luogo: {o.annunci.comune}</span>}
+                {o.annunci?.budget && <span>Budget cliente: {o.annunci.budget}€</span>}
                 {o.annunci?.urgente && <span className={styles.urgente}>Urgente</span>}
               </div>
 

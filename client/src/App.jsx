@@ -14,6 +14,7 @@ import ProfiloPrivato from './pages/ProfiloPrivato'
 import Impostazioni from './pages/Impostazioni'
 import Supporto from './pages/Supporto'
 import ProfiloPubblico from './pages/ProfiloPubblico'
+import NotFound from './pages/NotFound'
 
 export default function App() {
   const [sessione, setSessione] = useState(null)
@@ -79,6 +80,7 @@ export default function App() {
         <Route path="/profilo/:id" element={<ProfiloPubblico sessione={sessione} />} />
         <Route path="/impostazioni" element={<Impostazioni sessione={sessione} profilo={profilo} />} />
         <Route path="/supporto" element={<Supporto />} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
       <Footer />
     </BrowserRouter>

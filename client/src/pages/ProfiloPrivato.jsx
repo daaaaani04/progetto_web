@@ -4,11 +4,12 @@ import supabase from '../lib/supabase';
 import styles from './ProfiloPrivato.module.css';
 
 const BackIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="19" y1="12" x2="5" y2="12"></line>
+  // viewBox = min-x mi-n-y larghezza altezza
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <line x1="19" y1="12" x2="5" y2="12"></line> 
     <polyline points="12 19 5 12 12 5"></polyline>
   </svg>
-);
+)
 
 export default function ProfiloAzienda({ sessione }) {
   const { id } = useParams();
@@ -19,13 +20,13 @@ export default function ProfiloAzienda({ sessione }) {
   const [tabAttiva, setTabAttiva] = useState('details');
   const [menuMobileAperto, setMenuMobileAperto] = useState(false);
   const [nuovaPassword, setNuovaPassword] = useState('');
-  const [confermaPassword, setConfermaPassword] = useState('');
-  const [pwMsg, setPwMsg] = useState(null);
-  const [pwLoading, setPwLoading] = useState(false);
+  const [confermaPassword, setConfermaPassword] = useState('');     // usato per confermare la nuova password, deve coincidere con nuovaPassword per procedere all'aggiornamento
+  const [pwMsg, setPwMsg] = useState(null);   // usato per mostrare messaggi di errore/successo durante l'aggiornamento della password
+  const [pwLoading, setPwLoading] = useState(false);          // usato per la fase di caricamento durante l'aggiornamento della password
   const [saveMsg, setSaveMsg] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
 
-  // Campi form
+  // Campi form, caricati da db e poi modificabili dall'utente
   const [nomeValue, setNomeValue] = useState('');
   const [comuneValue, setComuneValue] = useState('');
   const [telefonoValue, setTelefonoValue] = useState('');
@@ -136,8 +137,7 @@ export default function ProfiloAzienda({ sessione }) {
           {/* Hamburger trigger — visibile solo su mobile/tablet */}
           <button
             className={styles.hamburgerTrigger}
-            onClick={() => setMenuMobileAperto(prev => !prev)}
-            aria-expanded={menuMobileAperto}
+            onClick={() => setMenuMobileAperto(prev => !prev)}      // toggle menu mobile
           >
             <span className={styles.hamburgerLabel}>{tabAttivaLabel}</span>
             <span className={`${styles.hamburgerIcon} ${menuMobileAperto ? styles.hamburgerIconOpen : ''}`}>
@@ -309,7 +309,7 @@ export default function ProfiloAzienda({ sessione }) {
                   href={`/profilo/${id}`}
                   className={styles.linkCta}
                 >
-                  Visualizza il tuo profilo pubblico →
+                  Visualizza il tuo profilo pubblico
                 </a>
               </section>
             )}
@@ -325,7 +325,7 @@ export default function ProfiloAzienda({ sessione }) {
                   href="/miei-annunci"
                   className={styles.linkCta}
                 >
-                  Vai ai miei annunci →
+                  Vai ai miei annunci
                 </a>
               </section>
             )}

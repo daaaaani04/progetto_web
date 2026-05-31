@@ -10,18 +10,19 @@ export default function Navbar({ sessione, profilo }) {
   const dropdownRef = useRef(null)
   const [ConfermaLog, setConfermaLog] = useState(false)
 
-  // quaando la lunghezza è più grande di 768px chiamo setMenuAperto(false)
+  // quaando la lunghezza è più grande di 768px chiamo setMenuAperto(false) chiude il menu evitando che si rompa
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth > 768) setMenuAperto(false)
     }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize)       
+    return () => window.removeEventListener('resize', handleResize) // cleanup
   }, [])
 
+  // gestioen del menu dropdown, se clicco fuori chiudo il dropdown
   useEffect(() => {
     function handleClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) { // se il dropdown è aperto e clicco fuori, chiudo il dropdown
         setDropdownAperto(false)
       }
     }
@@ -121,8 +122,9 @@ export default function Navbar({ sessione, profilo }) {
 
 
       {/* Hamburger */}
+      {/* se menuAperto allora sono in mobile */}
       <button
-        className={`${styles.hamburger} ${menuAperto ? styles.open : ''}`}
+        className={`${styles.hamburger} ${menuAperto ? styles.open : ''}`} /* se menuAperto è true, aggiungo la classe open che trasforma le 3 linee in una X */
         onClick={() => setMenuAperto(!menuAperto)}
       >
         <span /><span /><span />    {/* 3 linee che vendono implìilate e gli viene aggiunta la transition*/}

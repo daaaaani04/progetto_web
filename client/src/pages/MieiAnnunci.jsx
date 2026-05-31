@@ -22,6 +22,7 @@ export default function MieiAnnunci({ sessione }) {
   const [loading, setLoading] = useState(true)
   const [chatAttiva,setChatAttiva] = useState(null)
   const [annuncioDaEliminare, setAnnuncioDaEliminare] = useState(null) // Memorizza l'ID dell'annuncio
+  const [offertaDaAccettare, setOffertaDaAccettare] = useState(null)
 
   /*
   use effect che gestisce effetti collaterali, ovvero esegue la funzione carica annunci ogni volta che cambia la 
@@ -122,8 +123,7 @@ export default function MieiAnnunci({ sessione }) {
   */
 
   async function accettaOfferta(offertaId, annuncioId) {
-    const conferma = window.confirm('Sei sicuro di voler accettare questa offerta? Le altre offerte verranno rifiutate.')
-    if (!conferma) return
+    setOffertaDaAccettare(null)
   
     const { error: e1 } = await supabase
       .from('offerte')
@@ -208,7 +208,8 @@ export default function MieiAnnunci({ sessione }) {
                 {/* per ogni annuncio creo una card */}
                 <div className={styles.cardTop}>
                   <div>
-                    <span className={styles.settore}>{a.settori?.label}</span>
+                    <span className={styles.settore}>{a.settori?.label}</span> {/* a è l'annuncio che sto ciclando, .settori è un elemento nella tabella annunci e il punto int
+                    interrogativo serve a React: controlla se dentro l'annuncio a esiste il dato settori, se si prendilo, se non esiste fermati e non stampare l'annuncio  */}
                     <h2 className={styles.titolo}>{a.titolo}</h2>
                   </div>
                   <div className={styles.cardTopRight}>
@@ -230,8 +231,8 @@ export default function MieiAnnunci({ sessione }) {
 
                 <div className={styles.cardBottom}>
                   <div className={styles.meta}>
-                    {a.comune && <span>Luogo: {a.comune}</span>}
-                    {a.budget && <span>Budjet: {a.budget}€</span>}
+                    {a.comune && <span>{a.comune}</span>}
+                    {a.budget && <span>Budget: {a.budget}€</span>}
                     {a.urgente && <span className={styles.urgente}>Urgente</span>}
                   </div>
                   <span className={styles.data}>
@@ -272,7 +273,7 @@ export default function MieiAnnunci({ sessione }) {
                             </Link>
                             {o.profiles?.comune && (
                               <span className={styles.offertaComune}><br/>
-                                  Luogo: {o.profiles.comune}
+                                 {o.profiles.comune}
                               </span>
                             )}
                           </div>
@@ -299,7 +300,7 @@ export default function MieiAnnunci({ sessione }) {
                             <div className={styles.offertaAzioni}>
                               <button
                                 className={styles.btnAccetta}
-                                onClick={() => accettaOfferta(o.id, a.id)}
+                                onClick={() => setOffertaDaAccettare(({ offertaId: o.id, annuncioId: a.id }))}
                               >
                                 Accetta offerta
                               </button>
@@ -316,7 +317,7 @@ export default function MieiAnnunci({ sessione }) {
                             <div className={styles.offertaAzioni}>
                               <button className={styles.btnChat}
                               onClick={() => setChatAttiva(o.id)}>
-                                Apri chat
+                                Chat
                               </button>
                             </div>
                           )}
@@ -365,6 +366,29 @@ export default function MieiAnnunci({ sessione }) {
                 onClick={() => eliminaAnnuncio(annuncioDaEliminare)}
               >
                 Elimina definitivamente
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Modale di conferma accettazione offerta */}
+      {offertaDaAccettare && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Sei sicuro di voler accettare questa offerta?</h3>
+            <p>Accettando questo preventivo, tutte le altre offerte ricevute verranno automaticamente rifiutate e l'annuncio verrà chiuso.</p>
+            <div className={styles.modalActions}>
+              <button 
+                className={styles.btnAnnulla} 
+                onClick={() => setOffertaDaAccettare(null)}
+              >
+                Annulla
+              </button>
+              <button 
+                className={styles.btnPrimary} 
+                onClick={() => accettaOfferta(offertaDaAccettare.offertaId, offertaDaAccettare.annuncioId)}
+              >
+                Accetta
               </button>
             </div>
           </div>

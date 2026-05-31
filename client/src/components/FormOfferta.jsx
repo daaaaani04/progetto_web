@@ -59,8 +59,9 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, of
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={e => e.stopPropagation()}>
-
+      <div className={styles.modal} onClick={e => e.stopPropagation()}>  {/* stopPropagation serve per bloccare la propagazione dell'evento */}
+        {/* cliccando sul modal potrebbe chiudersi inavvertitamente (sto cliccando implicitamente anceh sull'overlay) */}
+        
         {/* Header */}
         <div className={styles.modalHeader}>
           <div>
@@ -72,8 +73,8 @@ export default function FormOfferta({ annuncio, sessione, onClose, onSuccess, of
 
         {/* Dettagli annuncio */}
         <div className={styles.annuncioInfo}>
-          {annuncio.comune && <span>📍 {annuncio.comune}</span>}
-          {annuncio.budget && <span>💶 Budget: {annuncio.budget}€</span>}
+          {annuncio.comune && <span>Luogo: {annuncio.comune}</span>}
+          {annuncio.budget && <span> Budget: {annuncio.budget}€</span>}
           {annuncio.urgente && <span className={styles.urgente}>Urgente</span>}
         </div>
 

@@ -108,7 +108,7 @@ export default function NuovoAnnuncio({ sessione }) {
               <option value="">Seleziona un settore</option>
               {settori.map(s => (
                 <option key={s.id} value={s.id}>
-                  {s.icona} {s.label}
+                  {s.label}
                 </option>
               ))}
             </select>

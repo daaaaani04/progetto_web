@@ -1,136 +1,141 @@
-/* Wrapper pagina: larghezza massima, centrato, fadeUp all'ingresso */
+/* Contenitore principale*/
 .page {
-  padding: 3.5rem 2.5rem;
-  max-width: 880px;
-  margin: 0 auto;
-  animation: fadeUp 0.5s var(--ease-out) both;
+  padding: 3.5rem 2.5rem;   /* Spazio interno: 3.5rem sopra/sotto, 2.5rem destra/sinistra */
+  max-width: 1230px;         /* limite larghezza di 880 px su schermi grandi*/
+  margin: 0 auto;           /* Centra il blocco orizzontalmente nello schermo grazie a auto che lo fa in automatico, calcola la larghezza totale e la divide in margine destro e sinistro*/
+  animation: fadeUp 0.5s var(--ease-out) both; /* Animazione che fa si cje l'intera pagina sfumi verso l'alto all'avvio */
 }
 
+/* Distanza tra la sezione dei titoli e la griglia  delle card */
 .header  { margin-bottom: 2.8rem; }
 
-/* Etichetta sovrastante — utility globale */
+/* Etichetta "i tuoi prenventivi" */
 .label {
-  composes: page-label from global;
-  margin-bottom: 0.8rem;
+  composes: page-label from global; /* prende il css dall css globale  */
+  margin-bottom: 0.8rem;            /* Distanza dal titolo H1 sottostante */
 }
 
-/* Titolo pagina */
+/* Titolo principale H1 */
 .titolo {
-  font-size: 2.1rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: #111;
-  margin-bottom: 0.5rem;
+  font-size: 2.1rem;        
+  font-weight: 600;         /* per mettere in grassetto */
+  letter-spacing: -0.03em;  /* Avvicina le lettere  */
+  color: #111;             
+  margin-bottom: 0.5rem;    /* Spazio prima del sottotitolo */
 }
 
-/* Punto decorativo dorato */
-.accent { composes: accent from global; }
+/* Il punto finale dorato accanto al titolo h1 */
+.accent { composes: accent from global; } /* lo prende dal css globale perché è ricorrente */
 
-/* Sottotitolo */
-.sub    { font-size: 0.9rem; color: #777; line-height: 1.65; }
+/* Sottotitolo*/
+.sub    { font-size: 0.9rem; color: #777; }
 
-/* Stato loading */
+/* Stile per il caricamento quando il sito attende la quety supabase che dia i dati*/
 .loading { color: #bbb; padding: 3rem 2.5rem; }
 
-/* Stato vuoto: testo centrato con padding */
-.empty  { padding: 5rem 0; text-align: center; color: #777; }
-.emptySub { font-size: 0.875rem; color: #bbb; margin-top: 0.5rem; }
+/* Blocco mostrato in assenza di preventivi inviati */
+.empty  { padding: 5rem 0; text-align: center; color: #777; } /* mette al centro con la text align */
+.emptySub { font-size: 0.875rem; color: #bbb; margin-top: 0.5rem; } /* Testo secondario più chiaro e piccolo */
 
-/* Griglia preventivi inviati: 2 colonne, card si allineano al top */
+/* Griglia per disporre le card: 2 colonne flessibili che si adattano allo spazio */
 .lista {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr); /* Crea due colonne affiancate di eguale misura */
+  gap: 1rem;                             /* Distanza tra ogni card */
+  align-items: start;                    /* serve ad allineare gli elementi figli lungo l'asse secondario */
 }
 
-/* Card preventivo: bordo, ombra leggera, tre proprietà in transizione.
-   ease-spring crea il rimbalzo nella levitazione */
+
+/* Il box bianco che racchiude tutte le informazioni di un preventivo */
 .card {
-  border: 1px solid #e8e4dc;
-  border-radius: 14px;
-  padding: 1.6rem;
-  background: #fff;
-  box-shadow: var(--shadow-sm);
+  border: 1px solid #e8e4dc; /* Bordo poco marcato */
+  border-radius: 14px;       /* Angoli arrotondati*/
+  padding: 1.6rem;           /* distanza tra contenuto della card e bordo*/
+  background: #fff;          /* Sfondo bianco*/
+  box-shadow: var(--shadow-sm); /* ombra dietro la card*/
+  
+  /* Configura la transizione per 3 proprietà quando si passa sopra col mouse */
   transition: border-color 0.2s ease,
               box-shadow 0.25s ease,
-              transform 0.25s var(--ease-spring);
+              transform 0.25s var(--ease-spring); /* Usa una curva definita nel css globale */
 }
+
+/* Comportamento della card quando l'utente ci passa sopra con il mouse */
 .card:hover {
   border-color: rgba(198, 137, 16, 0.3);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);           /* Sposta la card verso l'alto di 3 pixel */
+  box-shadow: var(--shadow-md);          /* L'ombra diventa più marcata*/
 }
 
-/* Parte superiore della card: settore + titolo a sinistra, badge stato a destra */
+/* Intestazione interna alla card (Titolo dell'annuncio a sx, badge stato a dx) */
 .cardTop {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.8rem;
+  justify-content: space-between; /* aumenta lo spazio tra gli elemetni, spingendo verso dx e scxa */
+  align-items: flex-start;        /* Allinea i blocchi partendo dall'alto */
+  margin-bottom: 0.8rem;          /* Spazio per separarlo dai metadati inferiori */
 }
 
-/* Etichetta settore: piccola, maiuscola, dorata */
+/* Settore dell'annuncio */
 .settore {
-  font-size: 0.7rem;
+  font-size: 0.72em;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  display: block;
-  margin-bottom: 0.35rem;
+  letter-spacing: 0.01em;     /* distanza aumentata tra le lettere leggermente  */
+  text-transform: uppercase; /* tutto maiuscolo*/
+  color: var(--accent);      /* colore della var globale  */
+  display: block;            /* lo mette leggermente più in alto*/
+  margin-bottom: 0.35rem;    /* Spazio prima del titolo */
 }
 
-/* Titolo dell'annuncio a cui si è risposto */
+/* Titolo dell'annuncio del cliente */
 .cardTitolo { font-size: 1rem; font-weight: 600; color: #111; }
 
-/* Badge stato preventivo: base comune */
+/* stile comune della forma dello stato, poi definiamo i colori */
 .stato {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 0.28rem 0.65rem;
-  border-radius: 6px;
+  padding: 0.28rem 0.65rem;  /* Padding stretto sopra/sotto e largo ai lati per creare l'ovale */
+  border-radius: 6px;        /* Arrotonda gli angoli */
 }
 
-/* Varianti di colore stato:
-   inviata = giallo/ambra (in attesa), accettata = verde, rifiutata = rosso */
-.statoInviata   { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-.statoAccettata { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
-.statoRifiutata { background: #fff5f5; color: #e53e3e; border: 1px solid #fed7d7; }
+/*colori per ciascun tipo di stato */
+.statoInviata   {  background: #fffbeb; color: #92400e; } /* Gialloa: In attesa */
+.statoAccettata {  background: #f0fff4; color: #276749; } /* Verde: Approvata */
+.statoRifiutata {  background: #fff5f5; color: #e53e3e; } /* Rosso: Rifiutata */
 
-/* Metadati dell'annuncio (comune, budget, urgente): flex row con wrap */
+/* Contenitore orizzontale per i dati dell'annuncio (Luogo, budget, ecc.) */
 .annuncioMeta {
-  display: flex;
-  gap: 1rem;
+  display: flex;         /* rende il contenitore più flessibile, in modo che i figli possono riempirespazio vuoto o rimpcciolirsi */
+  gap: 1rem;                 /* Spazio di 1rem tra un'informazione e l'altra */
   font-size: 0.82rem;
-  color: #aaa;
-  flex-wrap: wrap;
+  color: #aaa;              
+  flex-wrap: wrap;           /* Se lo spazio orizzontale finisce, i dati vanno a capo automaticamente */
 }
 
-/* Testo URGENTE in rosso */
+/* Testo "Urgente" all'interno dei metadati */
 .urgente {
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #e53e3e;
+  color: #e53e3e;            
 }
 
-/* Linea separatrice orizzontale */
+/* Sottile linea di divisione grigia interna alla card */
 .divider { height: 1px; background: #f0ede8; margin: 1rem 0; }
 
-/* Box che mostra il dettaglio del preventivo inviato:
-   sfondo leggermente diverso per distinguerlo dalla card principale */
+
+
+/* Riquadro per separare visivamente l'offerta del venditore dai dati del cliente */
 .offertaDetails {
-  background: #fdfcfa;
-  border: 1px solid #ede9e0;
-  border-radius: 10px;
-  padding: 1.1rem;
-  margin-bottom: 1rem;
+  background: #fdfcfa;       
+  border: 1px solid #ede9e0; /* Bordo sottile */
+  border-radius: 10px;       /* Angoli arrotondati leggermente inferiori alla card principale */
+  padding: 1.1rem;           /* Spazio interno */
+  margin-bottom: 1rem;       /* Distanza dal footer della card */
 }
 
-/* Riga del dettaglio offerta: label a sinistra, valore a destra */
+/* Riga superiore del dettaglio (Testo "La tua offerta" a sx, Prezzo a dx) */
 .offertaRow {
   display: flex;
   justify-content: space-between;
@@ -138,7 +143,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* Label della riga ("IL TUO PREVENTIVO", "MESSAGGIO") */
+/* Etichetta "LA TUA OFFERTA" */
 .offertaLabel {
   font-size: 0.73rem;
   font-weight: 600;
@@ -147,93 +152,71 @@
   color: #bbb;
 }
 
-/* Prezzo inviato: grande e grassetto */
-.prezzo  { font-size: 1.15rem; font-weight: 700; color: #111; letter-spacing: -0.02em; }
+/* Prezzo in euro proposto dal venditore */
+.prezzo  { font-size: 1.15rem; font-weight: 700; color: #111;} 
 
-/* Messaggio testuale del preventivo */
+/* Testo del messaggio scritto dal venditore (quindi l'utente che vede)*/
 .messaggio { font-size: 0.875rem; color: #666; line-height: 1.65; }
 
-/* Parte inferiore della card: data + bottoni azione */
+
+/* Parte inferiore della card (Data a sinistra, pulsanti di azione a destra) */
 .cardBottom {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;    /*aumetna o spazio interno tra le situa*/
   align-items: center;
   padding-top: 1rem;
-  border-top: 1px solid #f0ede8;
+  border-top: 1px solid #f0ede8; /* Linea di separazione superiore */
 }
 
-/* Data di invio */
+/* Testo della data di invio */
 .data { font-size: 0.75rem; color: #ccc; }
 
-/* Contenitore bottoni quando l'offerta è accettata (Chat + Elimina) */
+/* Gruppo che contiene i due bottoni (Chat + Elimina) vicini nel caso di offerta accettata */
 .azioniAccettata { display: flex; gap: 0.5rem; }
 
-/* Bottone elimina preventivo: rosso outline */
+/* Bottone generico per eliminare o ritirare un'offerta  */
 .btnElimina {
+  composes: btn-secondary from global;
   font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #e53e3e;
-  background: transparent;
-  border: 1px solid #fed7d7;
-  padding: 0.35rem 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;   
   border-radius: 7px;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
 }
-.btnElimina:hover { background: #fff5f5; transform: translateY(-1px); }
 
-/* Bottone Chat: eredita il primario dorato — disponibile solo se accettata */
+/* Bottone per attivare la Chat */
 .btnChat {
-  composes: btn-primary from global;
+  composes: btn-primary from global; /* prende l'aspetto dal css globale */
   font-size: 0.7rem;
   font-weight: 700;
-  padding: 0.35rem 0.8rem;
+  padding: 0.35rem 0.8rem;   
   border-radius: 7px;
 }
 
-/* Bottone "Reinvia offerta": bordo accent dorato, sfondo trasparente.
-   Hover: sfondo dorato semitrasparente */
+/* Bottone per inviare una nuova offerta (in caso di rifiuto) */
 .btnReinvia {
+  composes: btn-secondary from global;
   font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: transparent;
-  border: 1px solid var(--accent);
-  padding: 0.35rem 0.8rem;
+  padding: 0.35rem 0.8rem;   
   border-radius: 7px;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
 }
-.btnReinvia:hover  { background: rgba(198, 137, 16, 0.1); transform: translateY(-1px); }
-.btnReinvia:active { transform: translateY(0) scale(0.97); }
 
-/* ─── Modale conferma eliminazione ─── */
-/* Riusa interamente le utility globali di index.css */
-.modalOverlay { composes: modal-overlay from global; }
-.modalContent { composes: modal-content from global; }
-.modalActions { composes: modal-actions from global; }
-.btnAnnulla   { composes: btn-cancel from global; }
-.btnLogoutConfirm { composes: btn-confirm-danger from global; }
 
-/* ─── Responsive ─── */
+/* Queste classi agganciano le strutture grafiche definite a livello globale (index.css)*/
+.modalOverlay { composes: modal-overlay from global; } /* Sfondo oscurato a tutto schermo */
+.modalContent { composes: modal-content from global; } /* Finestra centrale bianca del popup */
+.modalActions { composes: modal-actions from global; } /* Layout dei bottoni all'interno della modale */
+.btnAnnulla   { composes: btn-cancel from global; }   /* Bottone grigio neutro per chiudere senza fare nulla */
+.btnLogoutConfirm { composes: btn-confirm-danger from global; } /* Bottone rosso pieno per confermare l'azione critica */
+
+
+@media (max-width: 1150px) {
+  .lista { grid-template-columns: repeat(2, 1fr); } /* Da 3 a 2 colonne su schermi medi */
+}
+/*
+   RESPONSIVE DESIGN
+ */
+/* Si attiva esclusivamente quando lo schermo del dispositivo è pari o inferiore a 768 pixel */
 @media (max-width: 768px) {
-  .page     { padding: 2rem 1.25rem; }
-  /* Lista: da 2 colonne a 1 colonna */
   .lista    { grid-template-columns: 1fr; }
-  /* Card top: da row a colonna */
-  .cardTop  { flex-direction: column; gap: 0.5rem; }
-  .cardTop > div:last-child { align-self: flex-start; }
-  /* Card bottom: da row a colonna, bottoni full-width */
-  .cardBottom { flex-direction: column; align-items: stretch; gap: 1rem; }
-  .azioniAccettata { flex-direction: row; gap: 0.5rem; }
-  .azioniAccettata button { flex: 1; }
-  .btnElimina, .btnChat, .btnReinvia { width: 100%; justify-content: center; padding: 0.8rem; }
-  /* Modale su mobile */
-  .modalContent { padding: 1.8rem 1.25rem; width: 95%; }
-  .modalActions { flex-direction: column; gap: 0.8rem; }
-  .btnAnnulla, .btnLogoutConfirm { width: 100%; }
 }

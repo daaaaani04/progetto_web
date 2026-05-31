@@ -60,8 +60,8 @@ export default function Annunci({ sessione }) {
       .order('created_at', { ascending: false })
 
     // aggiungo filtri solo se presenti
-    if (f.comune) query = query.ilike('comune', `%${f.comune}%`)
-    if (f.settore_id) query = query.eq('settore_id', f.settore_id)
+    if (f.comune) query = query.ilike('comune', `%${f.comune}%`)    // ricerca che contine
+    if (f.settore_id) query = query.eq('settore_id', f.settore_id)  // ricerca esatta
 
     const { data } = await query
     setAnnunci(data || [])
